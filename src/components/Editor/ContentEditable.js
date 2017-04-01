@@ -1,12 +1,13 @@
 import React from 'react'
 import ContentEditable from 'content-editable-component'
+import cn from '../../utils/cn'
 
 ContentEditable.prototype.render = function render() {
   const { className, style } = this.props
 
   return (
     <pre
-      className={`prism-code ${className || ''}`}
+      className={cn('prism-code', className)}
       style={style}
       contentEditable
       onKeyDown={evt => {

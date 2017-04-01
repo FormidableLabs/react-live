@@ -1,11 +1,8 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
+import { Editor } from '../src/index'
 
-import Live from './index'
-
-storiesOf('Live', module)
+storiesOf('Editor', module)
   .add('default', () => (
-    <Live
-      code="<strong>Hello World!</strong>"
-    />
+    <Editor code="const x = 'Hello World!';" />
   ));
