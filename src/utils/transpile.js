@@ -24,6 +24,8 @@ const compileCode = (code, scopeArgs) => transform(`
   })
 `, opts).code
 
+const scopedEval = eval
+
 const generateElement = ({ code = '', scope = {} }) => {
   const scopeValues = Object.keys(scope).map(key => scope[key])
   const scopeArgs = Object.keys(scope).reduce((acc, key) => (
@@ -31,7 +33,7 @@ const generateElement = ({ code = '', scope = {} }) => {
   ), 'React')
 
   const compiledCode = compileCode(code, scopeArgs)
-  return eval(compiledCode)(React, ...scopeValues)
+  return scopedEval(compiledCode)(React, ...scopeValues)
 }
 
 export default generateElement
