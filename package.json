@@ -41,6 +41,11 @@
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-plugin-visualizer": "^0.2.0"
   },
+  "files": [
+    "src",
+    "lib",
+    "dist"
+  ],
   "author": "Phil Plückthun <phil@plckthn.me> (https://github.com/philpl)",
   "bugs": {
     "url": "https://github.com/philpl/react-live/issues"
