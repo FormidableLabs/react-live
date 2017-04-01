@@ -9,7 +9,7 @@ const opts = {
 }
 
 const compileCode = (code, scopeArgs) => transform(`
-  ((${scopeArgs}, mountNode) => {
+  ((${scopeArgs}) => {
     function _runCodeText() {
       return (
         ${code}
@@ -27,13 +27,19 @@ const compileCode = (code, scopeArgs) => transform(`
 const scopedEval = eval
 
 const generateElement = ({ code = '', scope = {} }) => {
-  const scopeValues = Object.keys(scope).map(key => scope[key])
-  const scopeArgs = Object.keys(scope).reduce((acc, key) => (
-    `${acc}, ${key}`
-  ), 'React')
+  const scopeValues = Object
+    .keys(scope)
+    .map(key => scope[key])
 
-  const compiledCode = compileCode(code, scopeArgs)
-  return scopedEval(compiledCode)(React, ...scopeValues)
+  const scopeArgs = Object
+    .keys(scope)
+    .reduce((acc, key) => (
+      `${acc}, ${key}`
+    ), 'React')
+
+  return scopedEval(
+    compileCode(code, scopeArgs)
+  )(React, ...scopeValues)
 }
 
 export default generateElement

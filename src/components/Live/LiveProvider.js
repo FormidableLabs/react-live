@@ -6,10 +6,14 @@ export const LiveContextTypes = {
   live: PropTypes.shape({
     code: PropTypes.string,
     error: PropTypes.string,
-    unsafeWrapperError: PropTypes.string,
-    element: PropTypes.element,
-    onUnsafeWrapperError: PropTypes.func,
-    onChange: PropTypes.func
+
+    onError: PropTypes.func,
+    onChange: PropTypes.func,
+
+    element: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func
+    ])
   })
 }
 
@@ -30,8 +34,8 @@ class LiveProvider extends Component {
     this.transpile(code, this.props.scope)
   }
 
-  onUnsafeWrapperError = error => {
-    this.setState({ unsafeWrapperError: error.toString() })
+  onError = error => {
+    this.setState({ error: error.toString() })
   }
 
   transpile = (code, scope) => {
@@ -56,7 +60,7 @@ class LiveProvider extends Component {
     live: {
       ...this.state,
       code: this.props.code,
-      onUnsafeWrapperError: this.onUnsafeWrapperError,
+      onError: this.onError,
       onChange: this.onChange
     }
   })

@@ -1,43 +1,20 @@
 import React, { Component } from 'react'
 import { LiveContextTypes } from './LiveProvider'
+import UnsafeWrapper from '../UnsafeWrapper'
 import cn from '../../utils/cn'
 
-class LivePreview extends Component {
-  static contextTypes = LiveContextTypes
+const LivePreview = ({ className, ...rest }, { live }) => (
+  <div
+    {...rest}
+    className={cn('react-live-preview', className)}
+  >
+    <UnsafeWrapper
+      element={live.element}
+      onError={live.onError}
+    />
+  </div>
+)
 
-  state = {
-    hasErrored: false
-  }
-
-  unstable_handleError(err) {
-    const { onUnsafeWrapperError } = this.context.live
-    onUnsafeWrapperError(err)
-
-    this.setState({ hasErrored: true })
-  }
-
-  componentWillReceiveProps(_, { live }) {
-    if (
-      live.element !== this.context.live.element &&
-      live.unsafeWrapperError !== this.context.live.unsafeWrapperError
-    ) {
-      this.setState({ hasErrored: false })
-    }
-  }
-
-  render() {
-    const { className, ...rest } = this.props
-    const { hasErrored } = this.state
-
-    return !hasErrored ? (
-      <div
-        {...rest}
-        className={cn('react-live-preview', className)}
-      >
-        {this.context.live.element}
-      </div>
-    ) : null
-  }
-}
+LivePreview.contextTypes = LiveContextTypes
 
 export default LivePreview
