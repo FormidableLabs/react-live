@@ -56,4 +56,4 @@ class Live extends Component {
   }
 }
 
-export default Playground
+export default Live
