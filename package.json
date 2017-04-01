@@ -1,11 +1,11 @@
 {
   "name": "react-live",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "A production-focused playground for live editing React code",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-live.es.js",
   "module": "dist/react-live.es.js",
-  "license": "MIT",
+  "license": "CC0-1.0",
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
     "prebuild:lib": "rm -rf lib/*",
@@ -54,7 +54,6 @@
     "type": "git",
     "url": "git+https://github.com/philpl/react-live.git"
   },
-  "license": "CC0-1.0",
   "engines": {
     "npm": ">= 2.0.0",
     "node": ">= 0.12.0"
