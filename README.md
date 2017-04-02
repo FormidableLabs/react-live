@@ -37,7 +37,7 @@ import {
 
 ## Demo
 
-Coming soon!
+[https://react-live-demo.philpl.com/](https://react-live-demo.philpl.com/)
 
 ## FAQ
 
