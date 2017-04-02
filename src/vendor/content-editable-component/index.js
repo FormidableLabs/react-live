@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
+import selectRange from "../selection-range";
 import callIfDefinedAndHalt from "./callIfDefinedAndHalt";
 import changeWorthyEvent_ from "./changeWorthyEvent";
 import normalizeHTML from "./normalizeHTML";
@@ -16,15 +17,6 @@ const wrapSelection = o => ({
     end: o.selection.end === -1 ? o.plain.length : o.selection.end
   }
 });
-
-let _selectRange
-function selectRange(...args) {
-  if (!_selectRange) {
-    _selectRange = require("selection-range");
-  }
-
-  return _selectRange(...args)
-}
 
 class RichText extends Component {
   constructor(props) {

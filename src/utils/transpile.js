@@ -1,5 +1,5 @@
 import React from 'react'
-import { transform } from 'buble'
+import { transform } from 'buble/dist/buble.deps'
 
 const opts = {
   transforms: {

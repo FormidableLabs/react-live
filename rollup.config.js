@@ -23,6 +23,7 @@ const plugins = [
   commonjs({
     include: 'node_modules/**',
     namedExports: {
+      'buble/dist/buble.deps': ['transform'],
       'prismjs/components/prism-core': ['highlight', 'languages']
     }
   }),

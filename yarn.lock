@@ -1665,7 +1665,7 @@ doctrine@^2.0.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-dom-iterator@0.3.0:
+dom-iterator@0.3.0, dom-iterator@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/dom-iterator/-/dom-iterator-0.3.0.tgz#5a745bf47bc692ac0fa3c0c385396ff2cbd55882"
   dependencies:
