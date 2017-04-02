@@ -61,7 +61,10 @@ const initialCode = (`
 `).trim()
 
 const LiveEdit = () => (
-  <StyledProvider code={initialCode}>
+  <StyledProvider
+    code={initialCode}
+    mountStylesheet={false}
+  >
     <StyledEditor />
     <StyledPreview />
     <StyledError />
