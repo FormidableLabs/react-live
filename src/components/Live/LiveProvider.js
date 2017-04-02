@@ -11,6 +11,8 @@ export const LiveContextTypes = {
     onChange: PropTypes.func,
 
     element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
       PropTypes.element,
       PropTypes.func
     ])
