@@ -1250,7 +1250,7 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dom-iterator@0.3.0:
+dom-iterator@0.3.0, dom-iterator@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/dom-iterator/-/dom-iterator-0.3.0.tgz#5a745bf47bc692ac0fa3c0c385396ff2cbd55882"
   dependencies:
@@ -2698,12 +2698,13 @@ react-hot-loader@3.0.0-beta.6:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-live@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.1.0.tgz#56fdbefbf710ff584c4c415facf3747ce15f5d79"
+react-live@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.1.1.tgz#3952d9020bce700c7f5cfb4845d7dfd9714e88b5"
   dependencies:
     buble "^0.15.2"
     content-editable-component "^1.11.2"
+    dom-iterator "^0.3.0"
     prismjs "^1.6.0"
     selection-range "^1.1.0"
     styled-jsx "^0.5.7"
