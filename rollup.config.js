@@ -21,6 +21,7 @@ const plugins = [
     skip: ['react', 'react-dom']
   }),
   commonjs({
+    include: 'node_modules/**',
     namedExports: {
       'prismjs/components/prism-core': ['highlight', 'languages']
     }
