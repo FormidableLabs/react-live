@@ -40,19 +40,15 @@ class Editor extends Component {
     const { html, selection } = this.state
 
     return (
-      <div>
-        <ContentEditable
-          className={cn('react-live-editor', className)}
-          style={style}
-          focus={focus}
-          html={html}
-          onChangeCB={this.onChange}
-          enterKeyCB={this.onEnter}
-          selection={selection}
-        />
-
-        <Style />
-      </div>
+      <ContentEditable
+        className={cn('react-live-editor', className)}
+        style={style}
+        focus={focus}
+        html={html}
+        onChangeCB={this.onChange}
+        enterKeyCB={this.onEnter}
+        selection={selection}
+      />
     )
   }
 }

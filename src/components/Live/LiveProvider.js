@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import transpile from '../../utils/transpile'
 import cn from '../../utils/cn'
+import Style from '../Editor/Style'
 
 export const LiveContextTypes = {
   live: PropTypes.shape({
@@ -94,6 +95,7 @@ class LiveProvider extends Component {
         className={cn('react-live', className)}
         {...rest}
       >
+        <Style />
         {children}
       </div>
     )
