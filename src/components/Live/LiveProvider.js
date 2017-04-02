@@ -24,13 +24,15 @@ class LiveProvider extends Component {
   static childContextTypes = LiveContextTypes
 
   static defaultProps = {
-    code: ''
+    code: '',
+    mountStylesheet: true
   }
 
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string,
-    scope: PropTypes.object
+    scope: PropTypes.object,
+    mountStylesheet: PropTypes.bool
   }
 
   onChange = code => {
@@ -87,6 +89,7 @@ class LiveProvider extends Component {
       children,
       className,
       code,
+      mountStylesheet,
       ...rest
     } = this.props
 
@@ -95,7 +98,7 @@ class LiveProvider extends Component {
         className={cn('react-live', className)}
         {...rest}
       >
-        <Style />
+        { mountStylesheet && <Style /> }
         {children}
       </div>
     )

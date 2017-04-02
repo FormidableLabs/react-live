@@ -46,7 +46,8 @@
   "files": [
     "src",
     "lib",
-    "dist"
+    "dist",
+    "react-live.css"
   ],
   "author": "Phil Plückthun <phil@plckthn.me> (https://github.com/philpl)",
   "bugs": {
