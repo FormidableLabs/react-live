@@ -16,10 +16,15 @@ class Editor extends Component {
   onChange = ({ plain, selection }, evt) => {
     const code = unescape(plain)
     const html = prism(code)
-    this.setState({ html, selection })
 
-    if (this.props.onChange) {
-      this.props.onChange(code)
+    if (html !== this.state.html) {
+      this.setState({ html, selection })
+
+      if (this.props.onChange) {
+        this.props.onChange(code)
+      }
+    } else {
+      this.setState({ selection })
     }
   }
 
