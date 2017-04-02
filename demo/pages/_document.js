@@ -47,20 +47,12 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" type="image/png" href="/static/favicon.png" />
 
-          <title>Reactivate London</title>
+          <title>React Live Demo</title>
 
           <meta charSet="UTF-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
-          <meta name="author" content="Reactivate London" />
-          <meta name="description" content="A brand new meetup for all things React, JavaScript and Functional (Reactive) Programming!" />
-          <meta name="keywords" content="reactivate,london,meetup,react,javascript,frp" />
-          <meta name="application-name" content="Reactivate London" />
-
-          <meta name="google-site-verification" content="fMwqZHVwcAuZ-QKtiRCQmsvLMkVhj54P9fTS9yfh7oM"/>
 
           <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
           <style dangerouslySetInnerHTML={{ __html: style }} />
