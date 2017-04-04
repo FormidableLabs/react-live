@@ -1067,15 +1067,6 @@ constants-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
 
-content-editable-component@^1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/content-editable-component/-/content-editable-component-1.11.2.tgz#50f2daf27a1ddf53bb3ba76fe880bd142c661d62"
-  dependencies:
-    linkifyjs "^2.1.1"
-    react "^15.3.1"
-    react-dom "^15.3.1"
-    selection-range "^1.1.0"
-
 convert-source-map@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.3.0.tgz#e9f3e9c6e2728efc2676696a70eb382f73106a67"
@@ -1250,7 +1241,7 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dom-iterator@0.3.0, dom-iterator@^0.3.0:
+dom-iterator@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/dom-iterator/-/dom-iterator-0.3.0.tgz#5a745bf47bc692ac0fa3c0c385396ff2cbd55882"
   dependencies:
@@ -1960,10 +1951,6 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jquery@>=1.9.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
-
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
@@ -2030,14 +2017,6 @@ lcid@^1.0.0:
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
   dependencies:
     invert-kv "^1.0.0"
-
-linkifyjs@^2.1.1:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-2.1.4.tgz#b04aac3f327afc871deb205546f612d80bd784b5"
-  optionalDependencies:
-    jquery ">=1.9.0"
-    react ">=0.14.0"
-    react-dom ">=0.14.0"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -2679,7 +2658,7 @@ react-deep-force-update@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.0.1.tgz#4f7f6c12c3e7de42f345992a3c518236fa1ecad3"
 
-react-dom@>=0.14.0, react-dom@^15.3.1, react-dom@^15.4.2:
+react-dom@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
   dependencies:
@@ -2698,15 +2677,13 @@ react-hot-loader@3.0.0-beta.6:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-live@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.2.0.tgz#dc81cb71558dde3621d43e0174406dca2dc28a22"
+react-live@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.3.0.tgz#5adf669f4e4ad5305750a019f9a06367d9b954a8"
   dependencies:
     buble "^0.15.2"
-    content-editable-component "^1.11.2"
     dom-iterator "^0.3.0"
     prismjs "^1.6.0"
-    selection-range "^1.1.0"
     styled-jsx "^0.5.7"
     unescape "^0.2.0"
 
@@ -2716,7 +2693,7 @@ react-proxy@^3.0.0-alpha.0:
   dependencies:
     lodash "^4.6.1"
 
-react@>=0.14.0, react@^15.3.1, react@^15.4.2:
+react@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
   dependencies:
@@ -2896,12 +2873,6 @@ safe-buffer@^5.0.1:
 select@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
-
-selection-range@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/selection-range/-/selection-range-1.1.0.tgz#016f27778d1ee39ee722369d66b4e13ca0c8bb30"
-  dependencies:
-    dom-iterator "0.3.0"
 
 "semver@2 || 3 || 4 || 5", semver@^5.3.0:
   version "5.3.0"
