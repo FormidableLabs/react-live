@@ -18,7 +18,6 @@
     "buble": "^0.15.2",
     "dom-iterator": "^0.3.0",
     "prismjs": "^1.6.0",
-    "styled-jsx": "^0.5.7",
     "unescape": "^0.2.0"
   },
   "devDependencies": {

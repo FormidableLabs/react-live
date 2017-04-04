@@ -39,8 +39,7 @@ const plugins = [
     plugins: [
       'external-helpers',
       'transform-object-rest-spread',
-      'transform-class-properties',
-      'styled-jsx/babel'
+      'transform-class-properties'
     ]
   })
 ]
