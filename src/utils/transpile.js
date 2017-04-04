@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { transform } from 'buble/dist/buble.deps'
 
 const opts = {
@@ -26,7 +26,7 @@ const compileCode = (code, scopeArgs) => transform(`
 
 const scopedEval = eval
 
-const generateElement = ({ code = '', scope = {} }) => {
+const generateElement = ({ code = '', scope = {} }, errorCallback) => {
   const scopeValues = Object
     .keys(scope)
     .map(key => scope[key])
@@ -37,9 +37,40 @@ const generateElement = ({ code = '', scope = {} }) => {
       `${acc}, ${key}`
     ), 'React')
 
-  return scopedEval(
+  const element = scopedEval(
     compileCode(code, scopeArgs)
   )(React, ...scopeValues)
+
+  const isEvalFunc = typeof element === 'function'
+
+  if (isEvalFunc && Component.isPrototypeOf(element)) {
+    const originalRender = element.prototype.render
+    element.prototype.render = function render() {
+      try {
+        return originalRender.apply(this, arguments)
+      } catch (err) {
+        setTimeout(() => {
+          errorCallback(err)
+        })
+
+        return null
+      }
+    }
+  } else if (isEvalFunc) {
+    return function wrappedPFC() {
+      try {
+        return element()
+      } catch (err) {
+        setTimeout(() => {
+          errorCallback(err)
+        })
+
+        return null
+      }
+    }
+  }
+
+  return element
 }
 
 export default generateElement

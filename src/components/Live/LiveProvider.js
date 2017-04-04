@@ -53,6 +53,8 @@ class LiveProvider extends Component {
       const element = transpile({
         code,
         scope
+      }, error => {
+        this.setState({ element: undefined, error: error.toString() })
       })
 
       this.setState({ ...state, element })
@@ -72,6 +74,7 @@ class LiveProvider extends Component {
 
   componentWillMount() {
     const { code, scope } = this.props
+
     this.transpile(code, scope)
   }
 
@@ -98,7 +101,7 @@ class LiveProvider extends Component {
         className={cn('react-live', className)}
         {...rest}
       >
-        { mountStylesheet && <Style /> }
+        {mountStylesheet && <Style />}
         {children}
       </div>
     )

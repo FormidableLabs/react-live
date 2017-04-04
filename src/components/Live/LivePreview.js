@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React, { createElement } from 'react'
 import { LiveContextTypes } from './LiveProvider'
-import UnsafeWrapper from '../UnsafeWrapper'
 import cn from '../../utils/cn'
 
-const LivePreview = ({ className, ...rest }, { live }) => (
+const LivePreview = ({ className, ...rest }, { live: { element }}) => (
   <div
     {...rest}
     className={cn('react-live-preview', className)}
   >
-    <UnsafeWrapper
-      element={live.element}
-      onError={live.onError}
-    />
+    {
+      typeof element === 'function' ?
+        createElement(element) :
+        element
+    }
   </div>
 )
 
