@@ -2698,9 +2698,9 @@ react-hot-loader@3.0.0-beta.6:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-live@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.1.2.tgz#5b8f3b44efca0b2035eddbd70d65f730415609a1"
+react-live@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.2.0.tgz#dc81cb71558dde3621d43e0174406dca2dc28a22"
   dependencies:
     buble "^0.15.2"
     content-editable-component "^1.11.2"
