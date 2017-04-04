@@ -1,31 +1,44 @@
 import React, { Component } from 'react'
-import ContentEditable from './ContentEditable'
-import Style from './Style'
 import cn from '../../utils/cn'
 import prism from '../../utils/prism'
-import unescape from 'unescape'
+import normalizeHtml from '../../utils/normalizeHtml'
+import htmlToPlain from '../../utils/htmlToPlain'
+import selectionRange from '../../vendor/selection-range'
 
 class Editor extends Component {
-  static defaultProps = {
-    code: '',
-    focus: true
+  state = {
+    html: ''
   }
 
-  state = { html: '' }
+  onRef = node => {
+    this.ref = node
+  }
 
-  onChange = ({ plain, selection }, evt) => {
-    const code = unescape(plain)
-    const html = prism(code)
+  updateHighlighting = keyCode => {
+    const html = normalizeHtml(this.ref.innerHTML)
+    const plain = htmlToPlain(html)
 
-    if (html !== this.state.html) {
-      this.setState({ html, selection })
+    this.setState({ html: prism(plain) })
+  }
 
-      if (this.props.onChange) {
-        this.props.onChange(code)
-      }
-    } else {
-      this.setState({ selection })
+  onKeyDown = evt => {
+    // NOTE: This prevents bad default behaviour
+    if (evt.keyCode === 9) {
+      document.execCommand('insertHTML', false, '&#009')
+      evt.preventDefault()
+    } else if (evt.keyCode === 13) {
+      document.execCommand('insertHTML', false, '\n')
+      evt.preventDefault()
     }
+  }
+
+  onKeyUp = evt => {
+    this.selection = selectionRange(this.ref)
+    this.updateHighlighting(evt.keyCode)
+  }
+
+  onClick = () => {
+    this.selection = selectionRange(this.ref)
   }
 
   componentWillMount() {
@@ -40,19 +53,27 @@ class Editor extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const { selection } = this
+    if (selection) {
+      selectionRange(this.ref, selection)
+    }
+  }
+
   render() {
-    const { className, style, focus } = this.props
-    const { html, selection } = this.state
+    const { className, style } = this.props
+    const { html } = this.state
 
     return (
-      <ContentEditable
-        className={cn('react-live-editor', className)}
+      <pre
+        ref={this.onRef}
+        className={cn('prism-code', className)}
         style={style}
-        focus={focus}
-        html={html}
-        onChangeCB={this.onChange}
-        enterKeyCB={this.onEnter}
-        selection={selection}
+        contentEditable
+        onKeyDown={this.onKeyDown}
+        onKeyUp={this.onKeyUp}
+        onClick={this.onClick}
+        dangerouslySetInnerHTML={{ __html: html }}
       />
     )
   }
