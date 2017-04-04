@@ -19,6 +19,10 @@ class Editor extends Component {
     const plain = htmlToPlain(html)
 
     this.setState({ html: prism(plain) })
+
+    if (this.props.onChange) {
+      this.props.onChange(plain)
+    }
   }
 
   onKeyDown = evt => {
