@@ -6,6 +6,7 @@
     ["babel-plugin-styled-components", {
       "displayName": false,
       "preprocess": true
-    }]
+    }],
+    "babel-plugin-polished"
   ]
 }
