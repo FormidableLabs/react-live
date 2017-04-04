@@ -16,10 +16,8 @@
   },
   "dependencies": {
     "buble": "^0.15.2",
-    "content-editable-component": "^1.11.2",
     "dom-iterator": "^0.3.0",
     "prismjs": "^1.6.0",
-    "selection-range": "^1.1.0",
     "styled-jsx": "^0.5.7",
     "unescape": "^0.2.0"
   },
