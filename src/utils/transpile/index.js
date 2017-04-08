@@ -3,14 +3,41 @@ import transform from './transform'
 import errorBoundary from './errorBoundary'
 import evalCode from './evalCode'
 
-const generateElement = ({ code = '', scope = {} }, errorCallback) => (
+export const generateElement = (
+  { code = '', scope = {} },
+  errorCallback
+) => (
   errorBoundary(
     evalCode(
       transform(`return (${code})`),
-      { React, ...scope }
+      { ...scope, React }
     ),
     errorCallback
   )
 )
 
-export default generateElement
+export const renderElementAsync = (
+  { code = '', scope = {} },
+  resultCallback,
+  errorCallback
+) => {
+  const render = element => {
+    resultCallback(
+      errorBoundary(
+        element,
+        errorCallback
+      )
+    )
+  }
+
+  if (!/render\s*\(/.test(code)) {
+    return errorCallback(
+      new SyntaxError('No-Inline evaluations must call `render`.')
+    )
+  }
+
+  evalCode(
+    transform(code),
+    { ...scope, render, React }
+  )
+}

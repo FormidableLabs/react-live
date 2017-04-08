@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import transpile from '../../utils/transpile'
+import { generateElement, renderElementAsync } from '../../utils/transpile'
 import cn from '../../utils/cn'
 import Style from '../Editor/Style'
 
@@ -25,39 +25,44 @@ class LiveProvider extends Component {
 
   static defaultProps = {
     code: '',
-    mountStylesheet: true
+    mountStylesheet: true,
+    noInline: false
   }
 
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string,
     scope: PropTypes.object,
-    mountStylesheet: PropTypes.bool
+    mountStylesheet: PropTypes.bool,
+    noInline: PropTypes.bool
   }
 
   onChange = code => {
-    this.transpile(code, this.props.scope)
+    this.transpile(code, this.props.scope, this.props.noInline)
   }
 
   onError = error => {
     this.setState({ error: error.toString() })
   }
 
-  transpile = (code, scope) => {
-    const state = {
-      unsafeWrapperError: undefined,
-      error: undefined
-    }
+  transpile = (code, scope, noInline = false) => {
+    // Transpilation arguments
+    const input = { code, scope }
+    const errorCallback = err => this.setState({ element: undefined, error: err.toString() })
+    const renderElement = element => this.setState({ ...state, element })
+
+    // State reset object
+    const state = { unsafeWrapperError: undefined, error: undefined }
 
     try {
-      const element = transpile({
-        code,
-        scope
-      }, error => {
-        this.setState({ element: undefined, error: error.toString() })
-      })
-
-      this.setState({ ...state, element })
+      if (noInline) {
+        this.setState({ ...state, element: null }) // Reset output for async (no inline) evaluation
+        renderElementAsync(input, renderElement, errorCallback)
+      } else {
+        renderElement(
+          generateElement(input, errorCallback)
+        )
+      }
     } catch (error) {
       this.setState({ ...state, error: error.toString() })
     }
@@ -73,17 +78,18 @@ class LiveProvider extends Component {
   })
 
   componentWillMount() {
-    const { code, scope } = this.props
+    const { code, scope, noInline } = this.props
 
-    this.transpile(code, scope)
+    this.transpile(code, scope, noInline)
   }
 
-  componentWillReceiveProps({ code, scope }) {
+  componentWillReceiveProps({ code, scope, noInline }) {
     if (
       code !== this.props.code ||
-      scope !== this.props.scope
+      scope !== this.props.scope ||
+      noInline !== this.props.noInline
     ) {
-      this.transpile(code, scope)
+      this.transpile(code, scope, noInline)
     }
   }
 
@@ -93,6 +99,7 @@ class LiveProvider extends Component {
       className,
       code,
       mountStylesheet,
+      noInline,
       ...rest
     } = this.props
 
