@@ -9,7 +9,7 @@ export const generateElement = (
 ) => (
   errorBoundary(
     evalCode(
-      transform(`return (${code})`),
+      `return (${transform(code)})`,
       { ...scope, React }
     ),
     errorCallback

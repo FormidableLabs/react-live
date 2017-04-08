@@ -7,10 +7,4 @@ const opts = {
   }
 }
 
-const transform = code => {
-  const closure = `(function() {\n${code}\n})()`
-  const transformed = _transform(closure, opts).code
-  return `return ${transformed}`
-}
-
-export default transform
+export default code => _transform(code, opts).code
