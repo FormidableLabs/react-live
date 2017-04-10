@@ -6,15 +6,20 @@ import evalCode from './evalCode'
 export const generateElement = (
   { code = '', scope = {} },
   errorCallback
-) => (
-  errorBoundary(
+) => {
+  // NOTE: Workaround for classes, since buble doesn't allow `return` without a function
+  const transformed = transform(code)
+    .trim()
+    .replace(/^var \w+ =/, '')
+
+  return errorBoundary(
     evalCode(
-      `return (${transform(code)})`,
+      `return ${transformed}`,
       { ...scope, React }
     ),
     errorCallback
   )
-)
+}
 
 export const renderElementAsync = (
   { code = '', scope = {} },
