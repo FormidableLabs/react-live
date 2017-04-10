@@ -87,6 +87,7 @@ It supports these props, while passing all others through to a `<div />`:
 |code|PropTypes.string|The code that should be rendered, apart from the user's edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
 |mountStylesheet|PropTypes.bool|Mounts the stylesheet for the prism editor (Default: `true`)
+|noInline|PropTypes.bool|Doesn't evaluate and mount the inline code (Default: `false`)
 
 Apart from these props it attaches the `.react-live` CSS class to its `div`.
 All subsequent components must be rendered inside a provider, since they communicate
@@ -94,6 +95,10 @@ using one.
 
 By default this component will render a `<style />` tag for the Prism styling. You can decide not
 to render it and include the `react-live.css` file instead.
+
+The `noInline` option kicks the Provider into a different mode, where you can write imperative-style
+code and nothing gets evaluated and mounted automatically. Your example will need to call `render`
+with valid JSX elements.
 
 ### &lt;LiveEditor /&gt;
 
