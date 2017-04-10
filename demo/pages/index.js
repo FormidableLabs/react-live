@@ -63,6 +63,30 @@ const jsxExample = (`
 </h3>
 `).trim()
 
+const noInlineExample = (`
+const Wrapper = ({ children }) => (
+  <div style={{
+    background: 'papayawhip',
+    width: '100%',
+    padding: '2rem'
+  }}>
+    {children}
+  </div>
+)
+
+const Title = () => (
+  <h3 style={{ color: 'palevioletred' }}>
+    Hello World!
+  </h3>
+)
+
+render(
+  <Wrapper>
+    <Title />
+  </Wrapper>
+)
+`).trim()
+
 class Index extends Component {
   render() {
     return (
@@ -83,6 +107,13 @@ class Index extends Component {
           Or just some JSX code!
         </Description>
         <LiveEdit code={jsxExample} />
+
+        <Description>
+          If you want to demo a couple of components in tandem, without evaluating
+          a single one inline, you can use the "noInline" prop and call "render".
+        </Description>
+        <LiveEdit noInline code={noInlineExample} />
+
       </Container>
     )
   }

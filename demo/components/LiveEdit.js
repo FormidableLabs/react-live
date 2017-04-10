@@ -11,15 +11,17 @@ import {
 } from 'react-live'
 
 const StyledProvider = styled(LiveProvider)`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
-  align-items: stretch;
   border-radius: ${polished.rem(3)};
   box-shadow: 1px 1px 20px rgba(20, 20, 20, 0.27);
   overflow: hidden;
   margin-bottom: ${polished.rem(100)};
+`
+
+const LiveWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -60,25 +62,23 @@ const StyledPreview = styled(LivePreview)`
 `
 
 const StyledError = styled(LiveError)`
-  position: absolute;
   display: block;
-  bottom: ${polished.rem(10)};
-  left: ${polished.rem(10)};
-  right: ${polished.rem(10)};
   padding: ${polished.rem(8)};
-  border-radius: ${polished.rem(3)};
   background: ${red};
   color: ${foreground};
-  box-shadow: 1px 1px 20px rgba(20, 20, 20, 0.27);
 `
 
-const LiveEdit = ({ code }) => (
+const LiveEdit = ({ noInline, code }) => (
   <StyledProvider
     code={code}
+    noInline={noInline}
     mountStylesheet={false}
   >
-    <StyledEditor />
-    <StyledPreview />
+    <LiveWrapper>
+      <StyledEditor />
+      <StyledPreview />
+    </LiveWrapper>
+
     <StyledError />
   </StyledProvider>
 )
