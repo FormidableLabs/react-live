@@ -6,6 +6,10 @@ import htmlToPlain from '../../utils/htmlToPlain'
 import selectionRange from '../../vendor/selection-range'
 
 class Editor extends Component {
+  static defaultProps = {
+    contentEditable: true
+  }
+
   state = {
     html: ''
   }
@@ -65,7 +69,7 @@ class Editor extends Component {
   }
 
   render() {
-    const { className, style } = this.props
+    const { contentEditable, className, style } = this.props
     const { html } = this.state
 
     return (
@@ -73,10 +77,10 @@ class Editor extends Component {
         ref={this.onRef}
         className={cn('prism-code', className)}
         style={style}
-        contentEditable
-        onKeyDown={this.onKeyDown}
-        onKeyUp={this.onKeyUp}
-        onClick={this.onClick}
+        contentEditable={contentEditable}
+        onKeyDown={contentEditable && this.onKeyDown}
+        onKeyUp={contentEditable && this.onKeyUp}
+        onClick={contentEditable && this.onClick}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
