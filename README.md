@@ -57,7 +57,8 @@ The code can be one of the following things:
 - React pure functional components, e.g. `() => <strong>Hello World!</strong>`
 - React component classes
 
-It cannot contain inline code just yet.
+If you enable the `noInline` prop on your `LiveProvider`, you'll be able to write imperative code,
+and render one of the above things by calling `render`.
 
 ### How does the scope work?
 
