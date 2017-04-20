@@ -5,6 +5,8 @@ import LiveEditor from './components/Live/LiveEditor'
 import LiveError from './components/Live/LiveError'
 import LivePreview from './components/Live/LivePreview'
 
+import withLive from './hoc/withLive'
+
 export * from './utils/transpile'
 
 export {
@@ -14,5 +16,6 @@ export {
   LiveProvider,
   LiveEditor,
   LiveError,
-  LivePreview
+  LivePreview,
+  withLive
 }
