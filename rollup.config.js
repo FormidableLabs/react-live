@@ -33,14 +33,15 @@ const plugins = [
   babel({
     babelrc: false,
     presets: [
-      ['env', { modules: false }],
+      ['env', { modules: false, loose: true }],
       'react'
     ],
     plugins: [
       'external-helpers',
       'transform-object-rest-spread',
-      'transform-class-properties'
-    ]
+      'transform-class-properties',
+      isProd && 'transform-react-remove-prop-types'
+    ].filter(Boolean)
   })
 ]
 
