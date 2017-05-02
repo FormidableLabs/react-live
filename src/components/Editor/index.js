@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import cn from '../../utils/cn'
 import prism from '../../utils/prism'
+import getIndent from '../../utils/getIndent'
+import normalizeCode from '../../utils/normalizeCode'
 import normalizeHtml from '../../utils/normalizeHtml'
 import htmlToPlain from '../../utils/htmlToPlain'
 import selectionRange from '../../vendor/selection-range'
@@ -18,9 +20,15 @@ class Editor extends Component {
     this.ref = node
   }
 
-  updateHighlighting = keyCode => {
+  getPlain = () => {
     const html = normalizeHtml(this.ref.innerHTML)
     const plain = htmlToPlain(html)
+
+    return plain
+  }
+
+  updateHighlighting = () => {
+    const plain = this.getPlain()
 
     this.setState({ html: prism(plain) })
 
@@ -31,18 +39,21 @@ class Editor extends Component {
 
   onKeyDown = evt => {
     // NOTE: This prevents bad default behaviour
-    if (evt.keyCode === 9) {
+    if (evt.keyCode === 9) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
-    } else if (evt.keyCode === 13) {
-      document.execCommand('insertHTML', false, '\n')
+    } else if (evt.keyCode === 13) { // Enter Key
+      const { start: cursorPos } = selectionRange(this.ref)
+      const indentation = getIndent(this.getPlain(), cursorPos)
+
+      document.execCommand('insertHTML', false, '\n' + indentation)
       evt.preventDefault()
     }
   }
 
   onKeyUp = evt => {
     this.selection = selectionRange(this.ref)
-    this.updateHighlighting(evt.keyCode)
+    this.updateHighlighting()
   }
 
   onClick = () => {
@@ -50,13 +61,13 @@ class Editor extends Component {
   }
 
   componentWillMount() {
-    const html = prism(this.props.code)
+    const html = prism(normalizeCode(this.props.code))
     this.setState({ html })
   }
 
   componentWillReceiveProps({ code }) {
     if (code !== this.props.code) {
-      const html = prism(this.props.code)
+      const html = prism(normalizeCode(this.props.code))
       this.setState({ html })
     }
   }

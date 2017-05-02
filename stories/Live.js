@@ -9,11 +9,18 @@ import {
   LivePreview
 } from '../src/index'
 
+const code = (`
+<strong>
+  Hello World!
+    Next Indent Level
+</strong>
+`).trim()
+
 storiesOf('Live', module)
   .addDecorator(withKnobs)
   .add('default', () => (
     <LiveProvider
-      code="<strong>Hello World!</strong>"
+      code={code}
       noInline={boolean('No inline evaluation', false)}
     >
       <LiveEditor />
