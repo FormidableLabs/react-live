@@ -21,10 +21,16 @@ class Editor extends Component {
   }
 
   getPlain = () => {
-    const html = normalizeHtml(this.ref.innerHTML)
-    const plain = htmlToPlain(html)
+    if (this._innerHTML === this.ref.innerHTML) {
+      return this._plain
+    }
 
-    return plain
+    const plain = htmlToPlain(normalizeHtml(this.ref.innerHTML))
+
+    this._plain = plain
+    this._innerHTML = this.ref.innerHTML
+
+    return this._plain
   }
 
   updateHighlighting = () => {
