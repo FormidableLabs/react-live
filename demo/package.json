@@ -14,13 +14,13 @@
     "express": "^4.15.2",
     "lru-cache": "^4.0.2",
     "module-alias": "^2.0.0",
-    "next": "^2.0.1",
+    "next": "^2.2.0",
     "polished": "^1.0.2",
     "preact": "^7.2.1",
     "preact-compat": "^3.14.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-live": "^1.4.2",
+    "react-live": "^1.4.5",
     "styled-components": "next"
   }
 }
