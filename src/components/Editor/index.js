@@ -12,6 +12,10 @@ class Editor extends Component {
     contentEditable: true
   }
 
+  undoStack = []
+  undoOffset = 0
+  undoTimestamp = 0
+
   state = {
     html: ''
   }
@@ -33,9 +37,30 @@ class Editor extends Component {
     return this._plain
   }
 
-  updateHighlighting = () => {
-    const plain = this.getPlain()
+  recordChange = (plain, selection) => {
+    if (plain === this.undoStack[this.undoStack.length - 1]) {
+      return
+    }
 
+    if (this.undoOffset > 0) {
+      this.undoStack = this.undoStack.slice(0, -this.undoOffset)
+      this.undoOffset = 0
+    }
+
+    const timestamp = Date.now()
+    const record = { plain, selection }
+
+    // Overwrite last record if threshold is not crossed
+    if (timestamp - this.undoTimestamp < 3000) {
+      this.undoStack[this.undoStack.length - 1] = record
+    } else {
+      this.undoStack.push(record)
+    }
+
+    this.undoTimestamp = timestamp
+  }
+
+  updateContent = plain => {
     this.setState({ html: prism(plain) })
 
     if (this.props.onChange) {
@@ -43,8 +68,33 @@ class Editor extends Component {
     }
   }
 
+  restoreStackState = offset => {
+    const { plain, selection } = this.undoStack[this.undoStack.length - 1 - offset]
+
+    this.selection = selection
+    this.undoOffset = offset
+    this.updateContent(plain)
+  }
+
+  undo = () => {
+    const offset = this.undoOffset + 1
+    if (offset >= this.undoStack.length) {
+      return
+    }
+
+    this.restoreStackState(offset)
+  }
+
+  redo = () => {
+    const offset = this.undoOffset - 1
+    if (offset < 0) {
+      return
+    }
+
+    this.restoreStackState(offset)
+  }
+
   onKeyDown = evt => {
-    // NOTE: This prevents bad default behaviour
     if (evt.keyCode === 9) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
@@ -54,21 +104,64 @@ class Editor extends Component {
 
       document.execCommand('insertHTML', false, '\n' + indentation)
       evt.preventDefault()
+    } else if (
+      // Undo / Redo
+      evt.keyCode === 90 &&
+      evt.metaKey !== evt.ctrlKey &&
+      !evt.altKey
+    ) {
+      if (evt.shiftKey) {
+        this.redo()
+      } else {
+        this.undo()
+      }
+
+      evt.preventDefault()
     }
   }
 
   onKeyUp = evt => {
-    this.selection = selectionRange(this.ref)
-    this.updateHighlighting()
+    if (
+      evt.keyCode === 91 || // left cmd
+      evt.keyCode === 93 || // right cmd
+      evt.ctrlKey ||
+      evt.metaKey
+    ) {
+      return
+    }
+
+    if (
+      evt.keyCode === 37 || // left
+      evt.keyCode === 38 || // up
+      evt.keyCode === 39 || // right
+      evt.keyCode === 40 // down
+    ) {
+      this.undoTimestamp = 0
+      return
+    }
+
+    const selection = selectionRange(this.ref)
+    const plain = this.getPlain()
+
+    this.selection = selection
+    this.recordChange(plain, selection)
+    this.updateContent(plain)
+    this._doUndo = 0
   }
 
   onClick = () => {
+    this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
   }
 
   componentWillMount() {
     const html = prism(normalizeCode(this.props.code))
     this.setState({ html })
+  }
+
+  componentDidMount() {
+    this.recordChange(this.getPlain())
+    this.undoTimestamp = 0 // Reset timestamp
   }
 
   componentWillReceiveProps({ code }) {
