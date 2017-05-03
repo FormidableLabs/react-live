@@ -144,6 +144,11 @@ class Editor extends Component {
       return
     }
 
+    // Enter key
+    if (evt.keyCode === 13) {
+      this.undoTimestamp = 0
+    }
+
     const selection = selectionRange(this.ref)
     const plain = this.getPlain()
 
