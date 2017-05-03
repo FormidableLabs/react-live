@@ -2848,9 +2848,9 @@ react-hot-loader@3.0.0-beta.6:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
-react-live@^1.4.6:
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.4.6.tgz#4a951aedfe7254b9fec78099c4518fb2cd473933"
+react-live@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/react-live/-/react-live-1.4.7.tgz#c7d484cde56881ad6a47e32c9db7f2114310f94c"
   dependencies:
     buble "^0.15.2"
     dom-iterator "^0.3.0"
