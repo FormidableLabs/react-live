@@ -55,6 +55,10 @@ class Editor extends Component {
       this.undoStack[this.undoStack.length - 1] = record
     } else {
       this.undoStack.push(record)
+
+      if (this.undoStack.length > 50) {
+        this.undoStack.shift()
+      }
     }
 
     this.undoTimestamp = timestamp
