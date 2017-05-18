@@ -1,4 +1,3 @@
-import React from 'react'
 import transform from './transform'
 import errorBoundary from './errorBoundary'
 import evalCode from './evalCode'
@@ -15,7 +14,7 @@ export const generateElement = (
   return errorBoundary(
     evalCode(
       `return ${transformed}`,
-      { ...scope, React }
+      scope
     ),
     errorCallback
   )
@@ -43,6 +42,6 @@ export const renderElementAsync = (
 
   evalCode(
     transform(code),
-    { ...scope, render, React }
+    { ...scope, render }
   )
 }
