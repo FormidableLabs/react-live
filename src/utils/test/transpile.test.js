@@ -33,6 +33,14 @@ describe('transpile', () => {
         generateElement({ code: '<div>' })
       }).toThrow()
     })
+
+    it('should not throw on Object.assign usage', () => {
+      const code = '() => { const props = { b: "b" }; return <div a="a" {...props} /> }'
+
+      expect(() => {
+        generateElement({ code })
+      }).not.toThrow()
+    })
   })
 
   describe('renderElementAsync', () => {
