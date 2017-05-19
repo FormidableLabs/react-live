@@ -1,6 +1,6 @@
 {
   "name": "react-live",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "A production-focused playground for live editing React code",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-live.es.js",
