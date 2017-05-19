@@ -41,6 +41,14 @@ describe('transpile', () => {
         generateElement({ code })
       }).not.toThrow()
     })
+
+    it('should ignore comments', () => {
+      const code = '// Comment\n<div>Hello World!</div>'
+      const element = generateElement({ code })
+      const wrapper = shallow(element)
+
+      expect(wrapper.text()).toBe('Hello World!')
+    })
   })
 
   describe('renderElementAsync', () => {

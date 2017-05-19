@@ -10,10 +10,11 @@ export const generateElement = (
   const transformed = transform(code)
     .trim()
     .replace(/^var \w+ =/, '')
+    .replace(/;$/, '')
 
   return errorBoundary(
     evalCode(
-      `return ${transformed}`,
+      `return (${transformed})`,
       scope
     ),
     errorCallback
