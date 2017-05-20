@@ -99,6 +99,9 @@ class Editor extends Component {
   }
 
   onKeyDown = evt => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(evt)
+    }
     if (evt.keyCode === 9) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
@@ -125,6 +128,9 @@ class Editor extends Component {
   }
 
   onKeyUp = evt => {
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(evt)
+    }
     if (
       evt.keyCode === 91 || // left cmd
       evt.keyCode === 93 || // right cmd
@@ -158,7 +164,10 @@ class Editor extends Component {
     this._doUndo = 0
   }
 
-  onClick = () => {
+  onClick = evt => {
+    if (this.props.onClick) {
+      this.props.onClick(evt)
+    }
     this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
   }
@@ -190,6 +199,7 @@ class Editor extends Component {
   render() {
     const { contentEditable, className, style, ...rest } = this.props
     const { html } = this.state
+    delete rest.children;
 
     return (
       <pre
