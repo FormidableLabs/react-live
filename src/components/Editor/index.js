@@ -188,11 +188,12 @@ class Editor extends Component {
   }
 
   render() {
-    const { contentEditable, className, style } = this.props
+    const { contentEditable, className, style, ...rest } = this.props
     const { html } = this.state
 
     return (
       <pre
+        {...rest}
         ref={this.onRef}
         className={cn('prism-code', className)}
         style={style}

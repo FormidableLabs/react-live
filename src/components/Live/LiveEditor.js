@@ -2,8 +2,9 @@ import React from 'react'
 import { LiveContextTypes } from './LiveProvider'
 import Editor from '../Editor'
 
-const LiveEditor = ({ className, style }, { live }) => (
+const LiveEditor = ({ className, style, ...rest }, { live }) => (
   <Editor
+    {...rest}
     className={className}
     style={style}
     code={live.code}
