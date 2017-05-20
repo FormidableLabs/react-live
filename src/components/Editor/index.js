@@ -199,8 +199,7 @@ class Editor extends Component {
   render() {
     const { contentEditable, className, style, ...rest } = this.props
     const { html } = this.state
-    delete rest.children;
-    delete rest.code;
+    delete rest.code
 
     return (
       <pre
