@@ -184,7 +184,7 @@ class Editor extends Component {
 
   componentWillReceiveProps({ code }) {
     if (code !== this.props.code) {
-      const html = prism(normalizeCode(this.props.code))
+      const html = prism(normalizeCode(code))
       this.setState({ html })
     }
   }
