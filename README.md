@@ -127,10 +127,11 @@ It passes through any props to its `div` and also attaches the `.react-live-erro
 This component renders the actual component, that the code generates, inside an error boundary.
 It passes through any props to its `div` and also attaches the `.react-live-preview` CSS class to it.
 
-## Prior work & Thanks
+## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
-This project wouldn't exist without Formidable's [component-playground](https://github.com/FormidableLabs/component-playground)
-which is the actual idea behind this project as well.
-
-So thanks to [Formidable Labs](https://formidable.com/open-source/component-playground/)!
+Component Playground is a similar but different project, that builds on babel-standalone and thus
+comes with a bigger bundle size. It comes with support for automatic documentation based on PropTypes
+and an ES6 console. Use it in projects where the page doesn't have to load quickly, or even where it's
+not user-facing, and correctness (Babel) and the additional features are more important than
+a lean bundle.
 
