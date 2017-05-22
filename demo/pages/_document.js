@@ -77,9 +77,7 @@ export default class MyDocument extends Document {
 
           <title>React Live Demo</title>
 
-          <meta charSet="UTF-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
           <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
           <style dangerouslySetInnerHTML={{ __html: style }} />
