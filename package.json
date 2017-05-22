@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "jsnext:main": "dist/react-live.es.js",
   "module": "dist/react-live.es.js",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
     "prebuild:lib": "rm -rf lib/*",
