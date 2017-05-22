@@ -140,28 +140,26 @@ class Editor extends Component {
       return
     }
 
-    if (
-      evt.keyCode === 37 || // left
-      evt.keyCode === 38 || // up
-      evt.keyCode === 39 || // right
-      evt.keyCode === 40 // down
-    ) {
-      this.undoTimestamp = 0
-      return
-    }
-
     // Enter key
     if (evt.keyCode === 13) {
       this.undoTimestamp = 0
     }
 
-    const selection = selectionRange(this.ref)
-    const plain = this.getPlain()
+    this.selection = selectionRange(this.ref)
 
-    this.selection = selection
-    this.recordChange(plain, selection)
-    this.updateContent(plain)
-    this._doUndo = 0
+    if (
+      evt.keyCode !== 37 && // left
+      evt.keyCode !== 38 && // up
+      evt.keyCode !== 39 && // right
+      evt.keyCode !== 40 // down
+    ) {
+      const plain = this.getPlain()
+
+      this.recordChange(plain, this.selection)
+      this.updateContent(plain)
+    } else {
+      this.undoTimestamp = 0
+    }
   }
 
   onClick = evt => {
