@@ -3,6 +3,7 @@
   "version": "1.5.2",
   "description": "A production-focused playground for live editing React code",
   "main": "lib/index.js",
+  "typings": "./react-live.d.ts",
   "jsnext:main": "dist/react-live.es.js",
   "module": "dist/react-live.es.js",
   "license": "MIT",
