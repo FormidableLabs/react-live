@@ -1,11 +1,9 @@
 export as namespace ReactLive;
 
-import { Component, StatelessComponent } from 'react'
+import { Component, StatelessComponent, HTMLAttributes } from 'react';
 
-export interface LiveProviderProps {
-  code: string;
-  className?: string;
-  scope?: any;
+export type LiveProviderProps = HTMLAttributes<HTMLElement> & {
+  code?: any;
   mountStylesheet?: boolean;
   noInline?: boolean;
 }
@@ -22,9 +20,9 @@ export interface EditorProps extends HTMLElement {
 
 export function LiveEditor(props: EditorProps): any
 
-export function LiveError(props: HTMLElement): any
-export function LivePreview(props: HTMLElement): any
+export function LiveError(props: HTMLAttributes<HTMLElement>): any
+export function LivePreview(props: HTMLAttributes<HTMLElement>): any
 
-export class Editor extends Component<HTMLElement, {}>{}
+export class Editor extends Component<HTMLAttributes<HTMLElement>, {}>{}
 
-export function withLive(wrappedComponent: Component<any, any> | StatelessComponent<any>): Component<any, {}>
+export function withLive<T>(wrappedComponent: T): Component<any, {}>
