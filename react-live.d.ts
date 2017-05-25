@@ -1,22 +1,22 @@
 export as namespace ReactLive;
 
-import { Component } from 'react'
+import { Component, StatelessComponent } from 'react'
 
 export interface LiveProviderProps {
   code: string;
-  error?: string;
-  onError?: Function;
-  onChange?: Function;
-  element?: any;
+  className?: string;
+  scope?: any;
+  mountStylesheet?: boolean;
+  noInline?: boolean;
 }
 
 export class LiveProvider extends Component<LiveProviderProps, {}>{}
 
 export interface EditorProps extends HTMLElement {
-  onChange: Function;
-  onKeyDown: Function;
-  onKeyUp: Function;
-  onClick: Function;
+  onChange: React.ChangeEventHandler<HTMLElement>;
+  onKeyDown: React.KeyboardEventHandler<HTMLElement>;
+  onKeyUp: React.KeyboardEventHandler<HTMLElement>;
+  onClick: React.MouseEventHandler<HTMLElement>;
   code: string;
 }
 
@@ -27,4 +27,4 @@ export function LivePreview(props: HTMLElement): any
 
 export class Editor extends Component<HTMLElement, {}>{}
 
-export function withLive(wrappedComponent: Component<any, any>): Component<any, {}>
+export function withLive(wrappedComponent: Component<any, any> | StatelessComponent<any>): Component<any, {}>
