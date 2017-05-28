@@ -57,13 +57,13 @@ The code can be one of the following things:
 - React pure functional components, e.g. `() => <strong>Hello World!</strong>`
 - React component classes
 
-If you enable the `noInline` prop on your `LiveProvider`, you'll be able to write imperative code,
+If you enable the `noInline` prop on your `LiveProvider`, you’ll be able to write imperative code,
 and render one of the above things by calling `render`.
 
 ### How does the scope work?
 
 The `scope` prop on the `LiveProvider` accepts additional globals. By default it injects `React` only, which
-means that the user can use it in his code like this:
+means that the user can use it in their code like this:
 
 ```js
 //                    ↓↓↓↓↓
@@ -80,15 +80,15 @@ But you can of course pass more things to this scope, that will be available as 
 
 ### &lt;LiveProvider /&gt;
 
-This component provides the `context` for all the other ones. It also transpiles the user's code!
+This component provides the `context` for all the other ones. It also transpiles the user’s code!
 It supports these props, while passing all others through to a `<div />`:
 
 |Name|PropType|Description|
 |---|---|---|
-|code|PropTypes.string|The code that should be rendered, apart from the user's edits
+|code|PropTypes.string|The code that should be rendered, apart from the user’s edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
 |mountStylesheet|PropTypes.bool|Mounts the stylesheet for the prism editor (Default: `true`)
-|noInline|PropTypes.bool|Doesn't evaluate and mount the inline code (Default: `false`)
+|noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
 
 Apart from these props it attaches the `.react-live` CSS class to its `div`.
 All subsequent components must be rendered inside a provider, since they communicate
@@ -111,7 +111,7 @@ It accepts these props for styling:
 |className|PropTypes.string|An additional class that is added to the Content Editable
 |style|PropTypes.object|Additional styles for the Content Editable
 
-This component renders a Prism.js editor underneath it and also renders all of Prism's
+This component renders a Prism.js editor underneath it and also renders all of Prism’s
 styles inside a `style` tag.
 The editor / content editable has an additional `.react-live-editor` CSS class.
 
@@ -120,7 +120,7 @@ The editor / content editable has an additional `.react-live-editor` CSS class.
 This component renders any error that occur while executing the code, or transpiling it.
 It passes through any props to its `div` and also attaches the `.react-live-error` CSS class to it.
 
-> Note: Right now the component unmounts, when there's no error to be shown.
+> Note: Right now the component unmounts, when there’s no error to be shown.
 
 ### &lt;LivePreview /&gt;
 
@@ -131,7 +131,7 @@ It passes through any props to its `div` and also attaches the `.react-live-prev
 
 Component Playground is a similar but different project, that builds on babel-standalone and thus
 comes with a bigger bundle size. It comes with support for automatic documentation based on PropTypes
-and an ES6 console. Use it in projects where the page doesn't have to load quickly, or even where it's
+and an ES6 console. Use it in projects where the page doesn’t have to load quickly, or even where it’s
 not user-facing, and correctness (Babel) and the additional features are more important than
 a lean bundle.
 
