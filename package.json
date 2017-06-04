@@ -14,7 +14,8 @@
     "build:dist": "rollup -c && rollup -c --environment PRODUCTION",
     "build": "npm-run-all build:lib build:dist",
     "prepublish": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "test:typings": "typings-tester --dir typings_test"
   },
   "dependencies": {
     "buble": "^0.15.2",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
     "@kadira/storybook-addon-knobs": "^1.7.1",
+    "@types/react": "^15.0.26",
     "babel-cli": "^6.24.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -47,13 +49,16 @@
     "rollup-plugin-node-resolve": "^2.1.1",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^1.0.1",
-    "rollup-plugin-visualizer": "^0.2.0"
+    "rollup-plugin-visualizer": "^0.2.0",
+    "typescript": "^2.3.4",
+    "typings-tester": "^0.2.2"
   },
   "files": [
     "src",
     "lib",
     "dist",
-    "react-live.css"
+    "react-live.css",
+    "react-live.d.ts"
   ],
   "author": "Phil Plückthun <phil@plckthn.me> (https://github.com/philpl)",
   "bugs": {

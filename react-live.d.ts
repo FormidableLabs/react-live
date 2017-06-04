@@ -10,18 +10,10 @@ export type LiveProviderProps = HTMLAttributes<HTMLElement> & {
 
 export class LiveProvider extends Component<LiveProviderProps, {}>{}
 
-export interface EditorProps extends HTMLElement {
-  onChange: React.ChangeEventHandler<HTMLElement>;
-  onKeyDown: React.KeyboardEventHandler<HTMLElement>;
-  onKeyUp: React.KeyboardEventHandler<HTMLElement>;
-  onClick: React.MouseEventHandler<HTMLElement>;
-  code: string;
-}
+export function LiveEditor(props: HTMLAttributes<HTMLElement>): JSX.Element
 
-export function LiveEditor(props: EditorProps): any
-
-export function LiveError(props: HTMLAttributes<HTMLElement>): any
-export function LivePreview(props: HTMLAttributes<HTMLElement>): any
+export function LiveError(props: HTMLAttributes<HTMLElement>): JSX.Element
+export function LivePreview(props: HTMLAttributes<HTMLElement>): JSX.Element
 
 export class Editor extends Component<HTMLAttributes<HTMLElement>, {}>{}
 
