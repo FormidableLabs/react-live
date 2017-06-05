@@ -3,7 +3,7 @@
   "version": "1.5.3",
   "description": "A production-focused playground for live editing React code",
   "main": "lib/index.js",
-  "typings": "./react-live.d.ts",
+  "typings": "./typings/react-live.d.ts",
   "jsnext:main": "dist/react-live.es.js",
   "module": "dist/react-live.es.js",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "build": "npm-run-all build:lib build:dist",
     "prepublish": "npm run build",
     "test": "jest",
-    "test:typings": "typings-tester --dir typings_test"
+    "test:typings": "typings-tester --dir typings"
   },
   "dependencies": {
     "buble": "^0.15.2",
