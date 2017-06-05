@@ -58,7 +58,7 @@
     "lib",
     "dist",
     "react-live.css",
-    "react-live.d.ts"
+    "typings/react-live.d.ts"
   ],
   "author": "Phil Plückthun <phil@plckthn.me> (https://github.com/philpl)",
   "bugs": {
