@@ -11,6 +11,7 @@ export const LiveContextTypes = {
 
     onError: PropTypes.func,
     onChange: PropTypes.func,
+    onUpdate: PropTypes.func,
 
     element: PropTypes.oneOfType([
       PropTypes.string,
@@ -39,14 +40,14 @@ class LiveProvider extends Component {
   }
 
   onChange = code => {
-    this.transpile(code, this.props.scope, this.props.noInline)
+    this.transpile(code, this.props.scope, this.props.noInline, this.props.onUpdate)
   }
 
   onError = error => {
     this.setState({ error: error.toString() })
   }
 
-  transpile = (code, scope, noInline = false) => {
+  transpile = (code, scope, noInline = false, callback = () => {}) => {
     // Transpilation arguments
     const input = { code, scope }
     const errorCallback = err => this.setState({ element: undefined, error: err.toString() })
@@ -64,6 +65,7 @@ class LiveProvider extends Component {
           generateElement(input, errorCallback)
         )
       }
+      callback(code);
     } catch (error) {
       this.setState({ ...state, error: error.toString() })
     }
@@ -74,7 +76,8 @@ class LiveProvider extends Component {
       ...this.state,
       code: this.props.code,
       onError: this.onError,
-      onChange: this.onChange
+      onChange: this.onChange,
+      onUpdate: this.onUpdate
     }
   })
 
@@ -101,6 +104,7 @@ class LiveProvider extends Component {
       code,
       mountStylesheet,
       noInline,
+      onUpdate,
       ...rest
     } = this.props
 
