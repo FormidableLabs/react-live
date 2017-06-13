@@ -111,6 +111,7 @@ It accepts these props for styling:
 |className|PropTypes.string|An additional class that is added to the Content Editable
 |ignoreTabKey|PropTypes.bool|Makes the editor ignore tab key presses so that keyboard users can tab past the editor without getting stuck
 |style|PropTypes.object|Additional styles for the Content Editable
+|onChange|PropTypes.function|Accepts a callback that is called when the user makes changes
 
 This component renders a Prism.js editor underneath it and also renders all of Prism’s
 styles inside a `style` tag.
