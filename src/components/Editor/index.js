@@ -102,7 +102,7 @@ class Editor extends Component {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(evt)
     }
-    if (evt.keyCode === 9) { // Tab Key
+    if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
     } else if (evt.keyCode === 13) { // Enter Key
