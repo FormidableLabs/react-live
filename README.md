@@ -128,6 +128,28 @@ It passes through any props to its `div` and also attaches the `.react-live-erro
 This component renders the actual component, that the code generates, inside an error boundary.
 It passes through any props to its `div` and also attaches the `.react-live-preview` CSS class to it.
 
+### withLive
+
+The `withLive` method creates a higher-order component, that injects the live-editing context provided
+by `LiveProvider` into a component, as the `live` prop.
+
+The context's shape is as follows:
+
+|Name|Type|Description|
+|---|---|---|
+|code|string|Reflects the code that is passed in as the `code` prop
+|error|string|An error that the code has thrown when it was previewed
+|onError|function|A callback that, when called, changes the error to what's passed as the first argument
+|onChange|function|A callback that accepts new code and transpiles it
+|element|React.Element|The result of the transpiled code that is previewed
+
+> Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
+> This is due to the fact that the Editor is an uncontrolled input for the reason of managing the `contentEditable`
+> element efficiently.
+
+Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
+desired behaviour.
+
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
 Component Playground is a similar but different project, that builds on babel-standalone and thus
