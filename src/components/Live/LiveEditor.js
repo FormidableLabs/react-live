@@ -18,7 +18,7 @@ const LiveEditor = (props, { live }) => (
 )
 
 LiveEditor.contextTypes = LiveContextTypes
-LiveEditor.propTypes = { onChange: PropTypes.function }
+LiveEditor.propTypes = { onChange: PropTypes.func }
 
 export default LiveEditor
 
