@@ -40,8 +40,8 @@ class LiveProvider extends Component {
   }
 
   onChange = code => {
-    const { scope, transformCode, noInline } = this.props;
-    this.transpile({ code, scope, transformCode, noInline });
+    const { scope, transformCode, noInline } = this.props
+    this.transpile({ code, scope, transformCode, noInline })
   }
 
   onError = error => {
