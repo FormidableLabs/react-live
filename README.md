@@ -89,6 +89,7 @@ It supports these props, while passing all others through to a `<div />`:
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
 |mountStylesheet|PropTypes.bool|Mounts the stylesheet for the prism editor (Default: `true`)
 |noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
+|applyTemplate|PropTypes.func|Can be used to wrap the code that should be rendered, before transpilation.
 
 Apart from these props it attaches the `.react-live` CSS class to its `div`.
 All subsequent components must be rendered inside a provider, since they communicate

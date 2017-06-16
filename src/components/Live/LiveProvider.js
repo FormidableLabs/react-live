@@ -35,11 +35,17 @@ class LiveProvider extends Component {
     code: PropTypes.string,
     scope: PropTypes.object,
     mountStylesheet: PropTypes.bool,
-    noInline: PropTypes.bool
+    noInline: PropTypes.bool,
+    applyTemplate: PropTypes.func
   }
 
   onChange = code => {
-    this.transpile(code, this.props.scope, this.props.noInline)
+    const { scope, noInline, applyTemplate } = this.props;
+    this.transpile(
+      applyTemplate ? applyTemplate(code) : code,
+      scope,
+      noInline
+    )
   }
 
   onError = error => {
