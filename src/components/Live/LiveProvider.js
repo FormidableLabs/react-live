@@ -40,21 +40,20 @@ class LiveProvider extends Component {
   }
 
   onChange = code => {
-    const { scope, noInline, transformCode } = this.props;
-    this.transpile(
-      transformCode ? transformCode(code) : code,
-      scope,
-      noInline
-    )
+    const { scope, transformCode, noInline } = this.props;
+    this.transpile({ code, scope, transformCode, noInline });
   }
 
   onError = error => {
     this.setState({ error: error.toString() })
   }
 
-  transpile = (code, scope, noInline = false) => {
+  transpile = ({ code, scope, transformCode, noInline = false }) => {
     // Transpilation arguments
-    const input = { code, scope }
+    const input = {
+      code: transformCode ? transformCode(code) : code,
+      scope
+    }
     const errorCallback = err => this.setState({ element: undefined, error: err.toString() })
     const renderElement = element => this.setState({ ...state, element })
 
@@ -85,18 +84,19 @@ class LiveProvider extends Component {
   })
 
   componentWillMount() {
-    const { code, scope, noInline } = this.props
+    const { code, scope, transformCode, noInline } = this.props
 
-    this.transpile(code, scope, noInline)
+    this.transpile({ code, scope, transformCode, noInline })
   }
 
-  componentWillReceiveProps({ code, scope, noInline }) {
+  componentWillReceiveProps({ code, scope, noInline, transformCode }) {
     if (
       code !== this.props.code ||
       scope !== this.props.scope ||
-      noInline !== this.props.noInline
+      noInline !== this.props.noInline ||
+      transformCode !== this.props.transformCode
     ) {
-      this.transpile(code, scope, noInline)
+      this.transpile({ code, scope, transformCode, noInline })
     }
   }
 
@@ -107,6 +107,7 @@ class LiveProvider extends Component {
       code,
       mountStylesheet,
       noInline,
+      transformCode,
       ...rest
     } = this.props
 
