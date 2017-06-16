@@ -36,13 +36,13 @@ class LiveProvider extends Component {
     scope: PropTypes.object,
     mountStylesheet: PropTypes.bool,
     noInline: PropTypes.bool,
-    applyTemplate: PropTypes.func
+    transformCode: PropTypes.func
   }
 
   onChange = code => {
-    const { scope, noInline, applyTemplate } = this.props;
+    const { scope, noInline, transformCode } = this.props;
     this.transpile(
-      applyTemplate ? applyTemplate(code) : code,
+      transformCode ? transformCode(code) : code,
       scope,
       noInline
     )
