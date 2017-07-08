@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class GatedComponent extends React.Component {
+export default class TabGate extends React.Component {
   componentDidMount() {
     this.focusTarget = document.getElementById(this.props.idToFocus) || findFirstFocusableChild(this.ref) || this.ref;
     //Make all child elements untabbable
