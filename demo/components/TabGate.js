@@ -2,15 +2,17 @@ import React from 'react';
 
 export default class TabGate extends React.Component {
   componentDidMount() {
-    this.focusTarget = document.getElementById(this.props.idToFocus) || findFirstFocusableChild(this.ref) || this.ref;
+    this.focusTarget = 
+      document.getElementById(this.props.idToFocus) || 
+      findFirstFocusableChild(this.ref) || 
+      this.ref;
+    
     //Make all child elements untabbable
     removeChildTabIndexes(this.ref);
-
     this.ref.addEventListener(
       'keydown',
       createEnterHandler(this.focusTarget),
     );
-    
     this.ref.addEventListener('keydown', handleEscape, true);
   }
 

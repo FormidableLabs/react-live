@@ -4,19 +4,17 @@ import { LiveContextTypes } from './LiveProvider'
 import Editor from '../Editor'
 
 const LiveEditor = (props, { live }) => (
-  <TabGate>
-    <Editor
-      {...props}
-      code={live.code}
-      onChange={code => {
-        live.onChange(code)
+  <Editor
+    {...props}
+    code={live.code}
+    onChange={code => {
+      live.onChange(code)
 
-        if (typeof props.onChange === 'function') {
-          props.onChange(code)
-        }
-      }}
-    />
-  </TabGate>
+      if (typeof props.onChange === 'function') {
+        props.onChange(code)
+      }
+    }}
+  />
 )
 
 LiveEditor.contextTypes = LiveContextTypes

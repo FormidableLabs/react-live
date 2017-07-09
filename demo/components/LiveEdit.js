@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import * as polished from 'polished'
 import { foreground, red, lightGrey } from '../utils/colors'
+import TabGate from './TabGate'
 
 import {
   LiveProvider,
@@ -69,6 +70,7 @@ const StyledError = styled(LiveError)`
 `
 
 const LiveEdit = ({ noInline, code }) => (
+  <TabGate>
   <StyledProvider
     code={code}
     noInline={noInline}
@@ -81,6 +83,7 @@ const LiveEdit = ({ noInline, code }) => (
 
     <StyledError />
   </StyledProvider>
+  </TabGate>
 )
 
 export default LiveEdit
