@@ -1,6 +1,12 @@
 import React from 'react';
 
 var accessibilityMessage=`Press 'Enter' to edit code, and 'Esc' when finished.`;
+var offscreen = {
+  height: '1px',
+  overflow: 'hidden',
+  position: 'absolute',
+  width: '1px'
+ }
 
 export default class TabGate extends React.Component {
   componentDidMount() {
@@ -25,7 +31,7 @@ export default class TabGate extends React.Component {
   render() {
     return (
       <div ref={element => (this.ref = element)} tabIndex="0">
-        <span hidden='true' ref={element => (this.navTip = element)} role="alert">{accessibilityMessage}</span>
+        <span style={offscreen} hidden='true' ref={element => (this.navTip = element)} role="alert">{accessibilityMessage}</span>
         {this.props.children}
       </div>
     );
