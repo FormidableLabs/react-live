@@ -70,20 +70,21 @@ const StyledError = styled(LiveError)`
 `
 
 const LiveEdit = ({ noInline, code }) => (
-  <TabGate>
+  
   <StyledProvider
     code={code}
     noInline={noInline}
     mountStylesheet={false}
   >
-    <LiveWrapper>
-      <StyledEditor />
-      <StyledPreview />
-    </LiveWrapper>
-
+    <TabGate>
+      <LiveWrapper>
+        <StyledEditor />
+        <StyledPreview />
+      </LiveWrapper>
+    </TabGate>
     <StyledError />
   </StyledProvider>
-  </TabGate>
+  
 )
 
 export default LiveEdit
