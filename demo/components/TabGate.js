@@ -1,24 +1,31 @@
 import React from 'react';
 
+var accessibilityMessage=`Press 'Enter' to edit code, and 'Esc' when finished.`;
+
 export default class TabGate extends React.Component {
   componentDidMount() {
-    this.focusTarget = 
-      document.getElementById(this.props.idToFocus) || 
-      findFirstFocusableChild(this.ref) || 
-      this.ref;
+    hide(this.navTip);
+    
+    if(!this.focusTarget){
+      this.focusTarget = 
+        document.getElementById(this.props.idToFocus) || 
+        findFirstFocusableChild(this.ref) || 
+        this.ref;
+    }
     
     //Make all child elements untabbable
     removeChildTabIndexes(this.ref);
-    this.ref.addEventListener(
-      'keydown',
-      createEnterHandler(this.focusTarget),
-    );
+    
+    this.ref.addEventListener('keydown', createEnterHandler(this.focusTarget));
     this.ref.addEventListener('keydown', handleEscape, true);
+    this.ref.addEventListener('focus',(event)=>show(this.navTip));
+    this.ref.addEventListener('blur',(event)=>hide(this.navTip));
   }
 
   render() {
     return (
       <div ref={element => (this.ref = element)} tabIndex="0">
+        <span hidden='true' ref={element => (this.navTip = element)} role="alert">{accessibilityMessage}</span>
         {this.props.children}
       </div>
     );
@@ -44,12 +51,14 @@ function findFirstFocusableChild(elem){
 }
 
 function createEnterHandler(focusTarget) {    
+  console.log(focusTarget);
   return function handleEnter(event) {
     if (
       event.keyCode &&
       event.keyCode === 13 &&
       document.activeElement === this
     ) {
+      console.log(focusTarget);
       event.preventDefault();
       focusTarget.focus();
     }
@@ -64,5 +73,12 @@ function handleEscape(event) {
   }
 }
 
-// <code-editor aria-describedby="code-description"></code>
-// <div id="code-description" class="sr-only">This is a code editor in which its showcased how Glamorous works. In order to exit press the escape key.</div>
+function show(element){
+  element.hidden=false;
+  element.setAttribute('aria-hidden',false);
+}
+
+function hide(element){
+  element.hidden=true;
+  element.setAttribute('aria-hidden',true);
+}
