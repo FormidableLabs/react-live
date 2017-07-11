@@ -17,7 +17,7 @@ class Editor extends Component {
   undoTimestamp = 0
 
   state = {
-    html: ''
+    html: '',
   }
 
   onRef = node => {
@@ -102,10 +102,21 @@ class Editor extends Component {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(evt)
     }
+    
     if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
-      document.execCommand('insertHTML', false, '&#009')
-      evt.preventDefault()
-    } else if (evt.keyCode === 13) { // Enter Key
+      if(!this.tabGuarded){
+        document.execCommand('insertHTML', false, '&#009')
+        evt.preventDefault()
+      }
+    }else if (evt.keyCode && evt.keyCode === 27) {//Esc Key
+      this.tabGuarded=true
+      this.ref.classList.add("tabGuarded")
+    }else if(!(evt.shiftKey || evt.ctrlKey || evt.altKey)){
+      this.tabGuarded=false
+      this.ref.classList.remove("tabGuarded")
+    }
+
+    if (evt.keyCode === 13) { // Enter Key
       const { start: cursorPos } = selectionRange(this.ref)
       const indentation = getIndent(this.getPlain(), cursorPos)
 
@@ -170,9 +181,22 @@ class Editor extends Component {
     this.selection = selectionRange(this.ref)
   }
 
+  onFocus = evt =>{
+    if(this.tabGuarded && document.activeElement === this.ref){
+      this.ref.classList.add("tabGuarded")
+    }
+    return evt
+  }
+  onBlur = evt => {
+    this.tabGuarded =true
+    this.ref.classList.remove("tabGuarded")
+    return evt
+  }
+
   componentWillMount() {
     const html = prism(normalizeCode(this.props.code))
     this.setState({ html })
+    this.tabGuarded=true
   }
 
   componentDidMount() {
@@ -203,12 +227,14 @@ class Editor extends Component {
       <pre
         {...rest}
         ref={this.onRef}
-        className={cn('prism-code', className)}
+        className={cn('prism-code',className)}
         style={style}
         contentEditable={contentEditable}
         onKeyDown={contentEditable && this.onKeyDown}
         onKeyUp={contentEditable && this.onKeyUp}
         onClick={contentEditable && this.onClick}
+        onFocus={contentEditable && this.onFocus}
+        onBlur={contentEditable && this.onBlur}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )

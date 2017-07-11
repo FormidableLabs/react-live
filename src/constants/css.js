@@ -93,4 +93,10 @@ export default `
 .token.deleted {
   color: red;
 }
+
+.tabGuarded{
+    outline: 1px dotted #212121;
+    outline: 1px auto -webkit-focus-ring-color;
+    margin: 1px;
+}
 `
