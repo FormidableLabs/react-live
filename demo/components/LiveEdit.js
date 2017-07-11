@@ -69,7 +69,6 @@ const StyledError = styled(LiveError)`
 `
 
 const LiveEdit = ({ noInline, code }) => (
-
   <StyledProvider
     code={code}
     noInline={noInline}
@@ -79,9 +78,9 @@ const LiveEdit = ({ noInline, code }) => (
       <StyledEditor />
       <StyledPreview />
     </LiveWrapper>
+
     <StyledError />
   </StyledProvider>
-
 )
 
 export default LiveEdit

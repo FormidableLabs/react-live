@@ -17,7 +17,7 @@ class Editor extends Component {
   undoTimestamp = 0
 
   state = {
-    html: '',
+    html: ''
   }
 
   onRef = node => {
@@ -227,7 +227,7 @@ class Editor extends Component {
       <pre
         {...rest}
         ref={this.onRef}
-        className={cn('prism-code',className)}
+        className={cn('prism-code', className)}
         style={style}
         contentEditable={contentEditable}
         onKeyDown={contentEditable && this.onKeyDown}
@@ -240,5 +240,4 @@ class Editor extends Component {
     )
   }
 }
-
 export default Editor
