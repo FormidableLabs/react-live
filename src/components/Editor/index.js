@@ -9,7 +9,7 @@ import selectionRange from '../../vendor/selection-range'
 
 class Editor extends Component {
   static defaultProps = {
-    contentEditable: true
+    contentEditable: true,
   }
 
   undoStack = []
@@ -17,7 +17,8 @@ class Editor extends Component {
   undoTimestamp = 0
 
   state = {
-    html: ''
+    html: '',
+    tabGuarded:true
   }
 
   onRef = node => {
@@ -103,15 +104,13 @@ class Editor extends Component {
       this.props.onKeyDown(evt)
     }
     
-    if (evt.keyCode === 9 && !this.tabGuarded) { // Tab Key
+    if (evt.keyCode === 9 && !this.state.tabGuarded) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
     }else if (evt.keyCode === 27) {// Esc Key
-      this.tabGuarded = true
-      this.ref.classList.add("tab-guarded")
+      this.setState({tabGuarded:true})
     }else if(!(evt.shiftKey || evt.ctrlKey || evt.altKey)){
-      this.tabGuarded = false
-      this.ref.classList.remove("tab-guarded")
+      this.setState({tabGuarded:false})
     }
 
     if (evt.keyCode === 13) { // Enter Key
@@ -175,7 +174,7 @@ class Editor extends Component {
     if (this.props.onClick) {
       this.props.onClick(evt)
     }
-    this.tabGuarded = false;
+    this.setState({tabGuarded:false});
     this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
   }
@@ -184,22 +183,17 @@ class Editor extends Component {
     if (this.props.onFocus) {
       this.props.onFocus(evt)
     }
-    if(this.tabGuarded && document.activeElement === this.ref){
-      this.ref.classList.add("tab-guarded")
-    }
+    this.setState({tabGuarded:true});
   }
   onBlur = evt => {
     if (this.props.onBlur) {
       this.props.onBlur(evt)
     }
-    this.tabGuarded = true
-    this.ref.classList.remove("tab-guarded")
   }
 
   componentWillMount() {
     const html = prism(normalizeCode(this.props.code))
     this.setState({ html })
-    this.tabGuarded=true
   }
 
   componentDidMount() {
@@ -230,7 +224,7 @@ class Editor extends Component {
       <pre
         {...rest}
         ref={this.onRef}
-        className={cn('prism-code', className)}
+        className={cn('prism-code', className, this.state.tabGuarded?'tab-guarded':'')}
         style={style}
         contentEditable={contentEditable}
         onKeyDown={contentEditable && this.onKeyDown}
