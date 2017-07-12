@@ -106,7 +106,7 @@ class Editor extends Component {
     if (evt.keyCode === 9 && !this.tabGuarded) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
-    }else if (evt.keyCode === 27 && !this.tabGuarded) {// Esc Key
+    }else if (evt.keyCode === 27) {// Esc Key
       this.tabGuarded = true
       this.ref.classList.add("tab-guarded")
     }else if(!(evt.shiftKey || evt.ctrlKey || evt.altKey)){
