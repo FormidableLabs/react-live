@@ -103,17 +103,15 @@ class Editor extends Component {
       this.props.onKeyDown(evt)
     }
     
-    if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
-      if(!this.tabGuarded){
-        document.execCommand('insertHTML', false, '&#009')
-        evt.preventDefault()
-      }
-    }else if (evt.keyCode && evt.keyCode === 27) {//Esc Key
-      this.tabGuarded=true
-      this.ref.classList.add("tabGuarded")
+    if (evt.keyCode === 9 && !this.tabGuarded) { // Tab Key
+      document.execCommand('insertHTML', false, '&#009')
+      evt.preventDefault()
+    }else if (evt.keyCode === 27 && !this.tabGuarded) {// Esc Key
+      this.tabGuarded = true
+      this.ref.classList.add("tab-guarded")
     }else if(!(evt.shiftKey || evt.ctrlKey || evt.altKey)){
-      this.tabGuarded=false
-      this.ref.classList.remove("tabGuarded")
+      this.tabGuarded = false
+      this.ref.classList.remove("tab-guarded")
     }
 
     if (evt.keyCode === 13) { // Enter Key
@@ -177,20 +175,25 @@ class Editor extends Component {
     if (this.props.onClick) {
       this.props.onClick(evt)
     }
+    this.tabGuarded = false;
     this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
   }
 
   onFocus = evt =>{
-    if(this.tabGuarded && document.activeElement === this.ref){
-      this.ref.classList.add("tabGuarded")
+    if (this.props.onFocus) {
+      this.props.onFocus(evt)
     }
-    return evt
+    if(this.tabGuarded && document.activeElement === this.ref){
+      this.ref.classList.add("tab-guarded")
+    }
   }
   onBlur = evt => {
-    this.tabGuarded =true
-    this.ref.classList.remove("tabGuarded")
-    return evt
+    if (this.props.onBlur) {
+      this.props.onBlur(evt)
+    }
+    this.tabGuarded = true
+    this.ref.classList.remove("tab-guarded")
   }
 
   componentWillMount() {
