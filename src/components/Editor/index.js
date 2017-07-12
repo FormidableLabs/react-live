@@ -9,7 +9,7 @@ import selectionRange from '../../vendor/selection-range'
 
 class Editor extends Component {
   static defaultProps = {
-    contentEditable: true,
+    contentEditable: true
   }
 
   undoStack = []
@@ -107,10 +107,6 @@ class Editor extends Component {
     if (evt.keyCode === 9 && !this.state.tabGuarded) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
-    }else if (evt.keyCode === 27) {// Esc Key
-      this.setState({tabGuarded:true})
-    }else if(!(evt.shiftKey || evt.ctrlKey || evt.altKey)){
-      this.setState({tabGuarded:false})
     }
 
     if (evt.keyCode === 13) { // Enter Key
@@ -167,6 +163,12 @@ class Editor extends Component {
       this.updateContent(plain)
     } else {
       this.undoTimestamp = 0
+    }
+
+    if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
+      this.setState({tabGuarded:true})
+    }else if(!(evt.shiftKey || evt.keyCode === 27 || evt.keyCode === 9) && this.state.tabGuarded){
+      this.setState({tabGuarded:false})
     }
   }
 
