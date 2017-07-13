@@ -167,8 +167,16 @@ class Editor extends Component {
 
     if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
       this.setState({tabGuarded:true})
-    }else if(!(evt.shiftKey || evt.keyCode === 27 || evt.keyCode === 9) && this.state.tabGuarded){
-      this.setState({tabGuarded:false})
+    }
+  }
+
+  onChange = evt => {
+    if (this.props.onChange) {
+      this.props.onChange(evt)
+    }
+
+    if (this.state.tabGuarded) {
+      this.setState({ tabGuarded:false })
     }
   }
 
@@ -186,11 +194,6 @@ class Editor extends Component {
       this.props.onFocus(evt)
     }
     this.setState({tabGuarded:true});
-  }
-  onBlur = evt => {
-    if (this.props.onBlur) {
-      this.props.onBlur(evt)
-    }
   }
 
   componentWillMount() {
@@ -233,7 +236,7 @@ class Editor extends Component {
         onKeyUp={contentEditable && this.onKeyUp}
         onClick={contentEditable && this.onClick}
         onFocus={contentEditable && this.onFocus}
-        onBlur={contentEditable && this.onBlur}
+        onChange = {contentEditable && this.onChange}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
