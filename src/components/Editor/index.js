@@ -184,14 +184,14 @@ class Editor extends Component {
     if (this.props.onClick) {
       this.props.onClick(evt)
     }
-    this.setState({tabGuarded:false});
     this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
+    this.setState({tabGuarded:false});
   }
 
-  onFocus = evt =>{
-    if (this.props.onFocus) {
-      this.props.onFocus(evt)
+  onBlur = evt =>{
+    if (this.props.onBlur) {
+      this.props.onBlur(evt)
     }
     this.setState({tabGuarded:true});
   }
@@ -235,7 +235,7 @@ class Editor extends Component {
         onKeyDown={contentEditable && this.onKeyDown}
         onKeyUp={contentEditable && this.onKeyUp}
         onClick={contentEditable && this.onClick}
-        onFocus={contentEditable && this.onFocus}
+        onBlur={contentEditable && this.onBlur}
         onChange = {contentEditable && this.onChange}
         dangerouslySetInnerHTML={{ __html: html }}
       />
