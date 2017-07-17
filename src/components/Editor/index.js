@@ -163,17 +163,17 @@ class Editor extends Component {
     }
 
     if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
-       this.setState({tabGuarded:true})
-     }else if(evt.keyCode !== 27 && evt.keyCode !== 16 && this.state.tabGuarded && evt.keyCode !== 9){
+      this.setState({tabGuarded:true})
+    }else if(evt.keyCode !== 27 && evt.keyCode !== 16 && this.state.tabGuarded && evt.keyCode !== 9){
       this.setState({tabGuarded:false})
-     }
+    }
   }
 
   onBlur = evt =>{
-     if (this.props.onBlur) {
-       this.props.onBlur(evt)
-     }
-     this.setState({tabGuarded:true});
+    if (this.props.onBlur) {
+      this.props.onBlur(evt)
+    }
+    this.setState({tabGuarded:true})
   }
   onClick = evt => {
     if (this.props.onClick) {
