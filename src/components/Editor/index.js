@@ -17,7 +17,8 @@ class Editor extends Component {
   undoTimestamp = 0
 
   state = {
-    html: ''
+    html: '',
+    tabGuarded:true
   }
 
   onRef = node => {
@@ -102,10 +103,13 @@ class Editor extends Component {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(evt)
     }
-    if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
+    
+    if (evt.keyCode === 9 && !this.state.tabGuarded) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
-    } else if (evt.keyCode === 13) { // Enter Key
+    }
+
+    if (evt.keyCode === 13) { // Enter Key
       const { start: cursorPos } = selectionRange(this.ref)
       const indentation = getIndent(this.getPlain(), cursorPos)
 
@@ -160,6 +164,12 @@ class Editor extends Component {
     } else {
       this.undoTimestamp = 0
     }
+
+    if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
+      this.setState({tabGuarded:true})
+    }else if(evt.keyCode !== 27 && this.state.tabGuarded && evt.keyCode !== 9){
+      this.setState({tabGuarded:false})
+    }
   }
 
   onClick = evt => {
@@ -168,6 +178,14 @@ class Editor extends Component {
     }
     this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
+    this.setState({tabGuarded:false});
+  }
+
+  onBlur = evt =>{
+    if (this.props.onBlur) {
+      this.props.onBlur(evt)
+    }
+    this.setState({tabGuarded:true});
   }
 
   componentWillMount() {
@@ -203,16 +221,16 @@ class Editor extends Component {
       <pre
         {...rest}
         ref={this.onRef}
-        className={cn('prism-code', className)}
+        className={cn('prism-code', className, this.state.tabGuarded?'tab-guarded':'')}
         style={style}
         contentEditable={contentEditable}
         onKeyDown={contentEditable && this.onKeyDown}
         onKeyUp={contentEditable && this.onKeyUp}
         onClick={contentEditable && this.onClick}
+        onBlur={contentEditable && this.onBlur}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
   }
 }
-
 export default Editor
