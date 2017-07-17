@@ -24,7 +24,11 @@ export default `
   -o-tab-size: 2;
   tab-size: 2;
 }
-
+.prism-code.tab-guarded:focus{
+     outline: 1px solid #212121;
+     outline: 1px auto -webkit-focus-ring-color;
+ }
+    
 .token.comment,
 .token.prolog,
 .token.doctype,
