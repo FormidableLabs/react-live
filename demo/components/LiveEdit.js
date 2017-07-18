@@ -19,14 +19,12 @@ const StyledProvider = styled(LiveProvider)`
 
 
 const column = css`
-  flex-basis: 50%;
   width: 50%;
   max-width: 50%;
   display:inline;
   float:left;
 
   @media (max-width: 600px) {
-    flex-basis: auto;
     width: 100%;
     max-width: 100%;
   }
