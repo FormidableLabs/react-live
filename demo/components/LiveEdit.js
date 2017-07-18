@@ -17,24 +17,14 @@ const StyledProvider = styled(LiveProvider)`
   margin-bottom: ${polished.rem(100)};
 `
 
-const LiveWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
-  align-items: stretch;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-`
 
 const column = css`
-  flex-basis: 50%;
   width: 50%;
   max-width: 50%;
+  display:inline;
+  float:left;
 
   @media (max-width: 600px) {
-    flex-basis: auto;
     width: 100%;
     max-width: 100%;
   }
@@ -55,7 +45,7 @@ const StyledPreview = styled(LivePreview)`
   padding: 0.5rem;
   background: white;
   color: black;
-  height: auto;
+  height: ${polished.rem(350)};
   overflow: hidden;
 
   ${column}
@@ -69,18 +59,17 @@ const StyledError = styled(LiveError)`
 `
 
 const LiveEdit = ({ noInline, code }) => (
+  
   <StyledProvider
     code={code}
     noInline={noInline}
     mountStylesheet={false}
   >
-    <LiveWrapper>
-      <StyledEditor />
-      <StyledPreview />
-    </LiveWrapper>
-
-    <StyledError />
-  </StyledProvider>
+    <StyledEditor />
+    <StyledPreview />
+  <StyledError />
+</StyledProvider>
+  
 )
 
 export default LiveEdit

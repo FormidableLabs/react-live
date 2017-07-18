@@ -6,6 +6,8 @@ import normalizeCode from '../../utils/normalizeCode'
 import normalizeHtml from '../../utils/normalizeHtml'
 import htmlToPlain from '../../utils/htmlToPlain'
 import selectionRange from '../../vendor/selection-range'
+import TabGate from './TabGate'
+
 
 class Editor extends Component {
   static defaultProps = {
@@ -200,6 +202,7 @@ class Editor extends Component {
     delete rest.code
 
     return (
+      <TabGate>
       <pre
         {...rest}
         ref={this.onRef}
@@ -211,6 +214,7 @@ class Editor extends Component {
         onClick={contentEditable && this.onClick}
         dangerouslySetInnerHTML={{ __html: html }}
       />
+      </TabGate>
     )
   }
 }
