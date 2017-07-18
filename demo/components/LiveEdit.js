@@ -2,7 +2,6 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import * as polished from 'polished'
 import { foreground, red, lightGrey } from '../utils/colors'
-import TabGate from './TabGate'
 
 import {
   LiveProvider,
@@ -18,21 +17,13 @@ const StyledProvider = styled(LiveProvider)`
   margin-bottom: ${polished.rem(100)};
 `
 
-const LiveWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
-  align-items: stretch;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-`
 
 const column = css`
   flex-basis: 50%;
   width: 50%;
   max-width: 50%;
+  display:inline;
+  float:left;
 
   @media (max-width: 600px) {
     flex-basis: auto;
@@ -56,7 +47,7 @@ const StyledPreview = styled(LivePreview)`
   padding: 0.5rem;
   background: white;
   color: black;
-  height: auto;
+  height: ${polished.rem(350)};
   overflow: hidden;
 
   ${column}
@@ -76,14 +67,10 @@ const LiveEdit = ({ noInline, code }) => (
     noInline={noInline}
     mountStylesheet={false}
   >
-    <TabGate>
-      <LiveWrapper>
-        <StyledEditor />
-        <StyledPreview />
-      </LiveWrapper>
-    </TabGate>
-    <StyledError />
-  </StyledProvider>
+    <StyledEditor />
+    <StyledPreview />
+  <StyledError />
+</StyledProvider>
   
 )
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-var accessibilityMessage = `Press 'Enter' to edit code, and 'Esc' when finished.`;
+var accessibilityMessage = `Press any key to edit code, press 'Esc' when finished.`;
 var offscreen = {
   height: '1px',
   overflow: 'hidden',
@@ -27,12 +27,10 @@ export default class TabGate extends React.Component {
     this.ref.addEventListener('keydown', enterHandler);
     this.ref.addEventListener('keydown', handleEscape, true);
     this.ref.addEventListener('focus', event => {
-      addOutlineTo(event.target);
-      show(this.navTip);
+      addTabGuard(event.target);
     });
     this.ref.addEventListener('blur', event => {
-      removeOutlineFrom(event.target);
-      hide(this.navTip);
+      removeRemoveTabGuard(event.target);
     });
   }
 
@@ -60,27 +58,18 @@ function removeChildTabIndexes(elem) {
 }
 
 function findFirstFocusableChild(elem) {
-  var allChildren = Array.from(elem.getElementsByTagName('*'));
-  var tabbableChild = undefined;
-
-  for (let i = 0; i < allChildren.length && !tabbableChild; i++) {
-    if (allChildren[i].tabIndex >= 0) {
-      tabbableChild = allChildren[i];
-    }
-  }
-  return tabbableChild;
+  return elem.getElementsByTagName('pre')[0];
 }
 
 function createEnterHandler(focusTarget) {
   return function handleEnter(event) {
     if (
       event.keyCode &&
-      event.keyCode === 13 &&
+      event.keyCode !== 9 &&
+      event.keyCode !== 16 &&
       document.activeElement === this
     ) {
-      console.log(focusTarget);
-      event.preventDefault();
-      focusTarget.focus();
+       focusTarget.focus();
     }
   };
 }
@@ -106,12 +95,12 @@ function hide(element) {
 var focusOutline = '3px dotted blue';
 var focusMargin = '3px';
 
-function addOutlineTo(element) {
-  element.style.outline = focusOutline;
-  element.style.margin = focusMargin;
+function addTabGuard(element) {
+  show(this.navTip);
+  element.classList.add('tab-guarded');
 }
 
-function removeOutlineFrom(element) {
-  element.style.outline = '';
-  element.style.margin = '';
+function removeTabGuard(element) {
+  hide(this.navTip);
+  element.classList.remove('tab-guarded');
 }
