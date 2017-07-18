@@ -66,7 +66,7 @@ class Editor extends Component {
   }
 
   updateContent = plain => {
-    this.setState({ html: prism(plain) })
+    this.setState({ html: prism(plain), tabGuarded: false})
 
     if (this.props.onChange) {
       this.props.onChange(plain)
@@ -148,7 +148,12 @@ class Editor extends Component {
 
     this.selection = selectionRange(this.ref)
 
-    if (
+    if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
+      this.setState({tabGuarded:true})
+    } else if (
+      evt.keyCode !== 27 && // esc
+      evt.keyCode !== 16 && // shift
+      evt.keyCode !== 9 && // tab
       evt.keyCode !== 37 && // left
       evt.keyCode !== 38 && // up
       evt.keyCode !== 39 && // right
@@ -160,12 +165,6 @@ class Editor extends Component {
       this.updateContent(plain)
     } else {
       this.undoTimestamp = 0
-    }
-
-    if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
-      this.setState({tabGuarded:true})
-    }else if(evt.keyCode !== 27 && evt.keyCode !== 16 && this.state.tabGuarded && evt.keyCode !== 9){
-      this.setState({tabGuarded:false})
     }
   }
 
