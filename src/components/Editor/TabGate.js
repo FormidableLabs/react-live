@@ -15,7 +15,7 @@ export default class TabGate extends React.Component {
     if (!this.focusTarget) {
       this.focusTarget =
         document.getElementById(this.props.idToFocus) ||
-        findFirstFocusableChild(this.ref) ||
+        findFirstPre(this.ref) ||
         this.ref;
     }
 
@@ -57,7 +57,7 @@ function removeChildTabIndexes(elem) {
   });
 }
 
-function findFirstFocusableChild(elem) {
+function findFirstPre(elem) {
   return elem.getElementsByTagName('pre')[0];
 }
 
@@ -91,9 +91,6 @@ function hide(element) {
   element.hidden = true;
   element.setAttribute('aria-hidden', true);
 }
-
-var focusOutline = '3px dotted blue';
-var focusMargin = '3px';
 
 function addTabGuard(element) {
   show(this.navTip);
