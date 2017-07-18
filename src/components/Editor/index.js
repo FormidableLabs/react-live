@@ -168,12 +168,6 @@ class Editor extends Component {
     }
   }
 
-  onBlur = evt =>{
-    if (this.props.onBlur) {
-      this.props.onBlur(evt)
-    }
-    this.setState({tabGuarded:true})
-  }
   onClick = evt => {
     if (this.props.onClick) {
       this.props.onClick(evt)
@@ -222,7 +216,6 @@ class Editor extends Component {
         onKeyDown={contentEditable && this.onKeyDown}
         onKeyUp={contentEditable && this.onKeyUp}
         onClick={contentEditable && this.onClick}
-        onBlur={contentEditable && this.onBlur}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
