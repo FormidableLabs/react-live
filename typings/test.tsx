@@ -3,8 +3,8 @@ import * as React from 'react';
 
 export const providerC = (
   <LiveProvider
-    code={``}
-    className=""
+    code="code"
+    className="class"
     scope={{ Component: React.Component }}
     transformCode={(code: string): string => code + ';;'}
     mountStylesheet={false}
@@ -13,7 +13,7 @@ export const providerC = (
 );
 
 export const editorC = (
-  <Editor/>
+  <Editor ignoreTabKey={false} />
 )
 
 export const liveEditorC = (

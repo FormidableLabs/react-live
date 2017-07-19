@@ -1,41 +1,46 @@
-export as namespace ReactLive;
+import { ComponentClass, StatelessComponent, HTMLProps } from 'react'
 
-import { Component, StatelessComponent, HTMLAttributes } from 'react';
+// React union type
+type Component<P> = ComponentClass<P> | StatelessComponent<P>
 
-export type LiveProviderProps = {
-  className?: string;
-  style?: HTMLAttributes<HTMLElement>['style'];
+// Helper types
+type Diff<T extends string, U extends string> = ({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T]
+type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>
+
+// React Element Props
+type DivProps = HTMLProps<HTMLDivElement>
+type PreProps = HTMLProps<HTMLPreElement>
+
+// LiveProvider
+export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   scope?: { [key: string]: any };
-  code?: any;
+  code?: string;
   mountStylesheet?: boolean;
   noInline?: boolean;
   transformCode?: (code: string) => string;
 }
 
-export class LiveProvider extends Component<LiveProviderProps, {}>{}
+export const LiveProvider: ComponentClass<LiveProviderProps>
 
-export type LiveEditorProps = {
-  className?: string;
-  onChange?: (code: string) => void
-  style?: HTMLAttributes<HTMLElement>['style'];
-  onClick?: HTMLAttributes<HTMLElement>['onClick'];
-  onKeyDown?: HTMLAttributes<HTMLElement>['onKeyDown'];
-  onKeyUp?: HTMLAttributes<HTMLElement>['onKeyUp'];
-  onMouseOver?: HTMLAttributes<HTMLElement>['onMouseOver'];
-  onMouseOut?: HTMLAttributes<HTMLElement>['onMouseOut'];
-  onFocus?: HTMLAttributes<HTMLElement>['onFocus'];
-  onBlur?: HTMLAttributes<HTMLElement>['onBlur'];
-}
-
-export function LiveEditor(props: LiveEditorProps): JSX.Element
-
-export function LiveError(props: HTMLAttributes<HTMLElement>): JSX.Element
-export function LivePreview(props: HTMLAttributes<HTMLElement>): JSX.Element
-
-export type EditorProps = HTMLAttributes<HTMLElement> & {
+// Editor
+export type EditorProps = PreProps & {
   ignoreTabKey?: boolean;
 }
 
-export class Editor extends Component<EditorProps, {}>{}
+export const Editor: ComponentClass<EditorProps>
 
-export function withLive<T>(wrappedComponent: T): Component<any, {}>
+// LiveEditor
+export type LiveEditorProps = Omit<EditorProps, 'onChange'> & {
+  onChange?: (code: string) => void
+}
+
+export const LiveEditor: ComponentClass<LiveEditorProps>
+
+// LiveError
+export const LiveError: ComponentClass<DivProps>
+
+// LivePreview
+export const LivePreview: ComponentClass<DivProps>
+
+// withLive HOC
+export function withLive<P>(wrappedComponent: Component<P>): ComponentClass<P>
