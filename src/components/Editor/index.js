@@ -205,6 +205,7 @@ class Editor extends Component {
         ref={this.onRef}
         className={cn('prism-code', className)}
         style={style}
+        spellCheck="false"
         contentEditable={contentEditable}
         onKeyDown={contentEditable && this.onKeyDown}
         onKeyUp={contentEditable && this.onKeyUp}
