@@ -74,7 +74,28 @@ class Example extends React.Component {
 }
 ```
 
-But you can of course pass more things to this scope, that will be available as variables in the code.
+But you can of course pass more things to this scope, that will be available as variables in the code. Example:
+
+```js
+import styled from 'styled-components'
+
+const scope = {styled}
+
+const code = `
+  const Header = styled.div\`
+    color: palevioletred;
+    font-size: 18px;
+  \`
+  
+  render(<Header>I'm styled!</Header>)
+`
+
+<LiveProvider code={code} scope={scope} noInline={true}>
+  <LiveEditor />
+  <LiveError />
+  <LivePreview />
+</LiveProvider>
+```
 
 ## API
 
