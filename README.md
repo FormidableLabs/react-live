@@ -186,6 +186,7 @@ Here are the various factors at play:
 
 - **Build**: `component-playground` uses `babel-standalone`, `react-live` uses `bublé`. (_Note_: `react-live` might make transpiler customizable in the future).
 - **Bundle size**: `component-playground` has a larger bundle, but uses a more familiar editor setup. `react-live` is smaller, but more customized editor around `prism`.
-- **Ease vs. Flexibility**: `react-live` is more modular/customizable, while `component-playground` is easier/faster to set up
+- **Ease vs. flexibility**: `react-live` is more modular/customizable, while `component-playground` is easier/faster to set up.
 - **SSR**: `component-playground` is not server-side renderable, `react-live` is.
+- **Extra features**: `component-playground` supports raw evaluation and pretty-printed output out-of-the-box, while `react-live` does not.
 - **Error handling**: `component-playground` might have more predictable error handling than `react-live` in some cases (due to `react-dom`, although this might change with React 16).
