@@ -86,7 +86,7 @@ const code = `
     color: palevioletred;
     font-size: 18px;
   \`
-  
+
   render(<Header>I'm styled!</Header>)
 `
 
@@ -175,9 +175,18 @@ desired behaviour.
 
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
-Component Playground is a similar but different project, that builds on babel-standalone and thus
-comes with a bigger bundle size. It comes with support for automatic documentation based on PropTypes
-and an ES6 console. Use it in projects where the page doesn’t have to load quickly, or even where it’s
-not user-facing, and correctness (Babel) and the additional features are more important than
-a lean bundle.
+There are multiple options when it comes to live, editable React component environments. Formidable actually has **two** first class projects to help you out: [`component-playground`](https://github.com/FormidableLabs/component-playground) and [`react-live`](https://github.com/FormidableLabs/react-live). Let's briefly look at the libraries, use cases, and factors that might help in deciding which is right for you.
 
+Here's a high-level decision tree:
+
+- If you want **fast and easy** setup and integration, then `component-playground` may be the ticket!
+- If you want **a smaller bundle**, **SSR**, and **more flexibility**, then `react-live` is for you!
+
+Here are the various factors at play:
+
+- **Build**: `component-playground` uses `babel-standalone`, `react-live` uses `bublé`. (_Note_: `react-live` might make transpiler customizable in the future).
+- **Bundle size**: `component-playground` has a larger bundle, but uses a more familiar editor setup. `react-live` is smaller, but more customized editor around `prism`.
+- **Ease vs. flexibility**: `react-live` is more modular/customizable, while `component-playground` is easier/faster to set up.
+- **SSR**: `component-playground` is not server-side renderable, `react-live` is.
+- **Extra features**: `component-playground` supports raw evaluation and pretty-printed output out-of-the-box, while `react-live` does not.
+- **Error handling**: `component-playground` might have more predictable error handling than `react-live` in some cases (due to `react-dom`, although this might change with React 16).
