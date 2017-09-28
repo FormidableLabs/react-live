@@ -207,9 +207,9 @@ class Editor extends Component {
         style={style}
         spellCheck="false"
         contentEditable={contentEditable}
-        onKeyDown={contentEditable && this.onKeyDown}
-        onKeyUp={contentEditable && this.onKeyUp}
-        onClick={contentEditable && this.onClick}
+        onKeyDown={contentEditable ? this.onKeyDown : undefined}
+        onKeyUp={contentEditable ? this.onKeyUp : undefined}
+        onClick={contentEditable ? this.onClick : undefined}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
