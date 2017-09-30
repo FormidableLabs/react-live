@@ -197,7 +197,9 @@ class Editor extends Component {
   render() {
     const { contentEditable, className, style, ...rest } = this.props
     const { html } = this.state
+
     delete rest.code
+    delete rest.ignoreTabKey
 
     return (
       <pre
