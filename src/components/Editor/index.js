@@ -17,7 +17,8 @@ class Editor extends Component {
   undoTimestamp = 0
 
   state = {
-    html: ''
+    html: '',
+    tabGuarded: true
   }
 
   onRef = node => {
@@ -65,7 +66,7 @@ class Editor extends Component {
   }
 
   updateContent = plain => {
-    this.setState({ html: prism(plain) })
+    this.setState({ html: prism(plain), tabGuarded: false})
 
     if (this.props.onChange) {
       this.props.onChange(plain)
@@ -102,7 +103,7 @@ class Editor extends Component {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(evt)
     }
-    if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
+    if (evt.keyCode === 9 && !this.state.tabGuarded) { // Tab Key
       document.execCommand('insertHTML', false, '&#009')
       evt.preventDefault()
     } else if (evt.keyCode === 13) { // Enter Key
@@ -147,7 +148,12 @@ class Editor extends Component {
 
     this.selection = selectionRange(this.ref)
 
-    if (
+    if (evt.keyCode === 27 && !this.state.tabGuarded) {// Esc Key
+      this.setState({tabGuarded:true})
+    } else if (
+      evt.keyCode !== 27 && // esc
+      evt.keyCode !== 16 && // shift
+      evt.keyCode !== 9 && // tab
       evt.keyCode !== 37 && // left
       evt.keyCode !== 38 && // up
       evt.keyCode !== 39 && // right
@@ -168,6 +174,7 @@ class Editor extends Component {
     }
     this.undoTimestamp = 0 // Reset timestamp
     this.selection = selectionRange(this.ref)
+    this.setState({tabGuarded:false})
   }
 
   componentWillMount() {
@@ -205,7 +212,7 @@ class Editor extends Component {
       <pre
         {...rest}
         ref={this.onRef}
-        className={cn('prism-code', className)}
+        className={cn('prism-code', className, this.state.tabGuarded?'tab-guarded':'')}
         style={style}
         spellCheck="false"
         contentEditable={contentEditable}
