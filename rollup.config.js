@@ -18,7 +18,7 @@ const plugins = [
   nodeResolve({
     jsnext: true,
     browser: true,
-    skip: ['react', 'react-dom']
+    skip: ['react', 'react-dom'].concat(isProd ? [] : ['prismjs'])
   }),
   commonjs({
     include: 'node_modules/**',
@@ -55,11 +55,12 @@ if (isProd) {
 export default {
   entry: 'src/index.js',
   moduleName: 'react-live',
-  external: ['react', 'react-dom'],
+  external: ['react', 'react-dom', 'prismjs'],
   exports: 'named',
   targets,
   plugins,
   globals: {
+    prismjs: 'Prism',
     react: 'React',
     'react-dom': 'ReactDOM'
   }
