@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import cn from '../../utils/cn'
 import prism from '../../utils/prism'
-import getIndent from '../../utils/getIndent'
 import normalizeCode from '../../utils/normalizeCode'
 import normalizeHtml from '../../utils/normalizeHtml'
 import htmlToPlain from '../../utils/htmlToPlain'
 import selectionRange from '../../vendor/selection-range'
+import { getIndent, getDeindentLevel } from '../../utils/getIndent'
 
 class Editor extends Component {
   static defaultProps = {
@@ -106,10 +106,26 @@ class Editor extends Component {
     if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
       document.execCommand('insertHTML', false, '  ')
       evt.preventDefault()
+    } else if (evt.keyCode === 8) { // Backspace Key
+      const { start: cursorPos, end: cursorEndPos } = selectionRange(this.ref)
+      if (cursorPos !== cursorEndPos) {
+        return // Bail on selections
+      }
+
+      const deindent = getDeindentLevel(this.getPlain(), cursorPos)
+      if (deindent <= 0) {
+        return // Bail when deindent level defaults to 0
+      }
+
+      // Delete chars `deindent` times
+      for (let i = 0; i < deindent; i++) {
+        document.execCommand('delete', false)
+      }
+
+      evt.preventDefault()
     } else if (evt.keyCode === 13) { // Enter Key
       const { start: cursorPos } = selectionRange(this.ref)
       const indentation = getIndent(this.getPlain(), cursorPos)
-
       document.execCommand('insertHTML', false, '\n' + indentation)
       evt.preventDefault()
     } else if (
