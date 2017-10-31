@@ -1,6 +1,8 @@
-const normalizeCode = code => code
-  .replace(/^((\s\s)+)/mg, (_, indentation) => (
-    '  '.repeat(indentation.length / 2)
-  ))
+const indentRe = /^((\t|  )+)/mg
+const tabRe = /\t/g
+
+const normalizeCode = code => code.replace(indentRe, (_, indentation) => {
+  return indentation.replace(tabRe, '  ')
+})
 
 export default normalizeCode
