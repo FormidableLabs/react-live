@@ -4,6 +4,6 @@ import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-jsx'
 
-const prism = code => highlight(code, languages.jsx)
+const prism = (code, language = 'jsx') => highlight(code, languages[language])
 
 export default prism
