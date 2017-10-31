@@ -102,8 +102,9 @@ class Editor extends Component {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(evt)
     }
+
     if (evt.keyCode === 9 && !this.props.ignoreTabKey) { // Tab Key
-      document.execCommand('insertHTML', false, '&#009')
+      document.execCommand('insertHTML', false, '  ')
       evt.preventDefault()
     } else if (evt.keyCode === 13) { // Enter Key
       const { start: cursorPos } = selectionRange(this.ref)
