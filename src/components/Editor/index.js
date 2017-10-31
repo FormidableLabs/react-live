@@ -9,7 +9,8 @@ import { getIndent, getDeindentLevel } from '../../utils/getIndent'
 
 class Editor extends Component {
   static defaultProps = {
-    contentEditable: true
+    contentEditable: true,
+    language: 'jsx'
   }
 
   undoStack = []
@@ -65,7 +66,7 @@ class Editor extends Component {
   }
 
   updateContent = plain => {
-    this.setState({ html: prism(plain) })
+    this.setState({ html: prism(plain, this.props.language) })
 
     if (this.props.onChange) {
       this.props.onChange(plain)
@@ -188,7 +189,7 @@ class Editor extends Component {
   }
 
   componentWillMount() {
-    const html = prism(normalizeCode(this.props.code))
+    const html = prism(normalizeCode(this.props.code), this.props.language)
     this.setState({ html })
   }
 
@@ -197,9 +198,9 @@ class Editor extends Component {
     this.undoTimestamp = 0 // Reset timestamp
   }
 
-  componentWillReceiveProps({ code }) {
-    if (code !== this.props.code) {
-      const html = prism(normalizeCode(code))
+  componentWillReceiveProps({ code, language }) {
+    if (code !== this.props.code || language !== this.props.language) {
+      const html = prism(normalizeCode(code), language)
       this.setState({ html })
     }
   }
@@ -212,11 +213,8 @@ class Editor extends Component {
   }
 
   render() {
-    const { contentEditable, className, style, ...rest } = this.props
+    const { contentEditable, className, style, code, ignoreTabKey, ...rest } = this.props
     const { html } = this.state
-
-    delete rest.code
-    delete rest.ignoreTabKey
 
     return (
       <pre
