@@ -213,7 +213,15 @@ class Editor extends Component {
   }
 
   render() {
-    const { contentEditable, className, style, code, ignoreTabKey, ...rest } = this.props
+    const {
+      contentEditable,
+      className,
+      style,
+      code, // ignored & unused
+      ignoreTabKey, // ignored & unused
+      language, // ignored & unused
+      ...rest
+    } = this.props
     const { html } = this.state
 
     return (
