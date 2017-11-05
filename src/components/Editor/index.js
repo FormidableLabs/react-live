@@ -67,6 +67,9 @@ class Editor extends Component {
   }
 
   updateContent = plain => {
+    if (this.compositing) {
+      return;
+    }
     this.setState({ html: prism(plain, this.props.language) })
 
     if (this.props.onChange) {
@@ -175,7 +178,7 @@ class Editor extends Component {
       const plain = this.getPlain()
 
       this.recordChange(plain, this.selection)
-      !this.compositing && this.updateContent(plain);
+      this.updateContent(plain);
     } else {
       this.undoTimestamp = 0
     }
