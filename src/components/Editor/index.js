@@ -16,6 +16,7 @@ class Editor extends Component {
   undoStack = []
   undoOffset = 0
   undoTimestamp = 0
+  compositing = false
 
   state = {
     html: ''
@@ -66,6 +67,9 @@ class Editor extends Component {
   }
 
   updateContent = plain => {
+    if (this.compositing) {
+      return;
+    }
     this.setState({ html: prism(plain, this.props.language) })
 
     if (this.props.onChange) {
@@ -174,10 +178,24 @@ class Editor extends Component {
       const plain = this.getPlain()
 
       this.recordChange(plain, this.selection)
-      this.updateContent(plain)
+      this.updateContent(plain);
     } else {
       this.undoTimestamp = 0
     }
+  }
+
+  onCompositionStart = evt => {
+    if (this.props.onCompositionStart) {
+      this.props.onCompositionStart(evt)
+    }
+    this.compositing = true;
+  }
+
+  onCompositionEnd = evt => {
+    if (this.props.onCompositionEnd) {
+      this.props.onCompositionEnd(evt)
+    }
+    this.compositing = false;
   }
 
   onClick = evt => {
@@ -232,6 +250,8 @@ class Editor extends Component {
         style={style}
         spellCheck="false"
         contentEditable={contentEditable}
+        onCompositionEnd={contentEditable ? this.onCompositionEnd : undefined}
+        onCompositionStart={contentEditable ? this.onCompositionStart : undefined}
         onKeyDown={contentEditable ? this.onKeyDown : undefined}
         onKeyUp={contentEditable ? this.onKeyUp : undefined}
         onClick={contentEditable ? this.onClick : undefined}
