@@ -6,15 +6,12 @@ export const generateElement = (
   { code = '', scope = {} },
   errorCallback
 ) => {
-  // NOTE: Workaround for classes, since buble doesn't allow `return` without a function
-  const transformed = transform(code)
-    .trim()
-    .replace(/^var \w+ =/, '')
-    .replace(/;$/, '')
+  // NOTE: Workaround for classes and arrow functions.
+  const transformed = transform(`(${code})`).trim()
 
   return errorBoundary(
     evalCode(
-      `return (${transformed})`,
+      `return ${transformed}`,
       scope
     ),
     errorCallback
