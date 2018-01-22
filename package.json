@@ -18,7 +18,7 @@
     "test:typings": "typings-tester --dir typings"
   },
   "dependencies": {
-    "buble": "^0.15.2",
+    "buble": "^0.18.0",
     "core-js": "^2.4.1",
     "dom-iterator": "^0.3.0",
     "prismjs": "^1.6.0",
