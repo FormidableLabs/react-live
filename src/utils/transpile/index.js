@@ -6,8 +6,11 @@ export const generateElement = (
   { code = '', scope = {} },
   errorCallback
 ) => {
+  // NOTE: Remove trailing semicolon to get an actual expression.
+  const codeTrimmed = code.trim().replace(/;$/, '')
+
   // NOTE: Workaround for classes and arrow functions.
-  const transformed = transform(`(${code})`).trim()
+  const transformed = transform(`(${codeTrimmed})`).trim()
 
   return errorBoundary(
     evalCode(
