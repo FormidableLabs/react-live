@@ -28,6 +28,14 @@ describe('transpile', () => {
       expect(wrapper.html()).toBe('<div>Hello World!</div>')
     })
 
+    it('should handle trailing semicolons', () => {
+      const code = '<div>Hello World!</div>;\n'
+      const element = generateElement({ code })
+      const wrapper = shallow(element)
+
+      expect(wrapper.html()).toBe('<div>Hello World!</div>')
+    })
+
     it('should emit errors on error callback', () => {
       expect(() => {
         generateElement({ code: '<div>' })
