@@ -20,7 +20,7 @@
   "dependencies": {
     "buble": "^0.18.0",
     "core-js": "^2.4.1",
-    "dom-iterator": "^0.3.0",
+    "dom-iterator": "^1.0.0",
     "prismjs": "^1.6.0",
     "prop-types": "^15.5.8",
     "unescape": "^0.2.0"
