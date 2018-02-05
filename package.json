@@ -81,5 +81,6 @@
   ],
   "jest": {
     "rootDir": "./src"
-  }
+  },
+  "sideEffects": false
 }
