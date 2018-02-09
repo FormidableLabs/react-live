@@ -1,34 +1,27 @@
 import React from 'react'
 import errorBoundary from '../transpile/errorBoundary'
-import { shallow } from 'enzyme'
-
-jest.useFakeTimers()
+import { render } from 'enzyme'
 
 describe('errorBoundary', () => {
   it('should wrap PFCs in an error boundary', () => {
     const errorCb = jest.fn()
 
-    errorBoundary(() => {
+    const Component = errorBoundary(() => {
       throw new Error('test')
-    }, errorCb)()
+    }, errorCb)
 
-    jest.runOnlyPendingTimers()
-
-    expect(errorCb).toHaveBeenCalledWith(new Error('test'))
+    expect(() => render(<Component />)).toThrowError('test');
   })
 
   it('should wrap Components in an error boundary', () => {
     const errorCb = jest.fn()
+
     const Component = errorBoundary(class extends React.Component {
       render() {
         throw new Error('test')
       }
     }, errorCb)
 
-    shallow(<Component />)
-
-    jest.runOnlyPendingTimers()
-
-    expect(errorCb).toHaveBeenCalledWith(new Error('test'))
+    expect(() => render(<Component />)).toThrowError('test');
   })
 })

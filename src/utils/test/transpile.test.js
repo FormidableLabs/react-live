@@ -6,8 +6,8 @@ describe('transpile', () => {
   describe('generateElement', () => {
     it('should transpile JSX', () => {
       const code = '<div>Hello World!</div>'
-      const element = generateElement({ code })
-      const wrapper = shallow(element)
+      const Component = generateElement({ code })
+      const wrapper = shallow(<Component/>)
 
       expect(wrapper.html()).toBe(code)
     })
@@ -30,8 +30,8 @@ describe('transpile', () => {
 
     it('should handle trailing semicolons', () => {
       const code = '<div>Hello World!</div>;\n'
-      const element = generateElement({ code })
-      const wrapper = shallow(element)
+      const Component = generateElement({ code })
+      const wrapper = shallow(<Component/>)
 
       expect(wrapper.html()).toBe('<div>Hello World!</div>')
     })
@@ -52,8 +52,8 @@ describe('transpile', () => {
 
     it('should ignore comments', () => {
       const code = '// Comment\n<div>Hello World!</div>'
-      const element = generateElement({ code })
-      const wrapper = shallow(element)
+      const Component = generateElement({ code })
+      const wrapper = shallow(<Component/>)
 
       expect(wrapper.text()).toBe('Hello World!')
     })
@@ -78,8 +78,8 @@ describe('transpile', () => {
 
       expect(resultCb).toHaveBeenCalled()
 
-      const element = resultCb.mock.calls[0][0]
-      const wrapper = shallow(element)
+      const Component = resultCb.mock.calls[0][0]
+      const wrapper = shallow(<Component/>)
 
       expect(wrapper.html()).toBe('<div>Hello World!</div>')
     })

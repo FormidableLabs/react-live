@@ -4,20 +4,6 @@ import { generateElement, renderElementAsync } from '../../utils/transpile'
 import cn from '../../utils/cn'
 import Style from '../Editor/Style'
 
-class ErrorBoundary extends Component {
-  static propTypes = {
-    handleError: PropTypes.func,
-  }
-
-  componentDidCatch(error) {
-    this.props.handleError(error);
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
-
 export const LiveContextTypes = {
   live: PropTypes.shape({
     code: PropTypes.string,
@@ -69,14 +55,7 @@ class LiveProvider extends Component {
       scope
     }
     const errorCallback = err => this.setState({ element: undefined, error: err.toString() })
-    const renderElement = element => this.setState({
-      ...state,
-      element: (
-        <ErrorBoundary handleError={errorCallback}>
-          {element}
-        </ErrorBoundary>
-      ),
-    });
+    const renderElement = element => this.setState({ ...state, element })
 
     // State reset object
     const state = { unsafeWrapperError: undefined, error: undefined }
