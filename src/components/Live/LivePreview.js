@@ -1,19 +1,19 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import { LiveContextTypes } from './LiveProvider'
 import cn from '../../utils/cn'
 
-const LivePreview = ({ className, ...rest }, { live: { element }}) => (
-  <div
-    {...rest}
-    className={cn('react-live-preview', className)}
-  >
-    {
-      typeof element === 'function' ?
-        createElement(element) :
-        element
-    }
-  </div>
-)
+const LivePreview = ({ className, ...rest }, { live: { element }}) => {
+  const Element = element;
+
+  return (
+    <div
+      {...rest}
+      className={cn('react-live-preview', className)}
+    >
+      {Element && <Element />}
+    </div>
+  );
+}
 
 LivePreview.contextTypes = LiveContextTypes
 
