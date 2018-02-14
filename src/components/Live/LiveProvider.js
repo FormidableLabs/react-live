@@ -108,6 +108,7 @@ class LiveProvider extends Component {
       mountStylesheet,
       noInline,
       transformCode,
+      scope,
       ...rest
     } = this.props
 
