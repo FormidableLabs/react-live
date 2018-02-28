@@ -16,6 +16,7 @@ const plugins = [
     include: 'node_modules/**',
     namedExports: {
       'buble/dist/buble.deps': ['transform'],
+      'buble': ['transform'],
       'prismjs/components/prism-core': ['highlight', 'languages']
     }
   }),
@@ -49,16 +50,17 @@ const prodPlugins = plugins.concat([
 ]);
 
 const base = {
-  input: 'src/index.js'
+  input: 'src/index.js',
+  external: ['react', 'react-dom', 'prismjs', 'buble']
 };
 
 const output = {
   exports: 'named',
-  external: ['react', 'react-dom', 'prismjs'],
   globals: {
     prismjs: 'Prism',
     react: 'React',
-    'react-dom': 'ReactDOM'
+    buble: 'Buble',
+    'react-dom': 'ReactDOM',
   }
 };
 

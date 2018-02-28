@@ -6,6 +6,9 @@
   "plugins": [
     "add-module-exports",
     "transform-object-rest-spread",
-    "transform-class-properties"
+    "transform-class-properties",
+    ["transform-react-remove-prop-types", {
+      "mode": "wrap"
+    }]
   ]
 }
