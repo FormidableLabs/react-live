@@ -4,9 +4,9 @@
   ],
   "plugins": [
     ["babel-plugin-styled-components", {
-      "displayName": false,
-      "preprocess": true,
-      "ssr": true
+      "displayName": true,
+      "ssr": true,
+      "uglifyPure": false
     }],
     "babel-plugin-polished"
   ]

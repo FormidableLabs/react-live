@@ -1,5 +1,5 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-import { styleSheet } from 'styled-components'
+import { ServerStyleSheet } from 'styled-components'
 import reactLiveStyles from 'react-live/lib/constants/css'
 
 const resetStyles = `
@@ -60,15 +60,19 @@ const mainStyles = `
 const globalStyles = resetStyles + '\n' + mainStyles + '\n' + reactLiveStyles
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage }) {
-    const page = renderPage()
-    const style = styleSheet.getCSS()
+  static getInitialProps ({ renderPage }) {
+    const sheet = new ServerStyleSheet()
 
-    return { ...page, style }
+    const page = renderPage(Component => props =>
+      sheet.collectStyles(<Component {...props} />
+    ))
+
+    const styleElements = sheet.getStyleElement()
+    return { ...page, styleElements }
   }
 
   render () {
-    const { style } = this.props;
+    const { styleElements } = this.props
 
     return (
       <html>
@@ -80,7 +84,7 @@ export default class MyDocument extends Document {
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
           <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
-          <style dangerouslySetInnerHTML={{ __html: style }} />
+          {styleElements}
        </Head>
 
        <body>
