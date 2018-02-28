@@ -1,4 +1,4 @@
-import { transform as _transform } from 'buble/dist/buble.deps'
+import { transform as _transform } from 'buble'
 import assign from 'core-js/fn/object/assign'
 
 export const _poly = { assign }
