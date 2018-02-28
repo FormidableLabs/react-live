@@ -7,7 +7,7 @@ const withLive = WrappedComponent => {
 
     render() {
       const { live } = this.context
-      return <WrappedComponent live={live} />
+      return <WrappedComponent live={live} {...this.props} />
     }
   }
 
