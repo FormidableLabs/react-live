@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook:build": "build-storybook -c .storybook -o .out",
     "prebuild:lib": "rm -rf lib/*",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
@@ -16,7 +17,7 @@
     "test:typings": "typings-tester --dir typings"
   },
   "dependencies": {
-    "buble": "^0.18.0",
+    "buble": "^0.19.3",
     "core-js": "^2.4.1",
     "dom-iterator": "^1.0.0",
     "prismjs": "^1.6.0",
