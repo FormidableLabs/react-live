@@ -37,7 +37,7 @@ import {
 
 ## Demo
 
-[https://react-live.philpl.com/](https://react-live.philpl.com/)
+[https://react-live.kitten.sh/](https://react-live.kitten.sh/)
 
 ## FAQ
 
