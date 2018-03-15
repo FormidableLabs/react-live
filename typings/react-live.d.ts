@@ -1,4 +1,4 @@
-import { ComponentClass, StatelessComponent, HTMLProps } from 'react'
+import { ComponentClass, StatelessComponent, HTMLAttributes } from 'react'
 
 // React union type
 type Component<P> = ComponentClass<P> | StatelessComponent<P>
@@ -8,11 +8,11 @@ type Diff<T extends string, U extends string> = ({ [P in T]: P } & { [P in U]: n
 type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>
 
 // React Element Props
-type DivProps = HTMLProps<HTMLDivElement>
-type PreProps = HTMLProps<HTMLPreElement>
+type DivProps = HTMLAttributes<HTMLDivElement>
+type PreProps = HTMLAttributes<HTMLPreElement>
 
 // LiveProvider
-export type LiveProviderProps = Omit<DivProps, 'scope'> & {
+export type LiveProviderProps = DivProps & {
   scope?: { [key: string]: any };
   code?: string;
   mountStylesheet?: boolean;
