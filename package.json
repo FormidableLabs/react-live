@@ -22,6 +22,7 @@
     "dom-iterator": "^1.0.0",
     "prismjs": "^1.6.0",
     "prop-types": "^15.5.8",
+    "react-simple-code-editor": "^0.4.0",
     "unescape": "^0.2.0"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 export default `
 .prism-code {
   display: block;
+  font-family: monospace;
   white-space: pre;
 
   background-color: #1D1F21;

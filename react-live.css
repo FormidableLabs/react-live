@@ -1,5 +1,6 @@
 .prism-code {
   display: block;
+  font-family: monospace;
   white-space: pre;
 
   background-color: #1D1F21;
@@ -9,7 +10,6 @@
   margin: 0;
 
   box-sizing: border-box;
-  vertical-align: baseline;
   outline: none;
   text-shadow: none;
   -webkit-hyphens: none;
