@@ -2,16 +2,17 @@ import React from 'react'
 import { LiveContextTypes } from './LiveProvider'
 import cn from '../../utils/cn'
 
-const LivePreview = ({ className, ...rest }, { live: { element }}) => {
+const LivePreview = ({ className, wrapper, ...rest }, { live: { element }}) => {
   const Element = element;
-
+  const Wrapper = wrapper || 'div';
+  
   return (
-    <div
+    <Wrapper
       {...rest}
       className={cn('react-live-preview', className)}
     >
       {Element && <Element />}
-    </div>
+    </Wrapper>
   );
 }
 
