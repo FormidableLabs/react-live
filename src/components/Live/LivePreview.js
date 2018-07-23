@@ -1,18 +1,26 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { LiveContextTypes } from './LiveProvider'
 import cn from '../../utils/cn'
 
-const LivePreview = ({ className, ...rest }, { live: { element }}) => {
-  const Element = element;
+class LivePreview extends Component {
+  static defaultProps = {
+    renderElement: Element => Element && <Element />
+  }
 
-  return (
-    <div
-      {...rest}
-      className={cn('react-live-preview', className)}
-    >
-      {Element && <Element />}
-    </div>
-  );
+  render() {
+    const { className, live: element, renderElement, ...rest } = this.props;
+
+    const Element = element;
+
+    return (
+      <div
+        {...rest}
+        className={cn('react-live-preview', className)}
+      >
+        {this.props.renderElement(Element)}
+      </div>
+    );
+  }
 }
 
 LivePreview.contextTypes = LiveContextTypes

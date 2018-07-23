@@ -175,6 +175,9 @@ The context's shape is as follows:
 Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
 desired behaviour.
 
+## A note on user generated code
+Using this library with user generated code should be done carefully. Allowing users to execute arbitrary code, if not done carefully, can lead to XSS (Cross-site scripting) vulnerabilities.
+
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
 There are multiple options when it comes to live, editable React component environments. Formidable actually has **two** first class projects to help you out: [`component-playground`](https://github.com/FormidableLabs/component-playground) and [`react-live`](https://github.com/FormidableLabs/react-live). Let's briefly look at the libraries, use cases, and factors that might help in deciding which is right for you.
