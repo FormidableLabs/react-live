@@ -249,14 +249,18 @@ class Editor extends Component {
         className={cn('prism-code', className)}
         style={style}
         spellCheck="false"
-        contentEditable={contentEditable}
         onCompositionEnd={contentEditable ? this.onCompositionEnd : undefined}
+        contentEditable={contentEditable}
+        suppressContentEditableWarning={contentEditable}
         onCompositionStart={contentEditable ? this.onCompositionStart : undefined}
         onKeyDown={contentEditable ? this.onKeyDown : undefined}
         onKeyUp={contentEditable ? this.onKeyUp : undefined}
         onClick={contentEditable ? this.onClick : undefined}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      >
+        <code
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </pre>
     )
   }
 }
