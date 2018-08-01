@@ -82,7 +82,8 @@
     "rootDir": "./src",
     "setupFiles": [
       "../jest.setup.js"
-    ]
+    ],
+    "testURL": "http://localhost/"
   },
   "sideEffects": false
 }
