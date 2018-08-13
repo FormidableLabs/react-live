@@ -36,7 +36,8 @@ class LiveProvider extends Component {
     scope: PropTypes.object,
     mountStylesheet: PropTypes.bool,
     noInline: PropTypes.bool,
-    transformCode: PropTypes.func
+    transformCode: PropTypes.func,
+    onError: PropTypes.func
   }
 
   onChange = code => {
@@ -45,7 +46,7 @@ class LiveProvider extends Component {
   }
 
   onError = error => {
-    this.setState({ error: error.toString() })
+    this.setState({ error: error.toString(), errorRaw: error })
   }
 
   transpile = ({ code, scope, transformCode, noInline = false }) => {
@@ -54,11 +55,13 @@ class LiveProvider extends Component {
       code: transformCode ? transformCode(code) : code,
       scope
     }
-    const errorCallback = err => this.setState({ element: undefined, error: err.toString() })
+    const errorCallback = err => {
+      this.setState({ element: undefined, error: err.toString(), errorRaw: err })
+    }
     const renderElement = element => this.setState({ ...state, element })
 
     // State reset object
-    const state = { unsafeWrapperError: undefined, error: undefined }
+    const state = { unsafeWrapperError: undefined, error: undefined, errorRaw: null }
 
     try {
       if (noInline) {
@@ -70,7 +73,7 @@ class LiveProvider extends Component {
         )
       }
     } catch (error) {
-      this.setState({ ...state, error: error.toString() })
+      this.setState({ ...state, error: error.toString(), errorRaw: error })
     }
   }
 
@@ -97,6 +100,13 @@ class LiveProvider extends Component {
       transformCode !== this.props.transformCode
     ) {
       this.transpile({ code, scope, transformCode, noInline })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.errorRaw !== prevState.errorRaw && this.props.onError) {
+      // may be null if there was no error
+      this.props.onError(this.state.errorRaw);
     }
   }
 

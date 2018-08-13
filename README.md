@@ -113,6 +113,7 @@ It supports these props, while passing all others through to a `<div />`:
 |mountStylesheet|PropTypes.bool|Mounts the stylesheet for the prism editor (Default: `true`)
 |noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
 |transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it.
+|onError|PropTypes.func|Called whenever a new transpilation/execution error occurs in the code, or when the code becomes error-free again. The only argument will be either the caught error object, or `null`.
 
 Apart from these props it attaches the `.react-live` CSS class to its `div`.
 All subsequent components must be rendered inside a provider, since they communicate
