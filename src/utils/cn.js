@@ -1,5 +1,3 @@
-const cn = (...args) => args
-  .filter(Boolean)
-  .join(' ')
+const cn = (...args) => args.filter(Boolean).join(' ');
 
-export default cn
+export default cn;

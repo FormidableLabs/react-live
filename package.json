@@ -21,8 +21,10 @@
     "core-js": "^2.4.1",
     "create-react-context": "^0.2.3",
     "dom-iterator": "^1.0.0",
+    "prism-react-renderer": "^0.1.0",
     "prismjs": "1.6",
     "prop-types": "^15.5.8",
+    "react-simple-code-editor": "^0.6.0",
     "unescape": "^0.2.0"
   },
   "devDependencies": {

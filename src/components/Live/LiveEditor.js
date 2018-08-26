@@ -3,24 +3,20 @@ import PropTypes from 'prop-types';
 import LiveContext from './LiveContext';
 import Editor from '../Editor';
 
-export default function LiveEditor(props) {
-  return (
-    <LiveContext.Consumer>
-      {({ code, onChange }) => (
-        <Editor
-          {...props}
-          code={code}
-          onChange={code => {
-            onChange(code);
+const LiveEditor = (props, { live }) => (
+  <Editor
+    {...props}
+    code={live.code}
+    onChange={code => {
+      live.onChange(code);
 
-            if (typeof props.onChange === 'function') {
-              props.onChange(code);
-            }
-          }}
-        />
-      )}
-    </LiveContext.Consumer>
-  );
-}
+      if (typeof props.onChange === 'function') {
+        props.onChange(code);
+      }
+    }}
+  />
+);
 
 LiveEditor.propTypes = { onChange: PropTypes.func };
+
+export default LiveEditor;
