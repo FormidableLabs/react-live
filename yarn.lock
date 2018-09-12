@@ -7284,10 +7284,10 @@ react-reconciler@^0.7.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-simple-code-editor@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/react-simple-code-editor/-/react-simple-code-editor-0.6.0.tgz#a6c9b55eae967df23787b3ee440b6739d057d127"
-  integrity sha512-6ZTFoekC/ieBpLS1YcUipz+S0MdRPgAFBNrYZGd0G/de7ooirJ/v2cSKmY5PadW7n94cNBOYSDGNSdQAwH78FQ==
+react-simple-code-editor@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/react-simple-code-editor/-/react-simple-code-editor-0.6.1.tgz#16ad5fe381e36e9a8a965151ef2332cc48f28ab5"
+  integrity sha512-kWaps6fF+KhJY8J0cnQfBpb3yDmKn4K+8ESV983baD5jveZUnjFjb7hG5SbKflA/oPkBIpfZH5y1Qbj5ROh51Q==
 
 react-split-pane@^0.1.77:
   version "0.1.82"

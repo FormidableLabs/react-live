@@ -24,7 +24,7 @@
     "prism-react-renderer": "^0.1.0",
     "prismjs": "1.6",
     "prop-types": "^15.5.8",
-    "react-simple-code-editor": "^0.6.0",
+    "react-simple-code-editor": "^0.6.1",
     "unescape": "^0.2.0"
   },
   "devDependencies": {
