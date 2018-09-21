@@ -1,17 +1,16 @@
-import React, { Component } from 'react'
-import { LiveContextTypes } from '../components/Live/LiveProvider'
+import React, { Component } from 'react';
+import { LiveContext } from '../components/Live/LiveProvider';
 
-const withLive = WrappedComponent => {
+export default function withLive(WrappedComponent) {
   class WithLive extends Component {
-    static contextTypes = LiveContextTypes
-
     render() {
-      const { live } = this.context
-      return <WrappedComponent live={live} {...this.props} />
+      return (
+        <LiveContext.Consumer>
+          {live => <WrappedComponent live={live} {...this.props} />}
+        </LiveContext.Consumer>
+      );
     }
   }
 
-  return WithLive
+  return WithLive;
 }
-
-export default withLive
