@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LiveContext } from './LiveProvider';
+import LiveContext from './LiveContext';
 import Editor from '../Editor';
 
 export default function LiveEditor(props) {

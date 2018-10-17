@@ -1,5 +1,5 @@
 import React from 'react';
-import { LiveContext } from './LiveProvider';
+import LiveContext from './LiveContext';
 import cn from '../../utils/cn';
 
 export default function LiveError({ className, ...rest }) {
