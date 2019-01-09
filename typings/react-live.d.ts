@@ -32,6 +32,7 @@ export const Editor: ComponentClass<EditorProps>
 
 // LiveEditor
 export type LiveEditorProps = Omit<EditorProps, 'onChange'> & {
+  language: string;
   onChange?: (code: string) => void
 }
 
