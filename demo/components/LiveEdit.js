@@ -5,8 +5,6 @@ import { foreground, red, lightGrey } from '../utils/colors';
 
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 
-const Wrapper = styled.div``;
-
 const StyledProvider = styled(LiveProvider)`
   border-radius: ${polished.rem(3)};
   box-shadow: 1px 1px 20px rgba(20, 20, 20, 0.27);
@@ -41,8 +39,10 @@ const StyledEditor = styled.div`
   background: ${lightGrey};
   font-family: 'Source Code Pro', monospace;
   font-size: ${polished.rem(14)};
+  height: 350px;
   max-height: 350px;
   overflow: auto;
+
   ${column};
 `;
 
@@ -65,8 +65,8 @@ const StyledError = styled(LiveError)`
 `;
 
 const LiveEdit = ({ noInline, code }) => (
-  <Wrapper>
-    <StyledProvider code={code} noInline={noInline} mountStylesheet={false}>
+  <div>
+    <StyledProvider code={code} noInline={noInline} mountStylesheet={true}>
       <LiveWrapper>
         <StyledEditor>
           <LiveEditor />
@@ -76,7 +76,7 @@ const LiveEdit = ({ noInline, code }) => (
 
       <StyledError />
     </StyledProvider>
-  </Wrapper>
+  </div>
 );
 
 export default LiveEdit;

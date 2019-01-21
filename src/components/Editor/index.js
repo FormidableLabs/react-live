@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer';
-import nightOwl from 'prism-react-renderer/themes/nightOwl';
 
 class CodeEditor extends Component {
   static defaultProps = {
@@ -26,12 +25,7 @@ class CodeEditor extends Component {
 
   highlightCode = code => {
     return (
-      <Highlight
-        {...defaultProps}
-        code={code}
-        language={this.props.language}
-        theme={nightOwl}
-      >
+      <Highlight {...defaultProps} code={code} language={this.props.language}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <Fragment>
             {tokens.map((line, i) => (
@@ -60,9 +54,7 @@ class CodeEditor extends Component {
         highlight={line => this.highlightCode(line)}
         onValueChange={this.updateContent}
         style={{
-          fontFamily: 'monospace',
-          boxSizing: 'border-box',
-          ...defaultProps.theme.plain
+          fontFamily: 'monospace'
         }}
         {...rest}
       />
