@@ -1,11 +1,10 @@
-import createContext from 'create-react-context';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { generateElement, renderElementAsync } from '../../utils/transpile';
 import cn from '../../utils/cn';
 import Style from '../Editor/Style';
 
-export const LiveContext = createContext('live');
+import LiveContext from './LiveContext';
 
 export default class LiveProvider extends Component {
   static defaultProps = {
