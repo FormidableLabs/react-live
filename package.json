@@ -43,6 +43,7 @@
     "jest": "^22.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-simple-code-editor": "^0.8.0",
     "rollup": "^0.55.3",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.3.0",
