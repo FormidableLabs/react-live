@@ -2,23 +2,22 @@ import createContext from 'create-react-context';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { generateElement, renderElementAsync } from '../../utils/transpile';
-import cn from '../../utils/cn';
-import Style from '../Editor/Style';
 
 import LiveContext from './LiveContext';
 
 export default class LiveProvider extends Component {
   static defaultProps = {
     code: '',
-    mountStylesheet: true,
-    noInline: false
+    noInline: false,
+    language: 'jsx'
   };
 
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string,
+    language: PropTypes.string,
+    theme: PropTypes.object,
     scope: PropTypes.object,
-    mountStylesheet: PropTypes.bool,
     noInline: PropTypes.bool,
     transformCode: PropTypes.func
   };
@@ -77,35 +76,27 @@ export default class LiveProvider extends Component {
   render() {
     const {
       children,
-      className,
       code,
-      mountStylesheet,
+      language,
+      theme,
       noInline,
       transformCode,
       scope,
       ...rest
     } = this.props;
 
-    const editorProps = {
-      ...this.state,
-      code: this.props.code,
-      onError: this.onError,
-      onChange: this.onChange
-    };
-
     return (
       <LiveContext.Provider
         value={{
           ...this.state,
-          code: this.props.code,
+          code,
+          language,
+          theme,
           onError: this.onError,
           onChange: this.onChange
         }}
       >
-        <div className={cn('react-live', className)} {...rest}>
-          {mountStylesheet && <Style />}
-          {children}
-        </div>
+        {children}
       </LiveContext.Provider>
     );
   }

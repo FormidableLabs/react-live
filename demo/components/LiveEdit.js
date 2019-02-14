@@ -44,6 +44,10 @@ const StyledEditor = styled.div`
   overflow: auto;
 
   ${column};
+
+  * > textarea:focus {
+    outline: none;
+  }
 `;
 
 const StyledPreview = styled(LivePreview)`
@@ -61,22 +65,25 @@ const StyledError = styled(LiveError)`
   display: block;
   padding: ${polished.rem(8)};
   background: ${red};
+
   color: ${foreground};
+  white-space: pre-wrap;
+  text-align: left;
+  font-size: 0.9em;
+  font-family: 'Source Code Pro', monospace;
 `;
 
 const LiveEdit = ({ noInline, code }) => (
-  <div>
-    <StyledProvider code={code} noInline={noInline} mountStylesheet={true}>
-      <LiveWrapper>
-        <StyledEditor>
-          <LiveEditor />
-        </StyledEditor>
-        <StyledPreview />
-      </LiveWrapper>
+  <StyledProvider code={code} noInline={noInline}>
+    <LiveWrapper>
+      <StyledEditor>
+        <LiveEditor />
+      </StyledEditor>
+      <StyledPreview />
+    </LiveWrapper>
 
-      <StyledError />
-    </StyledProvider>
-  </div>
+    <StyledError />
+  </StyledProvider>
 );
 
 export default LiveEdit;

@@ -6,21 +6,22 @@ import Editor from '../Editor';
 export default function LiveEditor(props) {
   return (
     <LiveContext.Consumer>
-      {({ code, onChange }) => (
+      {({ code, language, theme, onChange }) => (
         <Editor
-          {...props}
+          theme={theme}
           code={code}
-          onChange={code => {
-            onChange(code);
-
-            if (typeof props.onChange === 'function') {
-              props.onChange(code);
-            }
-          }}
+          language={language}
+          onChange={onChange}
+          {...props}
         />
       )}
     </LiveContext.Consumer>
   );
 }
 
-LiveEditor.propTypes = { onChange: PropTypes.func };
+LiveEditor.propTypes = {
+  theme: PropTypes.object,
+  code: PropTypes.string,
+  language: PropTypes.string,
+  onChange: PropTypes.func
+};

@@ -4,7 +4,7 @@ import cn from '../../utils/cn';
 
 export default function LivePreview({ className, ...rest }) {
   return (
-    <div {...rest} className={cn('react-live-preview', className)}>
+    <div {...rest} className={className}>
       <LiveContext.Consumer>
         {({ element: Element }) => Element && <Element />}
       </LiveContext.Consumer>

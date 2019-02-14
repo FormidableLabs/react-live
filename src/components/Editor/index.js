@@ -1,11 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import Editor from 'react-simple-code-editor';
-import Highlight, { defaultProps } from 'prism-react-renderer';
+import Highlight, { Prism } from 'prism-react-renderer';
+import { theme as liveTheme } from '../../constants/theme';
 
 class CodeEditor extends Component {
-  static defaultProps = {
-    language: 'jsx'
-  };
+  static getDerivedStateFromProps(props, state) {
+    if (props.code !== state.prevCodeProp) {
+      return { code: props.code, prevCodeProp: props.code };
+    }
+
+    return null;
+  }
 
   state = {
     code: ''
@@ -13,48 +18,47 @@ class CodeEditor extends Component {
 
   updateContent = code => {
     this.setState({ code }, () => {
-      if (this.props.onChange) {
+      if (this.props.onChange && typeof this.props.onChange === 'function') {
         this.props.onChange(this.state.code);
       }
     });
   };
 
-  componentDidMount() {
-    this.setState({ code: this.props.code });
-  }
-
-  highlightCode = code => {
-    return (
-      <Highlight {...defaultProps} code={code} language={this.props.language}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Fragment>
-            {tokens.map((line, i) => (
-              <div {...getLineProps({ line, key: i })}>
-                {line.map((token, key) => (
-                  <span {...getTokenProps({ token, key })} />
-                ))}
-              </div>
-            ))}
-          </Fragment>
-        )}
-      </Highlight>
-    );
-  };
+  highlightCode = code => (
+    <Highlight
+      Prism={Prism}
+      code={code}
+      theme={this.props.theme || liveTheme}
+      language={this.props.language}
+    >
+      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        <Fragment>
+          {tokens.map((line, i) => (
+            <div {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                <span {...getTokenProps({ token, key })} />
+              ))}
+            </div>
+          ))}
+        </Fragment>
+      )}
+    </Highlight>
+  );
 
   render() {
-    const { className, style, ...rest } = this.props;
-
+    const { style, code: _, ...rest } = this.props;
     const { code } = this.state;
 
     return (
       <Editor
         value={code}
-        className={className}
         padding={10}
-        highlight={line => this.highlightCode(line)}
+        highlight={this.highlightCode}
         onValueChange={this.updateContent}
         style={{
-          fontFamily: 'monospace'
+          whiteSpace: 'pre',
+          fontFamily: 'monospace',
+          ...style
         }}
         {...rest}
       />

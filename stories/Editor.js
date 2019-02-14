@@ -6,4 +6,6 @@ import { Editor } from '../src/index';
 
 storiesOf('Editor', module)
   .addDecorator(withKnobs)
-  .add('default', () => <Editor code="const x = 'Hello World!';" />);
+  .add('default', () => (
+    <Editor language="js" code="const x = 'Hello World!';" />
+  ));

@@ -1,13 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import * as polished from 'polished'
+import React from 'react';
+import styled from 'styled-components';
+import * as polished from 'polished';
 
-import {
-  foreground,
-  blue,
-  red,
-  lightGrey
-} from '../utils/colors'
+import { foreground, blue, red, lightGrey } from '../utils/colors';
 
 const Image = styled.div`
   background-image: url(https://raw.githubusercontent.com/philpl/react-live/master/docs/logo.gif);
@@ -17,7 +12,7 @@ const Image = styled.div`
   width: ${polished.rem(160)};
   height: ${polished.rem(160)};
   border-radius: ${polished.rem(3)};
-`
+`;
 
 const SubTitle = styled.h2`
   font-size: ${polished.modularScale(1)};
@@ -32,7 +27,7 @@ const SubTitle = styled.h2`
     margin-left: 0;
     margin-top: ${polished.rem(30)};
   }
-`
+`;
 
 const Title = styled.h1`
   font-weight: normal;
@@ -46,7 +41,7 @@ const Title = styled.h1`
     margin-top: ${polished.rem(25)};
     margin-top: ${polished.rem(25)};
   }
-`
+`;
 
 const TitleRow = styled.div`
   display: flex;
@@ -60,7 +55,7 @@ const TitleRow = styled.div`
     flex-direction: column;
     text-align: center;
   }
-`
+`;
 
 const Description = styled.div`
   margin: ${polished.rem(80)};
@@ -72,7 +67,7 @@ const Description = styled.div`
   @media (max-width: 600px) {
     margin: ${polished.rem(80)} 0;
   }
-`
+`;
 
 const Button = styled.a`
   display: inline-block;
@@ -83,12 +78,12 @@ const Button = styled.a`
   background: ${blue};
   color: ${foreground};
   margin: ${polished.rem(30)} 0;
-`
+`;
 
 const Container = styled.div`
   width: 100%;
   margin-bottom: ${polished.rem(60)};
-`
+`;
 
 const Header = () => (
   <Container>
@@ -98,19 +93,20 @@ const Header = () => (
       <div>
         <Title>React Live</Title>
         <SubTitle>
-          A production-focused playground for live editing React code  📡
+          A production-focused playground for live editing React code 📡
         </SubTitle>
       </div>
     </TitleRow>
 
     <Description>
       <div>
-        Easily render live editable React components with server-side rendering support and
-        a tiny bundle size, thanks to Bublé and a Prism.js-based editor.
+        Easily render live editable React components with server-side rendering
+        support and a tiny bundle size, thanks to Bublé and a Prism.js-based
+        editor.
       </div>
 
       <Button
-        href="https://github.com/philpl/react-live"
+        href="https://github.com/FormidableLabs/react-live"
         target="_blank"
         rel="noopener"
       >
@@ -118,6 +114,5 @@ const Header = () => (
       </Button>
     </Description>
   </Container>
-)
-
-export default Header
+);
+export default Header;
