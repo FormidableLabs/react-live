@@ -39,8 +39,8 @@ const StyledEditor = styled.div`
   background: ${lightGrey};
   font-family: 'Source Code Pro', monospace;
   font-size: ${polished.rem(14)};
-  height: 350px;
-  max-height: 350px;
+  height: ${polished.rem(350)};
+  max-height: ${polished.rem(350)};
   overflow: auto;
 
   ${column};

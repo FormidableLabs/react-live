@@ -4,6 +4,14 @@ import Highlight, { Prism } from 'prism-react-renderer';
 import { theme as liveTheme } from '../../constants/theme';
 
 class CodeEditor extends Component {
+  static propTypes = {
+    disabled: PropTypes.boolean,
+    theme: PropTypes.object,
+    code: PropTypes.string,
+    language: PropTypes.string,
+    onChange: PropTypes.func
+  };
+
   static getDerivedStateFromProps(props, state) {
     if (props.code !== state.prevCodeProp) {
       return { code: props.code, prevCodeProp: props.code };
@@ -18,7 +26,7 @@ class CodeEditor extends Component {
 
   updateContent = code => {
     this.setState({ code }, () => {
-      if (this.props.onChange && typeof this.props.onChange === 'function') {
+      if (this.props.onChange) {
         this.props.onChange(this.state.code);
       }
     });

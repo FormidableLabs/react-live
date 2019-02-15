@@ -1,9 +1,8 @@
-import createContext from 'create-react-context';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { generateElement, renderElementAsync } from '../../utils/transpile';
 
 import LiveContext from './LiveContext';
+import { generateElement, renderElementAsync } from '../../utils/transpile';
 
 export default class LiveProvider extends Component {
   static defaultProps = {
@@ -16,6 +15,7 @@ export default class LiveProvider extends Component {
     className: PropTypes.string,
     code: PropTypes.string,
     language: PropTypes.string,
+    readOnly: PropTypes.bool,
     theme: PropTypes.object,
     scope: PropTypes.object,
     noInline: PropTypes.bool,
@@ -81,6 +81,7 @@ export default class LiveProvider extends Component {
       theme,
       noInline,
       transformCode,
+      readOnly,
       scope,
       ...rest
     } = this.props;
@@ -92,6 +93,7 @@ export default class LiveProvider extends Component {
           code,
           language,
           theme,
+          readOnly,
           onError: this.onError,
           onChange: this.onChange
         }}

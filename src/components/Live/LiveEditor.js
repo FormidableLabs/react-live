@@ -6,11 +6,12 @@ import Editor from '../Editor';
 export default function LiveEditor(props) {
   return (
     <LiveContext.Consumer>
-      {({ code, language, theme, onChange }) => (
+      {({ code, language, theme, readOnly, onChange }) => (
         <Editor
           theme={theme}
           code={code}
           language={language}
+          disabled={readOnly}
           onChange={onChange}
           {...props}
         />
@@ -18,10 +19,3 @@ export default function LiveEditor(props) {
     </LiveContext.Consumer>
   );
 }
-
-LiveEditor.propTypes = {
-  theme: PropTypes.object,
-  code: PropTypes.string,
-  language: PropTypes.string,
-  onChange: PropTypes.func
-};
