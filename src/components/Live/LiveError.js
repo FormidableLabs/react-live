@@ -7,9 +7,9 @@ export default function LiveError({ className, ...rest }) {
     <LiveContext.Consumer>
       {({ error }) =>
         error ? (
-          <div {...rest} className={cn('react-live-error', className)}>
+          <pre {...rest} className={cn('react-live-error', className)}>
             {error}
-          </div>
+          </pre>
         ) : null
       }
     </LiveContext.Consumer>
