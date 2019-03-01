@@ -1,10 +1,9 @@
 import React from 'react';
 import LiveContext from './LiveContext';
-import cn from '../../utils/cn';
 
-export default function LivePreview({ className, ...rest }) {
+export default function LivePreview(props) {
   return (
-    <div {...rest} className={cn('react-live-preview', className)}>
+    <div {...props}>
       <LiveContext.Consumer>
         {({ element: Element }) => Element && <Element />}
       </LiveContext.Consumer>

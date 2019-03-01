@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import * as polished from 'polished'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import * as polished from 'polished';
 
-import Header from '../components/Header'
-import LiveEdit from '../components/LiveEdit'
+import Header from '../components/Header';
+import LiveEdit from '../components/LiveEdit';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -12,15 +12,15 @@ const Container = styled.div`
   padding: ${polished.rem(20)};
   padding-bottom: ${polished.rem(100)};
   text-align: center;
-`
+`;
 
 const Description = styled.p`
   color: white;
   margin-bottom: ${polished.rem(10)};
   margin-top: ${polished.rem(50)};
-`
+`;
 
-const componentClassExample = (`
+const componentClassExample = `
 class Counter extends React.Component {
   constructor() {
     super()
@@ -47,23 +47,23 @@ class Counter extends React.Component {
     )
   }
 }
-`).trim()
+`.trim();
 
-const pfcExample = (`
+const pfcExample = `
 () => (
   <h3>
     So functional. Much wow!
   </h3>
 )
-`).trim()
+`.trim();
 
-const jsxExample = (`
+const jsxExample = `
 <h3>
   Hello World!
 </h3>
-`).trim()
+`.trim();
 
-const noInlineExample = (`
+const noInlineExample = `
 const Wrapper = ({ children }) => (
   <div style={{
     background: 'papayawhip',
@@ -85,7 +85,7 @@ render(
     <Title />
   </Wrapper>
 )
-`).trim()
+`.trim();
 
 class Index extends Component {
   render() {
@@ -93,30 +93,24 @@ class Index extends Component {
       <Container>
         <Header />
 
-        <Description>
-          Write some component classes...
-        </Description>
+        <Description>Write some component classes...</Description>
         <LiveEdit code={componentClassExample} />
 
-        <Description>
-          Or some pure functional components...
-        </Description>
+        <Description>Or some pure functional components...</Description>
         <LiveEdit code={pfcExample} />
 
-        <Description>
-          Or just some JSX code!
-        </Description>
+        <Description>Or just some JSX code!</Description>
         <LiveEdit code={jsxExample} />
 
         <Description>
-          If you want to demo a couple of components in tandem, without evaluating
-          a single one inline, you can use the "noInline" prop and call "render".
+          If you want to demo a couple of components in tandem, without
+          evaluating a single one inline, you can use the "noInline" prop and
+          call "render".
         </Description>
         <LiveEdit noInline code={noInlineExample} />
-
       </Container>
-    )
+    );
   }
 }
 
-export default Index
+export default Index;

@@ -16,7 +16,6 @@ type PreProps = HTMLProps<HTMLPreElement>
 export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   scope?: { [key: string]: any };
   code?: string;
-  mountStylesheet?: boolean;
   noInline?: boolean;
   transformCode?: (code: string) => string;
 }

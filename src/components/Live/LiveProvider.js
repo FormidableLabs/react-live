@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { generateElement, renderElementAsync } from '../../utils/transpile';
-import cn from '../../utils/cn';
-import Style from '../Editor/Style';
 
 import LiveContext from './LiveContext';
+import { generateElement, renderElementAsync } from '../../utils/transpile';
 
 export default class LiveProvider extends Component {
   static defaultProps = {
     code: '',
-    mountStylesheet: true,
     noInline: false,
+    language: 'jsx'
   };
 
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string,
+    language: PropTypes.string,
+    readOnly: PropTypes.bool,
+    theme: PropTypes.object,
     scope: PropTypes.object,
-    mountStylesheet: PropTypes.bool,
     noInline: PropTypes.bool,
-    transformCode: PropTypes.func,
+    transformCode: PropTypes.func
   };
 
   onChange = code => {
@@ -35,7 +35,7 @@ export default class LiveProvider extends Component {
     // Transpilation arguments
     const input = {
       code: transformCode ? transformCode(code) : code,
-      scope,
+      scope
     };
     const errorCallback = err =>
       this.setState({ element: undefined, error: err.toString() });
@@ -62,7 +62,7 @@ export default class LiveProvider extends Component {
     this.transpile({ code, scope, transformCode, noInline });
   }
 
-  componentWillReceiveProps({ code, scope, noInline, transformCode }) {
+  componentDidUpdate({ code, scope, noInline, transformCode }) {
     if (
       code !== this.props.code ||
       scope !== this.props.scope ||
@@ -76,11 +76,12 @@ export default class LiveProvider extends Component {
   render() {
     const {
       children,
-      className,
       code,
-      mountStylesheet,
+      language,
+      theme,
       noInline,
       transformCode,
+      readOnly,
       scope,
       ...rest
     } = this.props;
@@ -89,15 +90,15 @@ export default class LiveProvider extends Component {
       <LiveContext.Provider
         value={{
           ...this.state,
-          code: this.props.code,
+          code,
+          language,
+          theme,
+          readOnly,
           onError: this.onError,
-          onChange: this.onChange,
+          onChange: this.onChange
         }}
       >
-        <div className={cn('react-live', className)} {...rest}>
-          {mountStylesheet && <Style />}
-          {children}
-        </div>
+        {children}
       </LiveContext.Provider>
     );
   }

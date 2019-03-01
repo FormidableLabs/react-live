@@ -1,14 +1,13 @@
+const path = require('path');
+
 module.exports = {
-  webpack: function (config, { dev }) {
-    if (dev) {
-      return config
-    }
-
+  webpack: config => {
     config.resolve.alias = {
-      'react': 'preact-compat/dist/preact-compat',
-      'react-dom': 'preact-compat/dist/preact-compat'
-    }
+      'react-live': path.resolve('../'),
+      react: path.resolve('../node_modules/react'),
+      'react-dom': path.resolve('../node_modules/react-dom')
+    };
 
-    return config
+    return config;
   }
-}
+};

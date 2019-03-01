@@ -110,7 +110,6 @@ It supports these props, while passing all others through to a `<div />`:
 |---|---|---|
 |code|PropTypes.string|The code that should be rendered, apart from the user’s edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
-|mountStylesheet|PropTypes.bool|Mounts the stylesheet for the prism editor (Default: `true`)
 |noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
 |transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it.
 
