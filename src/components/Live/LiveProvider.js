@@ -8,7 +8,8 @@ export default class LiveProvider extends Component {
   static defaultProps = {
     code: '',
     noInline: false,
-    language: 'jsx'
+    language: 'jsx',
+    readOnly: false
   };
 
   static propTypes = {
@@ -37,6 +38,7 @@ export default class LiveProvider extends Component {
       code: transformCode ? transformCode(code) : code,
       scope
     };
+
     const errorCallback = err =>
       this.setState({ element: undefined, error: err.toString() });
     const renderElement = element => this.setState({ ...state, element });

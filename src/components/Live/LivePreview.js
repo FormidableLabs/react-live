@@ -1,12 +1,18 @@
 import React from 'react';
 import LiveContext from './LiveContext';
 
-export default function LivePreview(props) {
+function LivePreview({ Component, ...rest }) {
   return (
-    <div {...props}>
+    <Component {...rest}>
       <LiveContext.Consumer>
         {({ element: Element }) => Element && <Element />}
       </LiveContext.Consumer>
-    </div>
+    </Component>
   );
 }
+
+LivePreview.defaultProps = {
+  Component: 'div'
+};
+
+export default LivePreview;
