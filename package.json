@@ -17,7 +17,7 @@
     "test:typings": "typings-tester --dir typings"
   },
   "dependencies": {
-    "buble": "^0.19.3",
+    "buble": "0.19.6",
     "core-js": "^2.4.1",
     "create-react-context": "^0.2.3",
     "dom-iterator": "^1.0.0",
