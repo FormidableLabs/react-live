@@ -4,7 +4,7 @@ import LiveContext from './LiveContext';
 export default function LiveError(props) {
   return (
     <LiveContext.Consumer>
-      {({ error }) => (error ? <div {...props}>{error}</div> : null)}
+      {({ error }) => (error ? <pre {...props}>{error}</pre> : null)}
     </LiveContext.Consumer>
   );
 }

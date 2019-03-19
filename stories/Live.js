@@ -12,6 +12,14 @@ const code = `
 </strong>
 `.trim();
 
+const functionExample = `
+() => (
+  <h3>
+    So functional. Much wow!
+  </h3>
+)
+`.trim();
+
 const componentExample = `
 class Counter extends React.Component {
   constructor() {
@@ -39,7 +47,7 @@ class Counter extends React.Component {
     )
   }
 }
-`;
+`.trim();
 
 const StyledLivePreview = styled(LivePreview)`
   background: green;
@@ -54,14 +62,33 @@ const StyledEditor = styled(LiveEditor)`
 storiesOf('Live', module)
   .addDecorator(withKnobs)
   .add('default', () => (
-    <LiveProvider code={code} noInline={boolean('No inline evaluation', false)}>
+    <LiveProvider
+      code={code}
+      disabled={boolean('Disable editing', false)}
+      noInline={boolean('No inline evaluation', false)}
+    >
       <LiveEditor />
       <LiveError />
       <LivePreview />
     </LiveProvider>
   ))
+  .add('function example', () => (
+    <LiveProvider
+      code={functionExample}
+      disabled={boolean('Disable editing', false)}
+      noInline={boolean('No inline evaluation', false)}
+    >
+      <LiveEditor />
+      <LiveError />
+      <StyledLivePreview />
+    </LiveProvider>
+  ))
   .add('styled subcomponents', () => (
-    <LiveProvider code={code} noInline={boolean('No inline evaluation', false)}>
+    <LiveProvider
+      code={code}
+      disabled={boolean('Disable editing', false)}
+      noInline={boolean('No inline evaluation', false)}
+    >
       <LiveEditor />
       <LiveError />
       <StyledLivePreview />
@@ -70,6 +97,7 @@ storiesOf('Live', module)
   .add('jsx example', () => (
     <LiveProvider
       code={componentExample}
+      disabled={boolean('Disable editing', false)}
       language="jsx"
       noInline={boolean('No inline evaluation', false)}
     >

@@ -1,17 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import LiveContext from './LiveContext';
 import Editor from '../Editor';
 
 export default function LiveEditor(props) {
   return (
     <LiveContext.Consumer>
-      {({ code, language, theme, readOnly, onChange }) => (
+      {({ code, language, theme, disabled, onChange }) => (
         <Editor
           theme={theme}
           code={code}
           language={language}
-          disabled={readOnly}
+          disabled={disabled}
           onChange={onChange}
           {...props}
         />

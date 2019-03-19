@@ -8,14 +8,15 @@ export default class LiveProvider extends Component {
   static defaultProps = {
     code: '',
     noInline: false,
-    language: 'jsx'
+    language: 'jsx',
+    disabled: false
   };
 
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string,
     language: PropTypes.string,
-    readOnly: PropTypes.bool,
+    disabled: PropTypes.bool,
     theme: PropTypes.object,
     scope: PropTypes.object,
     noInline: PropTypes.bool,
@@ -37,6 +38,7 @@ export default class LiveProvider extends Component {
       code: transformCode ? transformCode(code) : code,
       scope
     };
+
     const errorCallback = err =>
       this.setState({ element: undefined, error: err.toString() });
     const renderElement = element => this.setState({ ...state, element });
@@ -81,7 +83,7 @@ export default class LiveProvider extends Component {
       theme,
       noInline,
       transformCode,
-      readOnly,
+      disabled,
       scope,
       ...rest
     } = this.props;
@@ -93,7 +95,7 @@ export default class LiveProvider extends Component {
           code,
           language,
           theme,
-          readOnly,
+          disabled,
           onError: this.onError,
           onChange: this.onChange
         }}
