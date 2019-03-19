@@ -9,14 +9,14 @@ export default class LiveProvider extends Component {
     code: '',
     noInline: false,
     language: 'jsx',
-    readOnly: false
+    disabled: false
   };
 
   static propTypes = {
     className: PropTypes.string,
     code: PropTypes.string,
     language: PropTypes.string,
-    readOnly: PropTypes.bool,
+    disabled: PropTypes.bool,
     theme: PropTypes.object,
     scope: PropTypes.object,
     noInline: PropTypes.bool,
@@ -83,7 +83,7 @@ export default class LiveProvider extends Component {
       theme,
       noInline,
       transformCode,
-      readOnly,
+      disabled,
       scope,
       ...rest
     } = this.props;
@@ -95,7 +95,7 @@ export default class LiveProvider extends Component {
           code,
           language,
           theme,
-          readOnly,
+          disabled,
           onError: this.onError,
           onChange: this.onChange
         }}
