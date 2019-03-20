@@ -10,15 +10,14 @@
 <img src="https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20esm-green.svg">
 </p>
 
-**React Live** brings you the ability to render React components and present the user with editable
-source code and live preview.
-It supports server-side rendering and comes in a tiny bundle, thanks to Bublé and a Prism.js-based editor.
+**React Live** brings you the ability to render React components with editable source code and live preview.
+It supports server-side rendering and comes in a tiny bundle.
 
-The library is structured modularly and lets you style its components as you wish and put them where you want.
+The library is structured modularly and lets you style and compose its components freely.
 
 ## Usage
 
-Install it with `npm install react-live` and try out this piece of JSX:
+Install it with `npm install react-live` or `yarn add react-live` and try out this piece of JSX:
 
 ```js
 import {
@@ -43,11 +42,10 @@ import {
 
 ### How does it work?
 
-It takes your code and transpiles it through Bublé, while the code is displayed using Prism.js.
-The transpiled code is then rendered in the preview component, which does a fake mount, if the code
-is a component.
+It takes your code and transpiles it with [Bublé](https://github.com/bublejs/buble), while the code is displayed using [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code is highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
-Easy peasy!
+The transpiled code is then rendered in the preview component (`LivePreview`), which does a fake mount if the code
+is a React component.
 
 ### What code can I use?
 
@@ -74,7 +72,7 @@ class Example extends React.Component {
 }
 ```
 
-But you can of course pass more things to this scope, that will be available as variables in the code. Here's an example using [styled components](https://github.com/styled-components/styled-components):
+But you can of course pass more things to the scope. They will be available as variables in the code. Here's an example using [styled components](https://github.com/styled-components/styled-components):
 
 ```js
 import styled from 'styled-components';
@@ -104,7 +102,7 @@ const code = `
 ### &lt;LiveProvider /&gt;
 
 This component provides the `context` for all the other ones. It also transpiles the user’s code!
-It supports these props, while passing all others through to the `children`:
+It supports these props, while passing any others through to the `children`:
 
 |Name|PropType|Description|
 |---|---|---|
@@ -134,7 +132,7 @@ This component renders the editor that displays the code. It is a wrapper around
 This component renders any error that occur while executing the code, or transpiling it.
 It passes through any props to a `pre`.
 
-> Note: Right now the component unmounts, when there’s no error to be shown.
+> Note: Right now when the component unmounts, when there’s no error to be shown.
 
 ### &lt;LivePreview /&gt;
 
@@ -165,6 +163,19 @@ The component wrapped with `withLive`  gets injected the following props:
 
 
 > Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
+
+
+## FAQ
+> **I want to use experimental feature x but Bublé doesn't support it! Can I use babel instead?**
+
+`react-live` doesn't currently support configuring the transpiler and it ships with Bublé.  The current workaround for using some experimental features `bublé` doesn't support  would be to use the `transformCode` prop on `LiveProvider` to transform your code with `babel` alongside `bublé`.
+
+Here is a  minimal example on how you could use `babel` to support class-properties in `react-live`:
+
+
+[![Edit 7ml9mjw766](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/7ml9mjw766?fontsize=14)
+
+
 
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
