@@ -10,15 +10,14 @@
 <img src="https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20esm-green.svg">
 </p>
 
-**React Live** brings you the ability to render React components and present the user with editable
-source code and live preview.
-It supports server-side rendering and comes in a tiny bundle, thanks to Bublé and a Prism.js-based editor.
+**React Live** brings you the ability to render React components with editable source code and live preview.
+It supports server-side rendering and comes in a tiny bundle.
 
-The library is structured modularly and lets you style its components as you wish and put them where you want.
+The library is structured modularly and lets you style and compose its components freely.
 
 ## Usage
 
-Install it with `npm install react-live` and try out this piece of JSX:
+Install it with `npm install react-live` or `yarn add react-live` and try out this piece of JSX:
 
 ```js
 import {
@@ -43,11 +42,10 @@ import {
 
 ### How does it work?
 
-It takes your code and transpiles it through Bublé, while the code is displayed using Prism.js.
-The transpiled code is then rendered in the preview component, which does a fake mount, if the code
-is a component.
+It takes your code and transpiles it with [Bublé](https://github.com/bublejs/buble), while the code is displayed using [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code is highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
-Easy peasy!
+The transpiled code is then rendered in the preview component (`LivePreview`), which does a fake mount if the code
+is a React component.
 
 ### What code can I use?
 
@@ -74,7 +72,7 @@ class Example extends React.Component {
 }
 ```
 
-But you can of course pass more things to this scope, that will be available as variables in the code. Here's an example using [styled components](https://github.com/styled-components/styled-components):
+But you can of course pass more things to the scope. They will be available as variables in the code. Here's an example using [styled components](https://github.com/styled-components/styled-components):
 
 ```js
 import styled from 'styled-components';
@@ -104,21 +102,21 @@ const code = `
 ### &lt;LiveProvider /&gt;
 
 This component provides the `context` for all the other ones. It also transpiles the user’s code!
-It supports these props, while passing all others through to a `<div />`:
+It supports these props, while passing any others through to the `children`:
 
 |Name|PropType|Description|
 |---|---|---|
 |code|PropTypes.string|The code that should be rendered, apart from the user’s edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
 |noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
-|transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it.
+|transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it
+|language|PropTypes.string|What language you're writing for correct syntax highlighting. (Default: `jsx`)
+|disabled|PropTypes.bool|Disable editing on the `<LiveEditor />` (Default: `false`)
+|theme|PropTypes.object|A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)
 
-Apart from these props it attaches the `.react-live` CSS class to its `div`.
+
 All subsequent components must be rendered inside a provider, since they communicate
 using one.
-
-By default this component will render a `<style />` tag for the Prism styling. You can decide not
-to render it and include the `react-live.css` file instead.
 
 The `noInline` option kicks the Provider into a different mode, where you can write imperative-style
 code and nothing gets evaluated and mounted automatically. Your example will need to call `render`
@@ -126,38 +124,34 @@ with valid JSX elements.
 
 ### &lt;LiveEditor /&gt;
 
-This component renders the editor that displays the code. It is built using Prism.js and a Content Editable.
-It accepts these props for styling:
+This component renders the editor that displays the code. It is a wrapper around [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
-|Name|PropType|Description|
-|---|---|---|
-|className|PropTypes.string|An additional class that is added to the Content Editable
-|ignoreTabKey|PropTypes.bool|Makes the editor ignore tab key presses so that keyboard users can tab past the editor without getting stuck
-|style|PropTypes.object|Additional styles for the Content Editable
-|onChange|PropTypes.func|Accepts a callback that is called when the user makes changes
-
-This component renders a Prism.js editor underneath it and also renders all of Prism’s
-styles inside a `style` tag.
-The editor / content editable has an additional `.react-live-editor` CSS class.
 
 ### &lt;LiveError /&gt;
 
 This component renders any error that occur while executing the code, or transpiling it.
-It passes through any props to its `div` and also attaches the `.react-live-error` CSS class to it.
+It passes through any props to a `pre`.
 
-> Note: Right now the component unmounts, when there’s no error to be shown.
+> Note: Right now when the component unmounts, when there’s no error to be shown.
 
 ### &lt;LivePreview /&gt;
 
-This component renders the actual component, that the code generates, inside an error boundary.
-It passes through any props to its `div` and also attaches the `.react-live-preview` CSS class to it.
+This component renders the actual component that the code generates inside an error boundary.
+
+|Name|PropType|Description|
+|---|---|---|
+|Component|PropTypes.node|Element that wraps the generated code. (Default: `div`)
+
 
 ### withLive
 
-The `withLive` method creates a higher-order component, that injects the live-editing context provided
-by `LiveProvider` into a component, as the `live` prop.
+The `withLive` method creates a higher-order component, that injects the live-editing props provided
+by `LiveProvider` into a component.
 
-The context's shape is as follows:
+Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
+desired behavior.
+
+The component wrapped with `withLive`  gets injected the following props:
 
 |Name|Type|Description|
 |---|---|---|
@@ -167,12 +161,21 @@ The context's shape is as follows:
 |onChange|function|A callback that accepts new code and transpiles it
 |element|React.Element|The result of the transpiled code that is previewed
 
-> Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
-> This is due to the fact that the Editor is an uncontrolled input for the reason of managing the `contentEditable`
-> element efficiently.
 
-Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
-desired behaviour.
+> Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
+
+
+## FAQ
+> **I want to use experimental feature x but Bublé doesn't support it! Can I use babel instead?**
+
+`react-live` doesn't currently support configuring the transpiler and it ships with Bublé.  The current workaround for using some experimental features `bublé` doesn't support  would be to use the `transformCode` prop on `LiveProvider` to transform your code with `babel` alongside `bublé`.
+
+Here is a  minimal example on how you could use `babel` to support class-properties in `react-live`:
+
+
+[![Edit 7ml9mjw766](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/7ml9mjw766?fontsize=14)
+
+
 
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 

@@ -3,7 +3,13 @@ import styled from 'styled-components';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 
-import { LiveProvider, LiveEditor, LiveError, LivePreview } from '../src/index';
+import {
+  LiveProvider,
+  LiveEditor,
+  LiveError,
+  LivePreview,
+  withLive
+} from '../src/index';
 
 const code = `
 <strong>
@@ -49,6 +55,20 @@ class Counter extends React.Component {
 }
 `.trim();
 
+const hooksExample = `
+function Likes() {
+  const [likes, increaseLikes] = React.useState(0)
+
+  return (
+    <center>
+      <strong>❤️ {likes} likes</strong>
+      <hr/>
+      <button onClick={() => increaseLikes(likes + 1)}>Like</button>
+    </center>
+  )
+}
+`.trim();
+
 const StyledLivePreview = styled(LivePreview)`
   background: green;
   color: white;
@@ -58,6 +78,19 @@ const StyledLivePreview = styled(LivePreview)`
 const StyledEditor = styled(LiveEditor)`
   background: #222031;
 `;
+
+const TestComponent = ({ live }) => {
+  const Result = live.element;
+  return (
+    <div style={{ backgroundColor: 'darkslategray', color: 'white' }}>
+      <LiveEditor />
+      <Result />
+      <pre>{live.error}</pre>
+    </div>
+  );
+};
+
+const LiveComponent = withLive(TestComponent);
 
 storiesOf('Live', module)
   .addDecorator(withKnobs)
@@ -94,7 +127,7 @@ storiesOf('Live', module)
       <StyledLivePreview />
     </LiveProvider>
   ))
-  .add('jsx example', () => (
+  .add('component example', () => (
     <LiveProvider
       code={componentExample}
       disabled={boolean('Disable editing', false)}
@@ -104,5 +137,10 @@ storiesOf('Live', module)
       <StyledEditor />
       <LiveError />
       <LivePreview />
+    </LiveProvider>
+  ))
+  .add('withLive example', () => (
+    <LiveProvider code={hooksExample}>
+      <LiveComponent />
     </LiveProvider>
   ));
