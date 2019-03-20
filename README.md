@@ -104,21 +104,21 @@ const code = `
 ### &lt;LiveProvider /&gt;
 
 This component provides the `context` for all the other ones. It also transpiles the user’s code!
-It supports these props, while passing all others through to a `<div />`:
+It supports these props, while passing all others through to the `children`:
 
 |Name|PropType|Description|
 |---|---|---|
 |code|PropTypes.string|The code that should be rendered, apart from the user’s edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
 |noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
-|transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it.
+|transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it
+|language|PropTypes.string|What language you're writing for correct syntax highlighting. (Default: `jsx`)
+|disabled|PropTypes.bool|Disable editing on the `<LiveEditor />` (Default: `false`)
+|theme|PropTypes.object|A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)
 
-Apart from these props it attaches the `.react-live` CSS class to its `div`.
+
 All subsequent components must be rendered inside a provider, since they communicate
 using one.
-
-By default this component will render a `<style />` tag for the Prism styling. You can decide not
-to render it and include the `react-live.css` file instead.
 
 The `noInline` option kicks the Provider into a different mode, where you can write imperative-style
 code and nothing gets evaluated and mounted automatically. Your example will need to call `render`
@@ -126,38 +126,34 @@ with valid JSX elements.
 
 ### &lt;LiveEditor /&gt;
 
-This component renders the editor that displays the code. It is built using Prism.js and a Content Editable.
-It accepts these props for styling:
+This component renders the editor that displays the code. It is a wrapper around [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
-|Name|PropType|Description|
-|---|---|---|
-|className|PropTypes.string|An additional class that is added to the Content Editable
-|ignoreTabKey|PropTypes.bool|Makes the editor ignore tab key presses so that keyboard users can tab past the editor without getting stuck
-|style|PropTypes.object|Additional styles for the Content Editable
-|onChange|PropTypes.func|Accepts a callback that is called when the user makes changes
-
-This component renders a Prism.js editor underneath it and also renders all of Prism’s
-styles inside a `style` tag.
-The editor / content editable has an additional `.react-live-editor` CSS class.
 
 ### &lt;LiveError /&gt;
 
 This component renders any error that occur while executing the code, or transpiling it.
-It passes through any props to its `div` and also attaches the `.react-live-error` CSS class to it.
+It passes through any props to a `pre`.
 
 > Note: Right now the component unmounts, when there’s no error to be shown.
 
 ### &lt;LivePreview /&gt;
 
-This component renders the actual component, that the code generates, inside an error boundary.
-It passes through any props to its `div` and also attaches the `.react-live-preview` CSS class to it.
+This component renders the actual component that the code generates inside an error boundary.
+
+|Name|PropType|Description|
+|---|---|---|
+|Component|PropTypes.node|Element that wraps the generated code. (Default: `div`)
+
 
 ### withLive
 
-The `withLive` method creates a higher-order component, that injects the live-editing context provided
-by `LiveProvider` into a component, as the `live` prop.
+The `withLive` method creates a higher-order component, that injects the live-editing props provided
+by `LiveProvider` into a component.
 
-The context's shape is as follows:
+Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
+desired behavior.
+
+The component wrapped with `withLive`  gets injected the following props:
 
 |Name|Type|Description|
 |---|---|---|
@@ -167,12 +163,8 @@ The context's shape is as follows:
 |onChange|function|A callback that accepts new code and transpiles it
 |element|React.Element|The result of the transpiled code that is previewed
 
-> Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
-> This is due to the fact that the Editor is an uncontrolled input for the reason of managing the `contentEditable`
-> element efficiently.
 
-Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
-desired behaviour.
+> Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
 
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
