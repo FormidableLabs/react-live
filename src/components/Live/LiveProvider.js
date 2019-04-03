@@ -64,12 +64,18 @@ export default class LiveProvider extends Component {
     this.transpile({ code, scope, transformCode, noInline });
   }
 
-  componentDidUpdate({ code, scope, noInline, transformCode }) {
+  componentDidUpdate({
+    code: prevCode,
+    scope: prevScope,
+    noInline: prevNoInline,
+    transformCode: prevTransformCode
+  }) {
+    const { code, scope, noInline, transformCode } = this.props;
     if (
-      code !== this.props.code ||
-      scope !== this.props.scope ||
-      noInline !== this.props.noInline ||
-      transformCode !== this.props.transformCode
+      code !== prevCode ||
+      scope !== prevScope ||
+      noInline !== prevNoInline ||
+      transformCode !== prevTransformCode
     ) {
       this.transpile({ code, scope, transformCode, noInline });
     }
