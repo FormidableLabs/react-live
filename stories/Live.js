@@ -76,17 +76,43 @@ const StyledLivePreview = styled(LivePreview)`
 `;
 
 const StyledEditor = styled(LiveEditor)`
-  background: #222031;
+  background: #322e3c;
+`;
+
+const StyledTextarea = styled.textarea`
+  height: 300px;
+  width: 600px;
+  font-family: monospace;
+  font-size: 16px;
+  white-space: pre;
+  background: #322e3c;
+  color: white;
 `;
 
 const TestComponent = ({ live }) => {
   const Result = live.element;
   return (
-    <div style={{ backgroundColor: 'darkslategray', color: 'white' }}>
+    <div style={{ backgroundColor: '#322e3c', color: 'white' }}>
       <LiveEditor />
       <Result />
       <pre>{live.error}</pre>
     </div>
+  );
+};
+
+const CustomEditor = () => {
+  const [code, updateCode] = React.useState(functionExample);
+
+  const handleChange = e => {
+    updateCode(e.target.value);
+  };
+
+  return (
+    <LiveProvider code={code}>
+      <StyledTextarea onChange={handleChange} value={code} />
+      <LivePreview />
+      <LiveError />
+    </LiveProvider>
   );
 };
 
@@ -143,4 +169,5 @@ storiesOf('Live', module)
     <LiveProvider code={hooksExample}>
       <LiveComponent />
     </LiveProvider>
-  ));
+  ))
+  .add('with custom editor', () => <CustomEditor />);

@@ -55,7 +55,7 @@ class CodeEditor extends Component {
   );
 
   render() {
-    const { style, code: _, ...rest } = this.props;
+    const { style, code: _code, onChange, language, ...rest } = this.props;
     const { code } = this.state;
 
     return (
