@@ -15,6 +15,10 @@ It supports server-side rendering and comes in a tiny bundle.
 
 The library is structured modularly and lets you style and compose its components freely.
 
+## Maintenance Status: Active
+
+Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
+
 ## Usage
 
 Install it with `npm install react-live` or `yarn add react-live` and try out this piece of JSX:
