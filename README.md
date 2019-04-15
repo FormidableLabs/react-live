@@ -8,16 +8,15 @@
 <img src="http://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
 <img src="http://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?label=size">
 <img src="https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20esm-green.svg">
+<a href="https://github.com/FormidableLabs/react-live#maintenance-status">
+  <img alt="Maintenance Status" src="https://img.shields.io/badge/maintenance-active-green.svg" />
+</a>
 </p>
 
 **React Live** brings you the ability to render React components with editable source code and live preview.
 It supports server-side rendering and comes in a tiny bundle.
 
 The library is structured modularly and lets you style and compose its components freely.
-
-## Maintenance Status: Active
-
-Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
 
 ## Usage
 
@@ -198,3 +197,8 @@ Here are the various factors at play:
 - **SSR**: `component-playground` is not server-side renderable, `react-live` is.
 - **Extra features**: `component-playground` supports raw evaluation and pretty-printed output out-of-the-box, while `react-live` does not.
 - **Error handling**: `component-playground` might have more predictable error handling than `react-live` in some cases (due to `react-dom`, although this might change with React 16).
+
+## Maintenance Status
+
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
+
