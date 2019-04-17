@@ -1,4 +1,4 @@
-import { ComponentClass, StatelessComponent, HTMLProps, ComponentType } from 'react'
+import { ComponentClass, StatelessComponent, HTMLProps, ComponentType, CSSProperties } from 'react'
 
 // Helper types
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
@@ -13,6 +13,12 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   code?: string;
   noInline?: boolean;
   transformCode?: (code: string) => string;
+  language?: string;
+  disabled?: boolean;
+  theme?: {
+    plain: CSSProperties;
+    styles: Array<{ types: string[]; styles: CSSProperties }>;
+  }
 }
 
 export const LiveProvider: ComponentClass<LiveProviderProps>
