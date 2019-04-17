@@ -13,7 +13,6 @@ export default class LiveProvider extends Component {
   };
 
   static propTypes = {
-    className: PropTypes.string,
     code: PropTypes.string,
     language: PropTypes.string,
     disabled: PropTypes.bool,
