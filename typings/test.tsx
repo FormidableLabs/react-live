@@ -15,6 +15,14 @@ export const providerC = (
     scope={{ Component: React.Component }}
     transformCode={(code: string): string => code + ';;'}
     noInline={false}
+    language="typescript"
+    theme={{
+      plain: {
+        fontWeight: '800',
+        color: 'salmon'
+      },
+      styles: []
+    }}
   />
 );
 

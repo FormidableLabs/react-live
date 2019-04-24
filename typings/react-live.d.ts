@@ -1,4 +1,5 @@
 import { ComponentClass, StatelessComponent, HTMLProps, ComponentType } from 'react'
+import { PrismTheme, Language } from 'prism-react-renderer';
 
 // Helper types
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
@@ -13,6 +14,9 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   code?: string;
   noInline?: boolean;
   transformCode?: (code: string) => string;
+  language?: Language;
+  disabled?: boolean;
+  theme?: PrismTheme;
 }
 
 export const LiveProvider: ComponentClass<LiveProviderProps>
