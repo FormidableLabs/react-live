@@ -55,8 +55,20 @@ class CodeEditor extends Component {
   );
 
   render() {
-    const { style, code: _code, onChange, language, ...rest } = this.props;
+    const {
+      style,
+      code: _code,
+      onChange,
+      language,
+      theme,
+      ...rest
+    } = this.props;
     const { code } = this.state;
+
+    // const baseTheme = theme || liveTheme;
+    console.log(theme, 'theme!');
+    const baseTheme =
+      theme && typeof theme.plain === 'object' ? theme.plain : {};
 
     return (
       <Editor
@@ -67,6 +79,7 @@ class CodeEditor extends Component {
         style={{
           whiteSpace: 'pre',
           fontFamily: 'monospace',
+          ...baseTheme,
           ...style
         }}
         {...rest}

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean } from '@storybook/addon-knobs/react';
+import { theme } from '../src/constants/theme';
 
 import {
   LiveProvider,
@@ -76,7 +77,7 @@ const StyledLivePreview = styled(LivePreview)`
 `;
 
 const StyledEditor = styled(LiveEditor)`
-  background: #322e3c;
+  background: #46424f;
 `;
 
 const StyledTextarea = styled.textarea`
@@ -159,6 +160,19 @@ storiesOf('Live', module)
       disabled={boolean('Disable editing', false)}
       language="jsx"
       noInline={boolean('No inline evaluation', false)}
+    >
+      <StyledEditor />
+      <LiveError />
+      <LivePreview />
+    </LiveProvider>
+  ))
+  .add('component with theme', () => (
+    <LiveProvider
+      code={componentExample}
+      disabled={boolean('Disable editing', false)}
+      language="jsx"
+      noInline={boolean('No inline evaluation', false)}
+      theme={theme}
     >
       <StyledEditor />
       <LiveError />
