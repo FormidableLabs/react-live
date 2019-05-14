@@ -65,8 +65,6 @@ class CodeEditor extends Component {
     } = this.props;
     const { code } = this.state;
 
-    // const baseTheme = theme || liveTheme;
-    console.log(theme, 'theme!');
     const baseTheme =
       theme && typeof theme.plain === 'object' ? theme.plain : {};
 
