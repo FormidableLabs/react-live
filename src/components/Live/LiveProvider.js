@@ -13,14 +13,39 @@ export default class LiveProvider extends Component {
   };
 
   static propTypes = {
+    children: PropTypes.children,
     code: PropTypes.string,
-    language: PropTypes.string,
     disabled: PropTypes.bool,
-    theme: PropTypes.object,
-    scope: PropTypes.object,
+    language: PropTypes.string,
     noInline: PropTypes.bool,
-    transformCode: PropTypes.func
+    scope: PropTypes.object,
+    theme: PropTypes.object,
+    transformCode: PropTypes.node
   };
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
+    const { code, scope, transformCode, noInline } = this.props;
+
+    this.transpile({ code, scope, transformCode, noInline });
+  }
+
+  componentDidUpdate({
+    code: prevCode,
+    scope: prevScope,
+    noInline: prevNoInline,
+    transformCode: prevTransformCode
+  }) {
+    const { code, scope, noInline, transformCode } = this.props;
+    if (
+      code !== prevCode ||
+      scope !== prevScope ||
+      noInline !== prevNoInline ||
+      transformCode !== prevTransformCode
+    ) {
+      this.transpile({ code, scope, transformCode, noInline });
+    }
+  }
 
   onChange = code => {
     const { scope, transformCode, noInline } = this.props;
@@ -57,41 +82,8 @@ export default class LiveProvider extends Component {
     }
   };
 
-  componentWillMount() {
-    const { code, scope, transformCode, noInline } = this.props;
-
-    this.transpile({ code, scope, transformCode, noInline });
-  }
-
-  componentDidUpdate({
-    code: prevCode,
-    scope: prevScope,
-    noInline: prevNoInline,
-    transformCode: prevTransformCode
-  }) {
-    const { code, scope, noInline, transformCode } = this.props;
-    if (
-      code !== prevCode ||
-      scope !== prevScope ||
-      noInline !== prevNoInline ||
-      transformCode !== prevTransformCode
-    ) {
-      this.transpile({ code, scope, transformCode, noInline });
-    }
-  }
-
   render() {
-    const {
-      children,
-      code,
-      language,
-      theme,
-      noInline,
-      transformCode,
-      disabled,
-      scope,
-      ...rest
-    } = this.props;
+    const { children, code, language, theme, disabled } = this.props;
 
     return (
       <LiveContext.Provider

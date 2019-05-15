@@ -102,6 +102,7 @@ const TestComponent = ({ live }) => {
 };
 
 const CustomEditor = () => {
+  // eslint-disable-next-line no-shadow
   const [code, updateCode] = React.useState(functionExample);
 
   const handleChange = e => {
