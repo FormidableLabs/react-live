@@ -28,7 +28,7 @@ There is also a CI step in place to lint all committed files. If any of the stag
 
 ### Before submitting a PR...
 
-Thanks for taking the time to help us make React-Live even better! Before you go ahead and submit a PR, make sure that you have done the following:
+Thanks for taking the time to help us make react-live even better! Before you go ahead and submit a PR, make sure that you have done the following:
 
 - Run the tests using `yarn run test`.
 - Run lint and flow using `yarn run lint`
