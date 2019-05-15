@@ -6,11 +6,12 @@ import { theme as liveTheme } from '../../constants/theme';
 
 class CodeEditor extends Component {
   static propTypes = {
-    disabled: PropTypes.boolean,
-    theme: PropTypes.object,
     code: PropTypes.string,
+    disabled: PropTypes.boolean,
     language: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    style: PropTypes.object,
+    theme: PropTypes.object
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -40,11 +41,13 @@ class CodeEditor extends Component {
       theme={this.props.theme || liveTheme}
       language={this.props.language}
     >
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      {({ tokens, getLineProps, getTokenProps }) => (
         <Fragment>
           {tokens.map((line, i) => (
+            // eslint-disable-next-line react/jsx-key
             <div {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
+                // eslint-disable-next-line react/jsx-key
                 <span {...getTokenProps({ token, key })} />
               ))}
             </div>
@@ -55,14 +58,8 @@ class CodeEditor extends Component {
   );
 
   render() {
-    const {
-      style,
-      code: _code,
-      onChange,
-      language,
-      theme,
-      ...rest
-    } = this.props;
+    // eslint-disable-next-line no-unused-vars
+    const { style, code: _code, onChange, language, ...rest } = this.props;
     const { code } = this.state;
 
     const baseTheme =

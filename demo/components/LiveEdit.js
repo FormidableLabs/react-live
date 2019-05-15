@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import * as polished from 'polished';
 import { foreground, red, lightGrey } from '../utils/colors';
-
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 
 const StyledProvider = styled(LiveProvider)`

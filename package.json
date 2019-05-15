@@ -14,7 +14,9 @@
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "test": "jest",
-    "test:typings": "typings-tester --dir typings"
+    "test:typings": "typings-tester --dir typings",
+    "prettier": "prettier --config .prettierrc --write \"./**/*.{js,css,html}\"",
+    "lint": "eslint --config .eslintrc \"./**/*.js\""
   },
   "dependencies": {
     "buble": "0.19.6",
@@ -27,10 +29,12 @@
     "unescape": "^0.2.0"
   },
   "devDependencies": {
+    "prettier": "^1.17.0",
     "@storybook/addon-knobs": "^3.3.12",
     "@storybook/react": "^3.3.12",
     "@types/react": "^16.0.36",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^22.2.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -41,6 +45,12 @@
     "babel-preset-react": "^6.23.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-formidable": "^3.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-filenames": "^1.2.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-react": "^7.7.0",
     "jest": "^22.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

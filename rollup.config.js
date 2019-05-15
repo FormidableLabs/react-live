@@ -1,11 +1,9 @@
-import nodeResolve from 'rollup-plugin-node-resolve'
-import replace from 'rollup-plugin-replace'
-import commonjs from 'rollup-plugin-commonjs'
-import babel from 'rollup-plugin-babel'
-import uglify from 'rollup-plugin-uglify-es'
-import filesize from 'rollup-plugin-filesize'
-
-const isProd = process.env.PRODUCTION === 'true'
+import nodeResolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import commonjs from 'rollup-plugin-commonjs';
+import babel from 'rollup-plugin-babel';
+import uglify from 'rollup-plugin-uglify-es';
+import filesize from 'rollup-plugin-filesize';
 
 const plugins = [
   nodeResolve({
@@ -16,16 +14,13 @@ const plugins = [
     include: 'node_modules/**',
     namedExports: {
       'buble/dist/buble.deps': ['transform'],
-      'buble': ['transform'],
+      buble: ['transform'],
       'prismjs/components/prism-core': ['highlight', 'languages']
     }
   }),
   babel({
     babelrc: false,
-    presets: [
-      ['env', { modules: false, loose: true }],
-      'react'
-    ],
+    presets: [['env', { modules: false, loose: true }], 'react'],
     plugins: [
       'external-helpers',
       'transform-object-rest-spread',
@@ -33,12 +28,12 @@ const plugins = [
       'transform-react-remove-prop-types'
     ].filter(Boolean)
   })
-]
+];
 
 const devPlugins = plugins.concat([
   replace({
     'process.env.NODE_ENV': JSON.stringify('development')
-  }),
+  })
 ]);
 
 const prodPlugins = plugins.concat([
@@ -60,7 +55,7 @@ const output = {
     prismjs: 'Prism',
     react: 'React',
     buble: 'Buble',
-    'react-dom': 'ReactDOM',
+    'react-dom': 'ReactDOM'
   }
 };
 
@@ -70,24 +65,31 @@ const withBase = config => Object.assign({}, base, config);
 
 export default [
   {
-    output: [{
-      name: 'ReactLive',
-      file: 'dist/react-live.min.js',
-      format: 'umd'
-    }].map(makeOutput),
+    output: [
+      {
+        name: 'ReactLive',
+        file: 'dist/react-live.min.js',
+        format: 'umd'
+      }
+    ].map(makeOutput),
     plugins: prodPlugins
-  }, {
-    output: [{
-      name: 'ReactLive',
-      file: 'dist/react-live.js',
-      format: 'umd'
-    }, {
-      file: 'dist/react-live.es.js',
-      format: 'es'
-    }, {
-      file: 'dist/react-live.cjs.js',
-      format: 'cjs'
-    }].map(makeOutput),
+  },
+  {
+    output: [
+      {
+        name: 'ReactLive',
+        file: 'dist/react-live.js',
+        format: 'umd'
+      },
+      {
+        file: 'dist/react-live.es.js',
+        format: 'es'
+      },
+      {
+        file: 'dist/react-live.cjs.js',
+        format: 'cjs'
+      }
+    ].map(makeOutput),
     plugins: devPlugins
   }
 ].map(withBase);

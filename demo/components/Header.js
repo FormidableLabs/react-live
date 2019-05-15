@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as polished from 'polished';
 
-import { foreground, blue, red, lightGrey } from '../utils/colors';
+import { foreground, blue } from '../utils/colors';
 
 const Image = styled.div`
   background-image: url(https://raw.githubusercontent.com/philpl/react-live/master/docs/logo.gif);
