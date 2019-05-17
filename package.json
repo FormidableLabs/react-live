@@ -21,7 +21,7 @@
   "dependencies": {
     "buble": "0.19.6",
     "core-js": "^2.4.1",
-    "create-react-context": "^0.2.3",
+    "create-react-context": "^0.2.2",
     "dom-iterator": "^1.0.0",
     "prism-react-renderer": "^0.1.0",
     "prop-types": "^15.5.8",
