@@ -100,6 +100,27 @@ const code = `
 </LiveProvider>
 ```
 
+### What bundle size can I expect?
+
+Our reported bundle size badges don't give you the full picture of
+the kind of sizes you will get in a production app. The minified
+bundles we publish _exclude_ some dependencies that we depend
+on.
+
+<img src="http://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
+
+In an actual app when you use `react-live` you will also be bundling
+Buble for transpilation, which adds `~135kB` to your bundle. This also
+includes their dependency on `regenerate-unicode-properties`, which
+is rather large as well.
+
+We maintain a fork of Buble which excludes the ESnext Regular Expression
+transpilation with removes Buble's large dependency and weighs in at
+a smaller size of `~51kB`, which you can find published at [`@philpl/buble`](http://npm.im/@philpl/buble).
+
+You can alias this in Webpack or the build tool of your choice, which
+will reduce the overall bundle size of `react-live` to about `83kB`.
+
 ## API
 
 ### &lt;LiveProvider /&gt;
