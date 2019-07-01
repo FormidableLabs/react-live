@@ -100,6 +100,25 @@ const code = `
 </LiveProvider>
 ```
 
+Here's an example using a custom component `<MyButton />`. This component lives in a different directory. It gets passed into the scope wrapped in an Object. Note that since we are not using `render()` in the code snippet we let `noInline` stay equal to the default of `false`:
+
+```js
+
+import { MyButton } from './components/MyButton';
+
+const scope = { MyButton };
+
+const code = `
+  <MyButton />
+`
+
+<LiveProvider code={code} scope={scope}>
+  <LiveEditor />
+  <LiveError />
+  <LivePreview />
+</LiveProvider>
+```
+
 ### What bundle size can I expect?
 
 Our reported bundle size badges don't give you the full picture of
