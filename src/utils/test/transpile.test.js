@@ -93,7 +93,7 @@ describe('transpile', () => {
       const wrapper = shallow(<Component />);
 
       expect(wrapper.html()).toBe(null);
-    })
+    });
 
     it('should emit result via the result callback', () => {
       const resultCb = jest.fn();
