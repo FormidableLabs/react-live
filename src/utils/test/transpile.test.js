@@ -72,6 +72,29 @@ describe('transpile', () => {
       );
     });
 
+    it('should emit error if render is not called with valid JSX', () => {
+      const errorCb = jest.fn();
+
+      renderElementAsync({ code: 'render()' }, null, errorCb);
+      expect(errorCb).toHaveBeenCalledWith(
+        new SyntaxError('`render` must be called with valid JSX.')
+      );
+    });
+
+    it('should emit result if render is called with a falsey value', () => {
+      const resultCb = jest.fn();
+      const code = 'render(null)';
+
+      renderElementAsync({ code }, resultCb);
+
+      expect(resultCb).toHaveBeenCalled();
+
+      const Component = resultCb.mock.calls[0][0];
+      const wrapper = shallow(<Component />);
+
+      expect(wrapper.html()).toBe(null);
+    })
+
     it('should emit result via the result callback', () => {
       const resultCb = jest.fn();
       const code = 'render(<div>Hello World!</div>)';

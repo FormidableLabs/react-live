@@ -19,7 +19,11 @@ export const renderElementAsync = (
   // eslint-disable-next-line consistent-return
 ) => {
   const render = element => {
-    resultCallback(errorBoundary(element, errorCallback));
+    if (typeof element === "undefined") {
+      errorCallback(new SyntaxError('`render` must be called with valid JSX.'));
+    } else {
+      resultCallback(errorBoundary(element, errorCallback));
+    }
   };
 
   if (!/render\s*\(/.test(code)) {
