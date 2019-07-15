@@ -26,7 +26,9 @@ export const providerC = (
   />
 );
 
-export const editorC = <Editor ignoreTabKey={false} />;
+export const editorC = (
+  <Editor onChange={(code: string) => {}} code="code" disabled={false} />
+);
 
 export const liveEditorC = <LiveEditor onChange={(code: string) => {}} />;
 

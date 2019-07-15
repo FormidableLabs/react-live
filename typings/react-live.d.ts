@@ -22,16 +22,18 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
 export const LiveProvider: ComponentClass<LiveProviderProps>
 
 // Editor
-export type EditorProps = PreProps & {
-  ignoreTabKey?: boolean;
+export type EditorProps = Omit<PreProps, 'onChange'> & {
+  code?: string,
+  disabled?: boolean;
+  language?: Language;
+  onChange?: (code: string) => void;
+  theme?: PrismTheme;
 }
 
 export const Editor: ComponentClass<EditorProps>
 
 // LiveEditor
-export type LiveEditorProps = Omit<EditorProps, 'onChange'> & {
-  onChange?: (code: string) => void
-}
+export type LiveEditorProps = EditorProps;
 
 export const LiveEditor: ComponentClass<LiveEditorProps>
 
