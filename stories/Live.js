@@ -57,15 +57,16 @@ class Counter extends React.Component {
 `.trim();
 
 const hooksExample = `
-function Likes() {
+function LikeButton() {
   const [likes, increaseLikes] = React.useState(0)
 
   return (
-    <center>
-      <strong>❤️ {likes} likes</strong>
-      <hr/>
-      <button onClick={() => increaseLikes(likes + 1)}>Like</button>
-    </center>
+    <>
+      <p class="likes">{likes} likes</p>
+      <button
+        class="button"
+        onClick={() => increaseLikes(likes + 1)} />
+    </>
   )
 }
 `.trim();
@@ -75,11 +76,9 @@ const StyledLivePreview = styled(LivePreview)`
   color: white;
   padding: 3px;
 `;
-
 const StyledEditor = styled(LiveEditor)`
   background: #46424f;
 `;
-
 const StyledTextarea = styled.textarea`
   height: 300px;
   width: 600px;
@@ -89,26 +88,68 @@ const StyledTextarea = styled.textarea`
   background: #322e3c;
   color: white;
 `;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  background: lavender;
+  height: 600px;
 
+  & > .button {
+    background-color: rgb(166, 187, 255);
+    border-bottom: 6px inset rgba(0, 0, 0, 0.3);
+    border-left: 6px inset rgba(0, 0, 0, 0.3);
+    border-right: 6px inset rgba(255, 255, 255, 0.5);
+    border-top: 6px inset rgba(255, 255, 255, 0.5);
+    padding: 20;
+
+    &:active {
+      border-top: 6px inset rgba(0, 0, 0, 0.3);
+      border-right: 6px inset rgba(0, 0, 0, 0.3);
+      border-bottom: 6px inset rgba(255, 255, 255, 0.5);
+      border-left: 6px inset rgba(255, 255, 255, 0.5);
+
+      outline: none;
+    }
+
+    &:focus {
+      background-color: lightseagreen;
+      outline: none;
+    }
+
+    &:before {
+      content: '💛';
+      font-size: 30px;
+    }
+  }
+
+  & > .pink {
+    background-color: pink;
+  }
+
+  & > .likes {
+    font-family: monospace;
+    font-size: 18px;
+  }
+`;
 const TestComponent = ({ live }) => {
   const Result = live.element;
   return (
-    <div style={{ backgroundColor: '#322e3c', color: 'white' }}>
-      <LiveEditor />
+    <Container>
+      <StyledEditor />
       <Result />
       <pre>{live.error}</pre>
-    </div>
+    </Container>
   );
 };
-
 const CustomEditor = () => {
   // eslint-disable-next-line no-shadow
   const [code, updateCode] = React.useState(functionExample);
-
   const handleChange = e => {
     updateCode(e.target.value);
   };
-
   return (
     <LiveProvider code={code}>
       <StyledTextarea onChange={handleChange} value={code} />
@@ -117,9 +158,25 @@ const CustomEditor = () => {
     </LiveProvider>
   );
 };
-
 const LiveComponent = withLive(TestComponent);
-
+function Sandbox() {
+  const initialCode = `
+    <em>We're using a custom onChange event on the editor to update the code</em>
+  `.trim();
+  const [customCode, setCustomCode] = React.useState(initialCode);
+  return (
+    <LiveProvider
+      code={customCode}
+      disabled={boolean('Disable editing', false)}
+      language="jsx"
+      noInline={boolean('No inline evaluation', false)}
+    >
+      <StyledEditor onChange={setCustomCode} />
+      <LiveError />
+      <LivePreview />
+    </LiveProvider>
+  );
+}
 storiesOf('Live', module)
   .addDecorator(withKnobs)
   .add('default', () => (
@@ -180,6 +237,7 @@ storiesOf('Live', module)
       <LivePreview />
     </LiveProvider>
   ))
+  .add('component with custom onChange', () => <Sandbox />)
   .add('withLive example', () => (
     <LiveProvider code={hooksExample}>
       <LiveComponent />

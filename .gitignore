@@ -1,4 +1,5 @@
 node_modules
+demo/out
 lib
 npm-debug.log.*
 dist
