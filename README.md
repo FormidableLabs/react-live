@@ -1,7 +1,7 @@
-<p align="center"><img src="https://raw.githubusercontent.com/philpl/react-live/master/docs/logo.gif" width=250></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/17658189/63178611-4e90d580-c042-11e9-875f-f2455148b9ae.png" width=250></p>
 <h2 align="center">React Live</h2>
 <p align="center">
-<strong>A production-focused playground for live editing React code</strong>
+<strong>A flexible playground for live editing React code</strong>
 <br><br>
 <a href="https://npmjs.com/package/react-live"><img src="https://img.shields.io/npm/dm/react-live.svg"></a>
 <a href="https://npmjs.com/package/react-live"><img src="https://img.shields.io/npm/v/react-live.svg"></a>
@@ -17,6 +17,9 @@
 It supports server-side rendering and comes in a tiny bundle.
 
 The library is structured modularly and lets you style and compose its components freely.
+
+
+<p align="center"><img src="https://user-images.githubusercontent.com/17658189/63181897-1d67d380-c049-11e9-9dd2-7da2a3a57f05.gif" width=500></p>
 
 ## Usage
 
@@ -151,7 +154,7 @@ It supports these props, while passing any others through to the `children`:
 |---|---|---|
 |code|PropTypes.string|The code that should be rendered, apart from the user’s edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
-|noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`)
+|noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}`
 |transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it
 |language|PropTypes.string|What language you're writing for correct syntax highlighting. (Default: `jsx`)
 |disabled|PropTypes.bool|Disable editing on the `<LiveEditor />` (Default: `false`)

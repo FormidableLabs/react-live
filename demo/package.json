@@ -5,13 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "node server.js",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "babel-plugin-polished": "^1.0.3",
     "babel-plugin-styled-components": "^1.5.0",
     "express": "^4.15.2",
+    "formidable-oss-badges": "^0.2.1",
     "lru-cache": "^4.0.2",
     "module-alias": "^2.0.0",
     "next": "^5.0.0",

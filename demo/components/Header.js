@@ -1,25 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import * as polished from 'polished';
-
-import { foreground, blue } from '../utils/colors';
-
-const Image = styled.div`
-  background-image: url(https://raw.githubusercontent.com/philpl/react-live/master/docs/logo.gif);
-  background-size: cover;
-  background-position: center;
-
-  width: ${polished.rem(160)};
-  height: ${polished.rem(160)};
-  border-radius: ${polished.rem(3)};
-`;
+import { ProjectBadge } from 'formidable-oss-badges';
+import { background, blue } from '../utils/colors';
 
 const SubTitle = styled.h2`
   font-size: ${polished.modularScale(1)};
-  font-weight: bold;
+  font-weight: normal;
   color: ${blue};
   margin: 0;
-  margin-left: ${polished.rem(30)};
+  margin-left: ${polished.rem(20)};
   letter-spacing: ${polished.rem(0.3)};
   line-height: 1.5;
 
@@ -29,12 +19,16 @@ const SubTitle = styled.h2`
   }
 `;
 
+const StyledProjectBadge = styled(ProjectBadge)`
+  height: 230px;
+`;
+
 const Title = styled.h1`
   font-weight: normal;
   font-size: ${polished.modularScale(4)};
   line-height: 1.1;
   margin: 0;
-  margin-left: ${polished.rem(25)};
+  margin-left: ${polished.rem(20)};
 
   @media (max-width: 600px) {
     margin-left: 0;
@@ -58,14 +52,14 @@ const TitleRow = styled.div`
 `;
 
 const Description = styled.div`
-  margin: ${polished.rem(80)};
+  margin: ${polished.rem(50)};
   text-align: center;
   font-size: ${polished.modularScale(1)};
   color: ${blue};
   line-height: 1.5;
 
   @media (max-width: 600px) {
-    margin: ${polished.rem(80)} 0;
+    margin: ${polished.rem(50)} 0;
   }
 `;
 
@@ -76,7 +70,7 @@ const Button = styled.a`
   text-decoration: none;
   border-radius: ${polished.rem(3)};
   background: ${blue};
-  color: ${foreground};
+  color: ${background};
   margin: ${polished.rem(30)} 0;
 `;
 
@@ -88,13 +82,15 @@ const Container = styled.div`
 const Header = () => (
   <Container>
     <TitleRow>
-      <Image />
+      <StyledProjectBadge
+        color="#f677e1"
+        abbreviation="Rl"
+        description="React Live"
+      />
 
       <div>
         <Title>React Live</Title>
-        <SubTitle>
-          A production-focused playground for live editing React code 📡
-        </SubTitle>
+        <SubTitle>A flexible playground for live editing React code</SubTitle>
       </div>
     </TitleRow>
 

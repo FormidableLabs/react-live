@@ -7,9 +7,8 @@ export const generateElement = ({ code = '', scope = {} }, errorCallback) => {
   const codeTrimmed = code.trim().replace(/;$/, '');
 
   // NOTE: Workaround for classes and arrow functions.
-  const transformed = transform(`(${codeTrimmed})`).trim();
-
-  return errorBoundary(evalCode(`return ${transformed}`, scope), errorCallback);
+  const transformed = transform(`return (${codeTrimmed})`).trim();
+  return errorBoundary(evalCode(transformed, scope), errorCallback);
 };
 
 export const renderElementAsync = (
@@ -19,7 +18,7 @@ export const renderElementAsync = (
   // eslint-disable-next-line consistent-return
 ) => {
   const render = element => {
-    if (typeof element === "undefined") {
+    if (typeof element === 'undefined') {
       errorCallback(new SyntaxError('`render` must be called with valid JSX.'));
     } else {
       resultCallback(errorBoundary(element, errorCallback));

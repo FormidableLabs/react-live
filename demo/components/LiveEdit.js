@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import * as polished from 'polished';
 import { foreground, red, lightGrey } from '../utils/colors';
+import { reactLiveHome } from '../utils/theme';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 
 const StyledProvider = styled(LiveProvider)`
@@ -73,7 +74,7 @@ const StyledError = styled(LiveError)`
 `;
 
 const LiveEdit = ({ noInline, code }) => (
-  <StyledProvider code={code} noInline={noInline}>
+  <StyledProvider code={code} noInline={noInline} theme={reactLiveHome}>
     <LiveWrapper>
       <StyledEditor>
         <LiveEditor />

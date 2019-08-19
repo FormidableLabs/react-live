@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import * as polished from 'polished';
+import { foreground } from '../utils/colors';
 
 import Header from '../components/Header';
 import LiveEdit from '../components/LiveEdit';
@@ -15,8 +16,9 @@ const Container = styled.div`
 `;
 
 const Description = styled.p`
-  color: white;
-  margin-bottom: ${polished.rem(10)};
+  color: ${foreground};
+  font-size: ${polished.modularScale(1)};
+  margin-bottom: ${polished.rem(20)};
   margin-top: ${polished.rem(50)};
 `;
 
