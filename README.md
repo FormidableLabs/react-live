@@ -42,7 +42,7 @@ import {
 
 ## Demo
 
-[https://react-live.kitten.sh/](https://react-live.kitten.sh/)
+[https://react-live.netlify.com/](https://react-live.netlify.com/)
 
 ## FAQ
 
