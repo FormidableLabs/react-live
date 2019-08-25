@@ -63,7 +63,7 @@ const makeOutput = config => Object.assign({}, output, config);
 
 const withBase = config => Object.assign({}, base, config);
 
-const x = [
+export default [
   {
     output: [
       {
@@ -93,5 +93,3 @@ const x = [
     plugins: devPlugins
   }
 ].map(withBase);
-
-export default x
