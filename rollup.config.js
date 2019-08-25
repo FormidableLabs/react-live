@@ -20,11 +20,11 @@ const plugins = [
   }),
   babel({
     babelrc: false,
-    presets: [['env', { modules: false, loose: true }], 'react'],
+    presets: [["@babel/preset-env", { modules: false, loose: true }], "@babel/preset-react"],
     plugins: [
-      'external-helpers',
-      'transform-object-rest-spread',
-      'transform-class-properties',
+      '@babel/plugin-external-helpers',
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-proposal-class-properties",
       'transform-react-remove-prop-types'
     ].filter(Boolean)
   })
@@ -46,11 +46,7 @@ const prodPlugins = plugins.concat([
 
 const base = {
   input: 'src/index.js',
-  external: ['react', 'react-dom', 'prism-react-renderer', 'buble']
-};
-
-const output = {
-  exports: 'named',
+  external: ['react', 'react-dom', 'prism-react-renderer', 'buble'],
   globals: {
     'prism-react-renderer': 'Prism',
     react: 'React',
@@ -59,11 +55,16 @@ const output = {
   }
 };
 
+const output = {
+  exports: 'named',
+
+};
+
 const makeOutput = config => Object.assign({}, output, config);
 
 const withBase = config => Object.assign({}, base, config);
 
-export default [
+const x = [
   {
     output: [
       {
@@ -93,3 +94,7 @@ export default [
     plugins: devPlugins
   }
 ].map(withBase);
+
+console.log(x.map(x => x.output.map(y => y.globals)))
+
+export default x

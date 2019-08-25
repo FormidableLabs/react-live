@@ -1,14 +1,22 @@
 {
   "presets": [
-    ["env", { "loose": true }],
-    "react"
+    [
+      "@babel/preset-env",
+      {
+        "loose": true
+      }
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
     "add-module-exports",
-    "transform-object-rest-spread",
-    "transform-class-properties",
-    ["transform-react-remove-prop-types", {
-      "mode": "wrap"
-    }]
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties",
+    [
+      "transform-react-remove-prop-types",
+      {
+        "mode": "wrap"
+      }
+    ]
   ]
 }
