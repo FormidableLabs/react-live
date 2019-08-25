@@ -2,7 +2,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify-es';
+import { terser } from "rollup-plugin-terser";
 import filesize from 'rollup-plugin-filesize';
 
 const plugins = [
@@ -40,24 +40,23 @@ const prodPlugins = plugins.concat([
   replace({
     'process.env.NODE_ENV': JSON.stringify('production')
   }),
-  uglify(),
+  terser(),
   filesize()
 ]);
 
 const base = {
   input: 'src/index.js',
   external: ['react', 'react-dom', 'prism-react-renderer', 'buble'],
-  globals: {
-    'prism-react-renderer': 'Prism',
-    react: 'React',
-    buble: 'Buble',
-    'react-dom': 'ReactDOM'
-  }
 };
 
 const output = {
   exports: 'named',
-
+  globals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    'prism-react-renderer': 'Prism',
+    buble: 'Buble'
+  }
 };
 
 const makeOutput = config => Object.assign({}, output, config);
@@ -94,7 +93,5 @@ const x = [
     plugins: devPlugins
   }
 ].map(withBase);
-
-console.log(x.map(x => x.output.map(y => y.globals)))
 
 export default x
