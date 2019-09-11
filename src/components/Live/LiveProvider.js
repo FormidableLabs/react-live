@@ -54,6 +54,7 @@ export default class LiveProvider extends Component {
 
   onError = error => {
     this.setState({ error: error.toString() });
+    this.props.onError && this.props.onError(error);
   };
 
   transpile = ({ code, scope, transformCode, noInline = false }) => {
@@ -63,8 +64,10 @@ export default class LiveProvider extends Component {
       scope
     };
 
-    const errorCallback = err =>
+    const errorCallback = err => {
       this.setState({ element: undefined, error: err.toString() });
+      this.props.onError && this.props.onError(error);
+    };
     const renderElement = element => this.setState({ ...state, element });
 
     // State reset object
