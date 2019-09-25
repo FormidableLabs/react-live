@@ -18,6 +18,8 @@ export default class LiveProvider extends Component {
     disabled: PropTypes.bool,
     language: PropTypes.string,
     noInline: PropTypes.bool,
+    onError: PropTypes.func,
+    onRender: PropTypes.func,
     scope: PropTypes.object,
     theme: PropTypes.object,
     transformCode: PropTypes.node
@@ -54,7 +56,9 @@ export default class LiveProvider extends Component {
 
   onError = error => {
     this.setState({ error: error.toString() });
-    this.props.onError && this.props.onError(error);
+    if (this.props.onError) {
+      this.props.onError(error);
+    }
   };
 
   transpile = ({ code, scope, transformCode, noInline = false }) => {
@@ -66,9 +70,16 @@ export default class LiveProvider extends Component {
 
     const errorCallback = err => {
       this.setState({ element: undefined, error: err.toString() });
-      this.props.onError && this.props.onError(error);
+      if (this.props.onError) {
+        this.props.onError(err);
+      }
     };
-    const renderElement = element => this.setState({ ...state, element });
+    const renderElement = element => {
+      this.setState({ ...state, element });
+      if (this.props.onRender) {
+        this.props.onRender();
+      }
+    };
 
     // State reset object
     const state = { unsafeWrapperError: undefined, error: undefined };
