@@ -93,6 +93,9 @@ export default class LiveProvider extends Component {
       }
     } catch (error) {
       this.setState({ ...state, error: error.toString() });
+      if (this.props.onError) {
+        this.props.onError();
+      }
     }
   };
 
