@@ -1,4 +1,4 @@
-import { ComponentClass, StatelessComponent, HTMLProps, ComponentType } from 'react'
+import { ComponentClass, StatelessComponent, HTMLProps, ComponentType, Context } from 'react'
 import { PrismTheme, Language } from 'prism-react-renderer';
 
 // Helper types
@@ -31,6 +31,17 @@ export type EditorProps = Omit<PreProps, 'onChange'> & {
 }
 
 export const Editor: ComponentClass<EditorProps>
+
+// Context
+export interface ContextProps {
+  code?: string;
+  language?: Language;
+  theme: PrismTheme;
+  disabled?: boolean;
+  error?: string;
+}
+
+export const LiveContext: Context<ContextProps>;
 
 // LiveEditor
 export type LiveEditorProps = EditorProps;
