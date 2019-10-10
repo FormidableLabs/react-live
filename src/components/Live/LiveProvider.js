@@ -18,7 +18,6 @@ export default class LiveProvider extends Component {
     disabled: PropTypes.bool,
     language: PropTypes.string,
     noInline: PropTypes.bool,
-    onError: PropTypes.func,
     onRender: PropTypes.func,
     scope: PropTypes.object,
     theme: PropTypes.object,
@@ -56,8 +55,8 @@ export default class LiveProvider extends Component {
 
   onError = error => {
     this.setState({ error: error.toString() });
-    if (this.props.onError) {
-      this.props.onError(error);
+    if (this.props.onRender) {
+      this.props.onRender(error);
     }
   };
 
@@ -70,8 +69,8 @@ export default class LiveProvider extends Component {
 
     const errorCallback = err => {
       this.setState({ element: undefined, error: err.toString() });
-      if (this.props.onError) {
-        this.props.onError(err);
+      if (this.props.onRender) {
+        this.props.onRender(err);
       }
     };
     const renderElement = element => {
@@ -93,8 +92,8 @@ export default class LiveProvider extends Component {
       }
     } catch (error) {
       this.setState({ ...state, error: error.toString() });
-      if (this.props.onError) {
-        this.props.onError();
+      if (this.props.onRender) {
+        this.props.onRender();
       }
     }
   };

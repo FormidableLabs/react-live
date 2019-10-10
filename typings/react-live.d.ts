@@ -9,7 +9,7 @@ type DivProps = HTMLProps<HTMLDivElement>
 type PreProps = HTMLProps<HTMLPreElement>
 
 // LiveProvider
-export type LiveProviderProps = Omit<DivProps, 'scope' | 'onError'> & {
+export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   scope?: { [key: string]: any };
   code?: string;
   noInline?: boolean;
@@ -17,8 +17,7 @@ export type LiveProviderProps = Omit<DivProps, 'scope' | 'onError'> & {
   language?: Language;
   disabled?: boolean;
   theme?: PrismTheme;
-  onError?: (error: Error) => void;
-  onRender?: () => void;
+  onRender?: (error?: Error) => void;
 }
 
 export const LiveProvider: ComponentClass<LiveProviderProps>
