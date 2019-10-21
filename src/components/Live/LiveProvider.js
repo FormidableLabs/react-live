@@ -93,7 +93,7 @@ export default class LiveProvider extends Component {
     } catch (error) {
       this.setState({ ...state, error: error.toString() });
       if (this.props.onRender) {
-        this.props.onRender();
+        this.props.onRender(error);
       }
     }
   };
