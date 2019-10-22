@@ -4,6 +4,7 @@ import {
   LiveEditor,
   LiveError,
   LivePreview,
+  LiveContext,
   withLive
 } from '../';
 import * as React from 'react';
@@ -33,6 +34,12 @@ export const editorC = (
 export const liveEditorC = <LiveEditor onChange={(code: string) => {}} />;
 
 export const liveErrorC = <LiveError />;
+
+export const customError = () => (
+  <LiveContext.Consumer>
+    {({ error }) => (error ? <pre>{error}</pre> : null)}
+  </LiveContext.Consumer>
+);
 
 export const livePreviewC = <LivePreview />;
 
