@@ -4,9 +4,11 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "node server.js",
-    "build": "next build && next export",
-    "start": "NODE_ENV=production node server.js"
+    "prebuild": "cd .. && yarn && yarn build",
+    "prebuild:npm": "cd .. && npm i && npm run build",
+    "dev": "next",
+    "build": "next build",
+    "start": "NODE_ENV=production next start"
   },
   "dependencies": {
     "babel-plugin-polished": "^1.0.3",
