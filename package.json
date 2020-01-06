@@ -28,6 +28,10 @@
     "react-simple-code-editor": "^0.10.0",
     "unescape": "^1.0.1"
   },
+  "peerDependencies": {
+    "react-dom": "*",
+    "react": "*"
+  },
   "devDependencies": {
     "@storybook/addon-knobs": "^3.3.12",
     "@storybook/react": "^3.3.12",
