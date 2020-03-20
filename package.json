@@ -19,7 +19,7 @@
     "lint": "eslint --config .eslintrc \"./**/*.js\""
   },
   "dependencies": {
-    "buble-jsx-only": "^0.19.8",
+    "buble": "0.19.6",
     "core-js": "^3.6.4",
     "create-react-context": "0.3.0",
     "dom-iterator": "^1.0.0",
