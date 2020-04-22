@@ -27,6 +27,7 @@ export type EditorProps = Omit<PreProps, 'onChange'> & {
   disabled?: boolean;
   language?: Language;
   onChange?: (code: string) => void;
+  padding?: number | string;
   theme?: PrismTheme;
 }
 

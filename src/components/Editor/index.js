@@ -10,8 +10,13 @@ class CodeEditor extends Component {
     disabled: PropTypes.boolean,
     language: PropTypes.string,
     onChange: PropTypes.func,
+    padding: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
     theme: PropTypes.object
+  };
+
+  static defaultProps = {
+    padding: 10,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -75,7 +80,6 @@ class CodeEditor extends Component {
     return (
       <Editor
         value={code}
-        padding={10}
         highlight={this.highlightCode}
         onValueChange={this.updateContent}
         style={{
