@@ -20,47 +20,51 @@ export default class LiveProvider extends Component {
     noInline: PropTypes.bool,
     scope: PropTypes.object,
     theme: PropTypes.object,
+    buble: PropTypes.object,
     transformCode: PropTypes.node
   };
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
-    const { code, scope, transformCode, noInline } = this.props;
+    const { code, scope, buble, transformCode, noInline } = this.props;
 
-    this.transpile({ code, scope, transformCode, noInline });
+    this.transpile({ code, scope, buble, transformCode, noInline });
   }
 
   componentDidUpdate({
     code: prevCode,
     scope: prevScope,
+    buble: prevBuble,
     noInline: prevNoInline,
     transformCode: prevTransformCode
   }) {
-    const { code, scope, noInline, transformCode } = this.props;
+    const { code, scope, buble, noInline, transformCode } = this.props;
     if (
       code !== prevCode ||
       scope !== prevScope ||
+      buble !== prevBuble ||
       noInline !== prevNoInline ||
       transformCode !== prevTransformCode
     ) {
-      this.transpile({ code, scope, transformCode, noInline });
+      this.transpile({ code, scope, buble, transformCode, noInline });
     }
   }
 
   onChange = code => {
-    const { scope, transformCode, noInline } = this.props;
-    this.transpile({ code, scope, transformCode, noInline });
+    const { scope, buble, transformCode, noInline } = this.props;
+    this.transpile({ code, scope, buble, transformCode, noInline });
   };
 
   onError = error => {
     this.setState({ error: error.toString() });
   };
 
-  transpile = ({ code, scope, transformCode, noInline = false }) => {
+  transpile = ({ code, scope, buble, transformCode, noInline = false }) => {
     // Transpilation arguments
     const input = {
       code: transformCode ? transformCode(code) : code,
-      scope
+      scope,
+      buble
     };
 
     const errorCallback = err =>

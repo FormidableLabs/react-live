@@ -1,5 +1,5 @@
 import React from 'react';
-import { _poly } from './transform';
+import { _poly } from './polyfills';
 
 const evalCode = (code, scope) => {
   const scopeKeys = Object.keys(scope);

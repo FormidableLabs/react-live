@@ -1,13 +1,25 @@
-import transform from './transform';
+import { transform } from 'buble';
 import errorBoundary from './errorBoundary';
 import evalCode from './evalCode';
 
-export const generateElement = ({ code = '', scope = {} }, errorCallback) => {
+export const generateElement = (
+  { code = '', scope = {}, buble = {} },
+  errorCallback
+) => {
   // NOTE: Remove trailing semicolon to get an actual expression.
   const codeTrimmed = code.trim().replace(/;$/, '');
 
   // NOTE: Workaround for classes and arrow functions.
-  const transformed = transform(`return (${codeTrimmed})`).trim();
+  const transformed = transform(`return (${codeTrimmed})`, {
+    objectAssign: '_poly.assign',
+    ...buble,
+    transforms: {
+      dangerousForOf: true,
+      dangerousTaggedTemplateString: true,
+      ...buble.transforms
+    }
+  }).code.trim();
+
   return errorBoundary(evalCode(transformed, scope), errorCallback);
 };
 
