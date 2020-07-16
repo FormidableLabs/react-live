@@ -172,6 +172,10 @@ with valid JSX elements.
 
 This component renders the editor that displays the code. It is a wrapper around [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
+|Name|PropType|Description|
+|---|---|---|
+|style|PropTypes.object|Allows overriding default styles on the `LiveEditor` component.
+
 
 ### &lt;LiveError /&gt;
 
@@ -199,12 +203,12 @@ desired behavior.
 
 The component wrapped with `withLive`  gets injected the following props:
 
-|Name|Type|Description|
+|Name|PropType|Description|
 |---|---|---|
-|code|string|Reflects the code that is passed in as the `code` prop
-|error|string|An error that the code has thrown when it was previewed
-|onError|function|A callback that, when called, changes the error to what's passed as the first argument
-|onChange|function|A callback that accepts new code and transpiles it
+|code|PropTypes.string|Reflects the code that is passed in as the `code` prop
+|error|PropTypes.string|An error that the code has thrown when it was previewed
+|onError|PropTypes.func|A callback that, when called, changes the error to what's passed as the first argument
+|onChange|PropTypes.func|A callback that accepts new code and transpiles it
 |element|React.Element|The result of the transpiled code that is previewed
 
 
