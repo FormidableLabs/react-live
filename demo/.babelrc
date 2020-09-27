@@ -1,13 +1,13 @@
 {
-  "presets": [
-    "next/babel"
-  ],
-  "plugins": [
-    ["babel-plugin-styled-components", {
-      "displayName": true,
-      "ssr": true,
-      "uglifyPure": false
-    }],
-    "babel-plugin-polished"
-  ]
+    "presets": [
+        "next/babel"
+    ],
+    "plugins": [
+        ["styled-components", {
+            "displayName": true,
+            "ssr": true,
+            "uglifyPure": false
+        }],
+        "polished"
+    ]
 }

@@ -19,8 +19,8 @@ const SubTitle = styled.h2`
   }
 `;
 
-const StyledProjectBadge = styled(ProjectBadge)`
-  height: 230px;
+const BadgeContainer = styled.div`
+  width: 230px;
 `;
 
 const Title = styled.h1`
@@ -82,11 +82,13 @@ const Container = styled.div`
 const Header = () => (
   <Container>
     <TitleRow>
-      <StyledProjectBadge
-        color="#f677e1"
-        abbreviation="Rl"
-        description="React Live"
-      />
+      <BadgeContainer>
+        <ProjectBadge
+          color="#f677e1"
+          abbreviation="Rl"
+          description="React Live"
+        />
+      </BadgeContainer>
 
       <div>
         <Title>React Live</Title>

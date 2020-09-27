@@ -1,29 +1,26 @@
 {
   "name": "react-live-demo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "cd .. && yarn && yarn build",
     "prebuild:npm": "cd .. && npm i && npm run build",
-    "dev": "next",
-    "build": "next build",
-    "start": "NODE_ENV=production next start"
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start"
   },
   "dependencies": {
-    "babel-plugin-polished": "^1.0.3",
-    "babel-plugin-styled-components": "^1.5.0",
-    "express": "^4.15.2",
-    "formidable-oss-badges": "^0.2.1",
-    "lru-cache": "^4.0.2",
-    "module-alias": "^2.0.0",
-    "next": "^5.0.0",
-    "polished": "^1.0.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-is": "^16.9.0",
-    "react-live": "^2.1.2",
-    "styled-components": "^5.0.0-beta.8",
-    "stylis": "^3.5.4"
+    "formidable-oss-badges": "^0.3.5",
+    "next": "9.5.3",
+    "polished": "^3.6.7",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-live": "^2.2.2",
+    "styled-components": "^5.2.0"
+  },
+  "devDependencies": {
+    "babel-plugin-polished": "^1.1.0",
+    "babel-plugin-styled-components": "^1.11.1"
   }
 }
