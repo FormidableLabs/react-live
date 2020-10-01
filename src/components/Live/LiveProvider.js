@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import LiveContext from './LiveContext';
 import { generateElement, renderElementAsync } from '../../utils/transpile';
 
-const EMPTY_STATE = { unsafeWrapperError: undefined, error: undefined };
-
 export default class LiveProvider extends Component {
   static defaultProps = {
     code: '',
@@ -25,7 +23,7 @@ export default class LiveProvider extends Component {
     transformCode: PropTypes.node
   };
 
-  state = EMPTY_STATE;
+  state = { unsafeWrapperError: undefined, error: undefined, element: React.Fragment }
 
   componentDidMount() {
     const { code, scope, transformCode, noInline } = this.props;
@@ -66,19 +64,22 @@ export default class LiveProvider extends Component {
       scope
     };
 
+    // State reset object
+    const state = { unsafeWrapperError: undefined, error: undefined };
+
     const errorCallback = err =>
       this.setState({ element: undefined, error: err.toString() });
-    const renderElement = element => this.setState({ ...EMPTY_STATE, element });
+    const renderElement = element => this.setState({ ...state, element });
 
     try {
       if (noInline) {
-        this.setState({ ...EMPTY_STATE, element: null }); // Reset output for async (no inline) evaluation
+        this.setState({ ...state, element: null }); // Reset output for async (no inline) evaluation
         renderElementAsync(input, renderElement, errorCallback);
       } else {
         renderElement(generateElement(input, errorCallback));
       }
     } catch (error) {
-      this.setState({ ...EMPTY_STATE, error: error.toString() });
+      this.setState({ ...state, error: error.toString() });
     }
   };
 
