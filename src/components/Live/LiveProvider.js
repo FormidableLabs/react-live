@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import LiveContext from './LiveContext';
 import { generateElement, renderElementAsync } from '../../utils/transpile';
 
+const EMPTY_STATE = { unsafeWrapperError: undefined, error: undefined };
+
 export default class LiveProvider extends Component {
   static defaultProps = {
     code: '',
@@ -23,8 +25,9 @@ export default class LiveProvider extends Component {
     transformCode: PropTypes.node
   };
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
+  state = EMPTY_STATE;
+
+  componentDidMount() {
     const { code, scope, transformCode, noInline } = this.props;
 
     this.transpile({ code, scope, transformCode, noInline });
@@ -65,20 +68,17 @@ export default class LiveProvider extends Component {
 
     const errorCallback = err =>
       this.setState({ element: undefined, error: err.toString() });
-    const renderElement = element => this.setState({ ...state, element });
-
-    // State reset object
-    const state = { unsafeWrapperError: undefined, error: undefined };
+    const renderElement = element => this.setState({ ...EMPTY_STATE, element });
 
     try {
       if (noInline) {
-        this.setState({ ...state, element: null }); // Reset output for async (no inline) evaluation
+        this.setState({ ...EMPTY_STATE, element: null }); // Reset output for async (no inline) evaluation
         renderElementAsync(input, renderElement, errorCallback);
       } else {
         renderElement(generateElement(input, errorCallback));
       }
     } catch (error) {
-      this.setState({ ...state, error: error.toString() });
+      this.setState({ ...EMPTY_STATE, error: error.toString() });
     }
   };
 
