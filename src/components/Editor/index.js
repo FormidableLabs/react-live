@@ -58,15 +58,7 @@ class CodeEditor extends Component {
   );
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const {
-      style,
-      code: _code,
-      onChange,
-      language,
-      theme,
-      ...rest
-    } = this.props;
+    const { style, theme, ...rest } = this.props;
     const { code } = this.state;
 
     const baseTheme =
