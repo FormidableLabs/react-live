@@ -7,7 +7,7 @@ import { theme as liveTheme } from '../../constants/theme';
 class CodeEditor extends Component {
   static propTypes = {
     code: PropTypes.string,
-    disabled: PropTypes.boolean,
+    disabled: PropTypes.bool,
     language: PropTypes.string,
     onChange: PropTypes.func,
     style: PropTypes.object,
