@@ -25,7 +25,7 @@ The library is structured modularly and lets you style and compose its component
 
 Install it with `npm install react-live` or `yarn add react-live` and try out this piece of JSX:
 
-```js
+```jsx
 import {
   LiveProvider,
   LiveEditor,
@@ -69,7 +69,7 @@ and render one of the above things by calling `render`.
 The `scope` prop on the `LiveProvider` accepts additional globals. By default it injects `React` only, which
 means that the user can use it in their code like this:
 
-```js
+```jsx
 //                    ↓↓↓↓↓
 class Example extends React.Component {
   render() {
@@ -80,7 +80,7 @@ class Example extends React.Component {
 
 But you can of course pass more things to the scope. They will be available as variables in the code. Here's an example using [styled components](https://github.com/styled-components/styled-components):
 
-```js
+```jsx
 import styled from 'styled-components';
 
 const headerProps = { text: 'I\'m styled!' };
@@ -105,7 +105,7 @@ const code = `
 
 Here's an example using a custom component `<MyButton />`. This component lives in a different directory. It gets passed into the scope wrapped in an Object. Note that since we are not using `render()` in the code snippet we let `noInline` stay equal to the default of `false`:
 
-```js
+```jsx
 
 import { MyButton } from './components/MyButton';
 
