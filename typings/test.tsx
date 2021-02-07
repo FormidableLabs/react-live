@@ -28,7 +28,7 @@ export const providerC = (
 );
 
 export const editorC = (
-  <Editor onChange={(code: string) => {}} code="code" disabled={false} />
+  <Editor onChange={(code: string) => {}} code="code" disabled={false} padding={16} />
 );
 
 export const liveEditorC = <LiveEditor onChange={(code: string) => {}} />;
