@@ -1,5 +1,6 @@
-import { ComponentClass, StatelessComponent, HTMLProps, ComponentType, Context } from 'react'
+import { ComponentClass, StatelessComponent, HTMLProps, ComponentType, Context, ComponentProps } from 'react'
 import { PrismTheme, Language } from 'prism-react-renderer';
+import CodeEditor from 'react-simple-code-editor';
 
 // Helper types
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
@@ -22,13 +23,12 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
 export const LiveProvider: ComponentClass<LiveProviderProps>
 
 // Editor
-export type EditorProps = Omit<PreProps, 'onChange'> & {
+export type EditorProps = Omit<PreProps, 'onChange'> & ComponentProps<CodeEditor> & {
   code?: string,
   disabled?: boolean;
   language?: Language;
   onChange?: (code: string) => void;
   theme?: PrismTheme;
-  padding?: number | string;
 }
 
 export const Editor: ComponentClass<EditorProps>
