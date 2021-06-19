@@ -1,5 +1,5 @@
 import { transform as _transform } from 'buble';
-import assign from 'core-js/fn/object/assign';
+import assign from 'core-js/features/object/assign';
 
 export const _poly = { assign };
 
