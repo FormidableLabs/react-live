@@ -106,8 +106,8 @@ class Index extends Component {
 
         <Description>
           If you want to demo a couple of components in tandem, without
-          evaluating a single one inline, you can use the "noInline" prop and
-          call "render".
+          evaluating a single one inline, you can use the &quot;noInline&quot; prop and
+          call &quot;render&quot;.
         </Description>
         <LiveEdit noInline code={noInlineExample} />
       </Container>
