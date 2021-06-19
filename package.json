@@ -20,11 +20,11 @@
   },
   "dependencies": {
     "buble": "0.19.6",
-    "core-js": "^2.4.1",
+    "core-js": "^3.14.0",
     "dom-iterator": "^1.0.0",
-    "prism-react-renderer": "^1.0.1",
-    "prop-types": "^15.5.8",
-    "react-simple-code-editor": "^0.10.0",
+    "prism-react-renderer": "^1.2.1",
+    "prop-types": "^15.7.2",
+    "react-simple-code-editor": "^0.11.0",
     "unescape": "^1.0.1"
   },
   "devDependencies": {
