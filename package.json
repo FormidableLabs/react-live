@@ -19,6 +19,7 @@
     "lint": "eslint --config .eslintrc \"./**/*.js\""
   },
   "dependencies": {
+    "@types/buble": "^0.20.0",
     "buble": "0.19.6",
     "core-js": "^3.14.0",
     "dom-iterator": "^1.0.0",
