@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean } from '@storybook/addon-knobs/react';
@@ -144,6 +145,9 @@ const TestComponent = ({ live }) => {
     </Container>
   );
 };
+TestComponent.propTypes = {
+  live: PropTypes.object
+}
 const CustomEditor = () => {
   // eslint-disable-next-line no-shadow
   const [code, updateCode] = React.useState(functionExample);
