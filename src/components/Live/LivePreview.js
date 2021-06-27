@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LiveContext from './LiveContext';
 
 function LivePreview({ Component, ...rest }) {
@@ -10,6 +11,10 @@ function LivePreview({ Component, ...rest }) {
     </Component>
   );
 }
+
+LivePreview.propTypes = {
+  Component: PropTypes.node
+};
 
 LivePreview.defaultProps = {
   Component: 'div'

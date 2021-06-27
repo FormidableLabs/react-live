@@ -62,9 +62,9 @@ function LikeButton() {
 
   return (
     <>
-      <p class="likes">{likes} likes</p>
+      <p className="likes">{likes} likes</p>
       <button
-        class="button"
+        className="button"
         onClick={() => increaseLikes(likes + 1)} />
     </>
   )
@@ -139,7 +139,7 @@ const TestComponent = ({ live }) => {
   return (
     <Container>
       <StyledEditor />
-      <Result />
+      {Result && <Result />}
       <pre>{live.error}</pre>
     </Container>
   );
