@@ -1,15 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import LiveContext from './LiveContext';
 
 function LivePreview({ Component, ...rest }) {
-  return (
-    <Component {...rest}>
-      <LiveContext.Consumer>
-        {({ element: Element }) => Element && <Element />}
-      </LiveContext.Consumer>
-    </Component>
-  );
+  const { element: Element } = useContext(LiveContext);
+  return <Component {...rest}>{Element ? <Element /> : null}</Component>;
 }
 
 LivePreview.propTypes = {

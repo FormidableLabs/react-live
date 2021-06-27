@@ -1,45 +1,36 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Editor from 'react-simple-code-editor';
 import Highlight, { Prism } from 'prism-react-renderer';
 import { theme as liveTheme } from '../../constants/theme';
 
-class CodeEditor extends Component {
-  static propTypes = {
-    code: PropTypes.string,
-    disabled: PropTypes.bool,
-    language: PropTypes.string,
-    onChange: PropTypes.func,
-    style: PropTypes.object,
-    theme: PropTypes.object
-  };
+const CodeEditor = props => {
+  const [state, setState] = useState({
+    code: props.code || ''
+  });
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.code !== state.prevCodeProp) {
-      return { code: props.code, prevCodeProp: props.code };
+  useEffect(() => {
+    if (state.prevCodeProp && props.code !== state.prevCodeProp) {
+      setState({ code: props.code, prevCodeProp: props.code });
     }
+  }, [props.code]);
 
-    return null;
-  }
-
-  state = {
-    code: ''
+  const updateContent = code => {
+    setState({ code });
   };
 
-  updateContent = code => {
-    this.setState({ code }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.state.code);
-      }
-    });
-  };
+  useEffect(() => {
+    if (props.onChange) {
+      props.onChange(state.code);
+    }
+  }, [state.code]);
 
-  highlightCode = code => (
+  const highlightCode = code => (
     <Highlight
       Prism={Prism}
       code={code}
-      theme={this.props.theme || liveTheme}
-      language={this.props.language}
+      theme={props.theme || liveTheme}
+      language={props.language}
     >
       {({ tokens, getLineProps, getTokenProps }) => (
         <Fragment>
@@ -57,30 +48,36 @@ class CodeEditor extends Component {
     </Highlight>
   );
 
-  render() {
-    // eslint-disable-next-line no-unused-vars
-    const { style, theme, onChange, ...rest } = this.props;
-    const { code } = this.state;
+  // eslint-disable-next-line no-unused-vars
+  const { style, theme, onChange, ...rest } = props;
+  const { code } = state;
 
-    const baseTheme =
-      theme && typeof theme.plain === 'object' ? theme.plain : {};
+  const baseTheme = theme && typeof theme.plain === 'object' ? theme.plain : {};
 
-    return (
-      <Editor
-        value={code}
-        padding={10}
-        highlight={this.highlightCode}
-        onValueChange={this.updateContent}
-        style={{
-          whiteSpace: 'pre',
-          fontFamily: 'monospace',
-          ...baseTheme,
-          ...style
-        }}
-        {...rest}
-      />
-    );
-  }
-}
+  return (
+    <Editor
+      value={code}
+      padding={10}
+      highlight={highlightCode}
+      onValueChange={updateContent}
+      style={{
+        whiteSpace: 'pre',
+        fontFamily: 'monospace',
+        ...baseTheme,
+        ...style
+      }}
+      {...rest}
+    />
+  );
+};
+
+CodeEditor.propTypes = {
+  code: PropTypes.string,
+  disabled: PropTypes.bool,
+  language: PropTypes.string,
+  onChange: PropTypes.func,
+  style: PropTypes.object,
+  theme: PropTypes.object
+};
 
 export default CodeEditor;

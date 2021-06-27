@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import LiveContext from './LiveContext';
 
 export default function LiveError(props) {
-  return (
-    <LiveContext.Consumer>
-      {({ error }) => (error ? <pre {...props}>{error}</pre> : null)}
-    </LiveContext.Consumer>
-  );
+  const { error } = useContext(LiveContext);
+  return error ? <pre {...props}>{error}</pre> : null;
 }
