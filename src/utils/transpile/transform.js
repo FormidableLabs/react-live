@@ -3,12 +3,16 @@ import assign from 'core-js/features/object/assign';
 
 export const _poly = { assign };
 
-const opts = {
-  objectAssign: '_poly.assign',
-  transforms: {
-    dangerousForOf: true,
-    dangerousTaggedTemplateString: true
-  }
-};
+export default (code, transpileOptions = {}) => {
+  const opts = {
+    ...transpileOptions,
+    objectAssign: '_poly.assign',
+    transforms: {
+      dangerousForOf: true,
+      dangerousTaggedTemplateString: true,
+      ...transpileOptions.transforms
+    }
+  };
 
-export default code => _transform(code, opts).code;
+  return _transform(code, opts).code;
+};

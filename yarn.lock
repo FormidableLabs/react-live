@@ -383,6 +383,13 @@
     react-split-pane "^0.1.77"
     react-treebeard "^2.1.0"
 
+"@types/buble@^0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/@types/buble/-/buble-0.20.0.tgz#8c076a500bb297a3955bd832ae4a1ec5ccf25753"
+  integrity sha512-tS+DwolzYtDuayJspUABudwjeF8t0mGzchixMDcxN9Vn96IL23AFCsZVoX3gbPkYbZnvD3W+nWCtB/HyxUaeXg==
+  dependencies:
+    magic-string "^0.25.0"
+
 "@types/node@*":
   version "12.7.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.2.tgz#c4e63af5e8823ce9cc3f0b34f7b998c2171f0c44"
