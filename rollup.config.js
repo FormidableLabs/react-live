@@ -1,8 +1,8 @@
-import nodeResolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
-import commonjs from 'rollup-plugin-commonjs';
-import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify-es';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import commonjs from '@rollup/plugin-commonjs';
+import { babel } from '@rollup/plugin-babel';
+import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 
 const plugins = [
@@ -12,35 +12,38 @@ const plugins = [
   }),
   commonjs({
     include: 'node_modules/**',
-    namedExports: {
-      'buble/dist/buble.deps': ['transform'],
-      buble: ['transform'],
-      'prismjs/components/prism-core': ['highlight', 'languages']
-    }
   }),
   babel({
+    babelHelpers: 'runtime',
     babelrc: false,
-    presets: [['env', { modules: false, loose: true }], 'react'],
+    presets: [
+      ['@babel/preset-env', { modules: false, loose: true }],
+      '@babel/preset-react',
+    ],
     plugins: [
-      'external-helpers',
-      'transform-object-rest-spread',
-      'transform-class-properties',
-      'transform-react-remove-prop-types'
+      '@babel/plugin-transform-runtime',
+      '@babel/plugin-proposal-object-rest-spread',
+      '@babel/plugin-proposal-class-properties',
+      '@babel/plugin-proposal-private-property-in-object',
+      '@babel/plugin-proposal-private-methods',
+      'transform-react-remove-prop-types',
     ].filter(Boolean)
   })
 ];
 
 const devPlugins = plugins.concat([
   replace({
-    'process.env.NODE_ENV': JSON.stringify('development')
+    'process.env.NODE_ENV': JSON.stringify('development'),
+    preventAssignment: true,
   })
 ]);
 
 const prodPlugins = plugins.concat([
   replace({
-    'process.env.NODE_ENV': JSON.stringify('production')
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    preventAssignment: true,
   }),
-  uglify(),
+  terser(),
   filesize()
 ]);
 
