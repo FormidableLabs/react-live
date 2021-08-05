@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { storiesOf } from '@storybook/react';
-import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import { theme } from '../src/constants/theme';
 
 import {
@@ -148,14 +146,14 @@ const TestComponent = ({ live }) => {
 TestComponent.propTypes = {
   live: PropTypes.object
 }
-const CustomEditor = () => {
+const CustomEditor = (args) => {
   // eslint-disable-next-line no-shadow
   const [code, updateCode] = React.useState(functionExample);
   const handleChange = e => {
     updateCode(e.target.value);
   };
   return (
-    <LiveProvider code={code}>
+    <LiveProvider code={code} {...args}>
       <StyledTextarea onChange={handleChange} value={code} />
       <LivePreview />
       <LiveError />
@@ -163,17 +161,15 @@ const CustomEditor = () => {
   );
 };
 const LiveComponent = withLive(TestComponent);
-function Sandbox() {
+function Sandbox(args) {
   const initialCode = `
     <em>We're using a custom onChange event on the editor to update the code</em>
   `.trim();
   const [customCode, setCustomCode] = React.useState(initialCode);
   return (
     <LiveProvider
+      {...args}
       code={customCode}
-      disabled={boolean('Disable editing', false)}
-      language="jsx"
-      noInline={boolean('No inline evaluation', false)}
     >
       <StyledEditor onChange={setCustomCode} />
       <LiveError />
@@ -181,70 +177,100 @@ function Sandbox() {
     </LiveProvider>
   );
 }
-storiesOf('Live', module)
-  .addDecorator(withKnobs)
-  .add('default', () => (
-    <LiveProvider
-      code={code}
-      disabled={boolean('Disable editing', false)}
-      noInline={boolean('No inline evaluation', false)}
-    >
-      <LiveEditor />
-      <LiveError />
-      <LivePreview />
-    </LiveProvider>
-  ))
-  .add('function example', () => (
-    <LiveProvider
-      code={functionExample}
-      disabled={boolean('Disable editing', false)}
-      noInline={boolean('No inline evaluation', false)}
-    >
-      <LiveEditor />
-      <LiveError />
-      <StyledLivePreview />
-    </LiveProvider>
-  ))
-  .add('styled subcomponents', () => (
-    <LiveProvider
-      code={code}
-      disabled={boolean('Disable editing', false)}
-      noInline={boolean('No inline evaluation', false)}
-    >
-      <LiveEditor />
-      <LiveError />
-      <StyledLivePreview />
-    </LiveProvider>
-  ))
-  .add('component example', () => (
-    <LiveProvider
-      code={componentExample}
-      disabled={boolean('Disable editing', false)}
-      language="jsx"
-      noInline={boolean('No inline evaluation', false)}
-    >
-      <StyledEditor />
-      <LiveError />
-      <LivePreview />
-    </LiveProvider>
-  ))
-  .add('component with theme', () => (
-    <LiveProvider
-      code={componentExample}
-      disabled={boolean('Disable editing', false)}
-      language="jsx"
-      noInline={boolean('No inline evaluation', false)}
-      theme={theme}
-    >
-      <StyledEditor />
-      <LiveError />
-      <LivePreview />
-    </LiveProvider>
-  ))
-  .add('component with custom onChange', () => <Sandbox />)
-  .add('withLive example', () => (
-    <LiveProvider code={hooksExample}>
-      <LiveComponent />
-    </LiveProvider>
-  ))
-  .add('with custom editor', () => <CustomEditor />);
+
+export default {
+  title: 'Live',
+  component: LiveProvider,
+  argTypes: {
+    code: {
+      table: {
+        disable: true
+      }
+    }
+  }
+}
+
+const DefaultTemplate = (args) => (
+  <LiveProvider {...args}>
+    <LiveEditor />
+    <LiveError />
+    <LivePreview />
+  </LiveProvider>
+);
+
+const StyledPreviewTemplate = (args) => (
+  <LiveProvider {...args}>
+    <LiveEditor />
+    <LiveError />
+    <StyledLivePreview />
+  </LiveProvider>
+);
+
+const StyledEditorTemplate = (args) => (
+  <LiveProvider {...args}>
+    <StyledEditor />
+    <LiveError />
+    <LivePreview />
+  </LiveProvider>
+);
+
+const WithLiveTemplate = (args) => (
+  <LiveProvider {...args}>
+    <LiveComponent />
+  </LiveProvider>
+)
+
+const defaultControls = {
+  disabled: false,
+  noInline: false,
+}
+
+export const Default = DefaultTemplate.bind({});
+Default.args = {
+  ...defaultControls,
+  code: code
+};
+
+export const FunctionExample = StyledPreviewTemplate.bind({});
+FunctionExample.args = {
+  ...defaultControls,
+  code: functionExample,
+}
+
+export const StyledSubcomponents = StyledPreviewTemplate.bind({});
+StyledSubcomponents.args = {
+  ...defaultControls,
+  code: code,
+}
+
+export const ComponentExample = StyledEditorTemplate.bind({});
+ComponentExample.args = {
+  ...defaultControls,
+  code: componentExample,
+  language: 'jsx',
+}
+
+export const ComponentWithTheme = StyledEditorTemplate.bind({});
+ComponentWithTheme.args = {
+  ...defaultControls,
+  code: componentExample,
+  language: 'jsx',
+  theme: theme,
+}
+
+export const ComponentWithCustomOnchange = Sandbox.bind({});
+ComponentWithCustomOnchange.args = {
+  ...defaultControls,
+  language: "jsx",
+}
+
+export const WithLiveExample = WithLiveTemplate.bind({});
+WithLiveExample.args = {
+  ...defaultControls,
+  code: hooksExample,
+}
+
+export const WithCustomEditor = CustomEditor.bind({});
+WithCustomEditor.args = {
+  ...defaultControls,
+}
