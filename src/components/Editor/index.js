@@ -10,7 +10,7 @@ const CodeEditor = props => {
   });
 
   useEffect(() => {
-    if (state.prevCodeProp && props.code !== state.prevCodeProp) {
+    if (props.code !== state.prevCodeProp) {
       setState({ code: props.code, prevCodeProp: props.code });
     }
   }, [props.code]);
