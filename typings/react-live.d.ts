@@ -16,7 +16,7 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   scope?: { [key: string]: any };
   code?: string;
   noInline?: boolean;
-  transformCode?: (code: string) => string;
+  transformCode?: (code: string) => (string | Promise<string>);
   transpileOptions?: TranspileOptions;
   language?: Language;
   disabled?: boolean;
