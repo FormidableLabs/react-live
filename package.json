@@ -57,6 +57,7 @@
     "eslint-plugin-react": "^7.7.0",
     "jest": "^27.0.6",
     "prettier": "^1.17.0",
+    "prismjs": "^1.26.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "rollup": "^2.55.1",

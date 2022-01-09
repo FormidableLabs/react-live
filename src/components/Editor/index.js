@@ -27,7 +27,7 @@ const CodeEditor = props => {
 
   const highlightCode = code => (
     <Highlight
-      Prism={Prism}
+      Prism={props.prism || Prism}
       code={code}
       theme={props.theme || liveTheme}
       language={props.language}
@@ -77,7 +77,8 @@ CodeEditor.propTypes = {
   language: PropTypes.string,
   onChange: PropTypes.func,
   style: PropTypes.object,
-  theme: PropTypes.object
+  theme: PropTypes.object,
+  prism: PropTypes.object
 };
 
 export default CodeEditor;

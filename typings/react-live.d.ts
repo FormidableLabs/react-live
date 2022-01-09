@@ -32,6 +32,7 @@ export type EditorProps = Omit<PreProps, 'onChange'> & {
   language?: Language;
   onChange?: (code: string) => void;
   theme?: PrismTheme;
+  prism?: unknown
 }
 
 export const Editor: ComponentClass<EditorProps>
