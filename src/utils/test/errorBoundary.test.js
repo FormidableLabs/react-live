@@ -17,7 +17,8 @@ describe('errorBoundary', () => {
     const errorCb = jest.fn();
 
     const Component = errorBoundary(
-      class extends React.Component {
+      class Test extends React.Component {
+        // eslint-disable-next-line react/require-render-return
         render() {
           throw new Error('test');
         }

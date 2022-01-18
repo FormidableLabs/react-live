@@ -1,8 +1,10 @@
 {
   "root": true,
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
-    "formidable/configurations/es6-react",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended",
     "prettier",
     "prettier/react"
   ],
@@ -23,7 +25,8 @@
       "jsx": true,
       "generators": true,
       "experimentalObjectRestSpread": true
-    }
+    },
+    "requireConfigFile": false
   },
   "rules": {
     "comma-dangle": "off",
