@@ -1,73 +1,73 @@
 export const theme = {
   plain: {
-    color: '#C5C8C6',
-    backgroundColor: '#1D1F21'
+    color: "#C5C8C6",
+    backgroundColor: "#1D1F21",
   },
   styles: [
     {
-      types: ['prolog', 'comment', 'doctype', 'cdata'],
+      types: ["prolog", "comment", "doctype", "cdata"],
       style: {
-        color: 'hsl(30, 20%, 50%)'
-      }
+        color: "hsl(30, 20%, 50%)",
+      },
     },
     {
-      types: ['property', 'tag', 'boolean', 'number', 'constant', 'symbol'],
-      style: { color: 'hsl(350, 40%, 70%)' }
+      types: ["property", "tag", "boolean", "number", "constant", "symbol"],
+      style: { color: "hsl(350, 40%, 70%)" },
     },
     {
-      types: ['attr-name', 'string', 'char', 'builtin', 'insterted'],
+      types: ["attr-name", "string", "char", "builtin", "insterted"],
       style: {
-        color: 'hsl(75, 70%, 60%)'
-      }
+        color: "hsl(75, 70%, 60%)",
+      },
     },
     {
       types: [
-        'operator',
-        'entity',
-        'url',
-        'string',
-        'variable',
-        'language-css'
+        "operator",
+        "entity",
+        "url",
+        "string",
+        "variable",
+        "language-css",
       ],
       style: {
-        color: 'hsl(40, 90%, 60%)'
-      }
+        color: "hsl(40, 90%, 60%)",
+      },
     },
     {
-      types: ['deleted'],
+      types: ["deleted"],
       style: {
-        color: 'rgb(255, 85, 85)'
-      }
+        color: "rgb(255, 85, 85)",
+      },
     },
     {
-      types: ['italic'],
+      types: ["italic"],
       style: {
-        fontStyle: 'italic'
-      }
+        fontStyle: "italic",
+      },
     },
     {
-      types: ['important', 'bold'],
+      types: ["important", "bold"],
       style: {
-        fontWeight: 'bold'
-      }
+        fontWeight: "bold",
+      },
     },
     {
-      types: ['regex', 'important'],
+      types: ["regex", "important"],
       style: {
-        color: '#e90'
-      }
+        color: "#e90",
+      },
     },
     {
-      types: ['atrule', 'attr-value', 'keyword'],
+      types: ["atrule", "attr-value", "keyword"],
       style: {
-        color: 'hsl(350, 40%, 70%)'
-      }
+        color: "hsl(350, 40%, 70%)",
+      },
     },
     {
-      types: ['punctuation', 'symbol'],
+      types: ["punctuation", "symbol"],
       style: {
-        opacity: '0.7'
-      }
-    }
-  ]
+        opacity: "0.7",
+      },
+    },
+  ],
 };

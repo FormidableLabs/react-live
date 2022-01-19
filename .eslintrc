@@ -1,12 +1,13 @@
 {
   "root": true,
   "parser": "@babel/eslint-parser",
+  "plugins": [
+    "prettier"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:import/recommended",
-    "prettier",
-    "prettier/react"
+    "plugin:import/recommended"
   ],
   "env": {
     "browser": true,
@@ -60,6 +61,7 @@
     "filenames/match-regex": "off",
     "react/react-in-jsx-scope": "off",
     "max-params": ["error", 5],
-    "max-nested-callbacks": ["error", 5]
+    "max-nested-callbacks": ["error", 5],
+    "prettier/prettier": "error"
   }
 }

@@ -1,98 +1,98 @@
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
-import commonjs from '@rollup/plugin-commonjs';
-import { babel } from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import filesize from 'rollup-plugin-filesize';
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
+import commonjs from "@rollup/plugin-commonjs";
+import { babel } from "@rollup/plugin-babel";
+import { terser } from "rollup-plugin-terser";
+import filesize from "rollup-plugin-filesize";
 
 const plugins = [
   nodeResolve({
     jsnext: true,
-    modulesOnly: true
+    modulesOnly: true,
   }),
   commonjs({
-    include: 'node_modules/**',
+    include: "node_modules/**",
   }),
   babel({
-    babelHelpers: 'runtime',
+    babelHelpers: "runtime",
     babelrc: false,
     presets: [
-      ['@babel/preset-env', { modules: false, loose: true }],
-      '@babel/preset-react',
+      ["@babel/preset-env", { modules: false, loose: true }],
+      "@babel/preset-react",
     ],
     plugins: [
-      '@babel/plugin-transform-runtime',
-      '@babel/plugin-proposal-object-rest-spread',
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-proposal-private-property-in-object',
-      '@babel/plugin-proposal-private-methods',
-      'transform-react-remove-prop-types',
-    ].filter(Boolean)
-  })
+      "@babel/plugin-transform-runtime",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-private-property-in-object",
+      "@babel/plugin-proposal-private-methods",
+      "transform-react-remove-prop-types",
+    ].filter(Boolean),
+  }),
 ];
 
 const devPlugins = plugins.concat([
   replace({
-    'process.env.NODE_ENV': JSON.stringify('development'),
+    "process.env.NODE_ENV": JSON.stringify("development"),
     preventAssignment: true,
-  })
+  }),
 ]);
 
 const prodPlugins = plugins.concat([
   replace({
-    'process.env.NODE_ENV': JSON.stringify('production'),
+    "process.env.NODE_ENV": JSON.stringify("production"),
     preventAssignment: true,
   }),
   terser(),
-  filesize()
+  filesize(),
 ]);
 
 const base = {
-  input: 'src/index.js',
-  external: ['react', 'react-dom', 'prism-react-renderer', 'buble']
+  input: "src/index.js",
+  external: ["react", "react-dom", "prism-react-renderer", "buble"],
 };
 
 const output = {
-  exports: 'named',
+  exports: "named",
   globals: {
-    'prism-react-renderer': 'Prism',
-    react: 'React',
-    buble: 'Buble',
-    'react-dom': 'ReactDOM'
-  }
+    "prism-react-renderer": "Prism",
+    react: "React",
+    buble: "Buble",
+    "react-dom": "ReactDOM",
+  },
 };
 
-const makeOutput = config => Object.assign({}, output, config);
+const makeOutput = (config) => Object.assign({}, output, config);
 
-const withBase = config => Object.assign({}, base, config);
+const withBase = (config) => Object.assign({}, base, config);
 
 export default [
   {
     output: [
       {
-        name: 'ReactLive',
-        file: 'dist/react-live.min.js',
-        format: 'umd'
-      }
+        name: "ReactLive",
+        file: "dist/react-live.min.js",
+        format: "umd",
+      },
     ].map(makeOutput),
-    plugins: prodPlugins
+    plugins: prodPlugins,
   },
   {
     output: [
       {
-        name: 'ReactLive',
-        file: 'dist/react-live.js',
-        format: 'umd'
+        name: "ReactLive",
+        file: "dist/react-live.js",
+        format: "umd",
       },
       {
-        file: 'dist/react-live.es.js',
-        format: 'es'
+        file: "dist/react-live.es.js",
+        format: "es",
       },
       {
-        file: 'dist/react-live.cjs.js',
-        format: 'cjs'
-      }
+        file: "dist/react-live.cjs.js",
+        format: "cjs",
+      },
     ].map(makeOutput),
-    plugins: devPlugins
-  }
+    plugins: devPlugins,
+  },
 ].map(withBase);
