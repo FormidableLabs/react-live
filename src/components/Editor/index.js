@@ -1,12 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Editor from 'react-simple-code-editor';
-import Highlight, { Prism } from 'prism-react-renderer';
-import { theme as liveTheme } from '../../constants/theme';
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Editor from "react-simple-code-editor";
+import Highlight, { Prism } from "prism-react-renderer";
+import { theme as liveTheme } from "../../constants/theme";
 
-const CodeEditor = props => {
+const CodeEditor = (props) => {
   const [state, setState] = useState({
-    code: props.code || ''
+    code: props.code || "",
   });
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const CodeEditor = props => {
     }
   }, [props.code]);
 
-  const updateContent = code => {
+  const updateContent = (code) => {
     setState({ code });
   };
 
@@ -25,7 +25,7 @@ const CodeEditor = props => {
     }
   }, [state.code]);
 
-  const highlightCode = code => (
+  const highlightCode = (code) => (
     <Highlight
       Prism={Prism}
       code={code}
@@ -52,7 +52,7 @@ const CodeEditor = props => {
   const { style, theme, onChange, ...rest } = props;
   const { code } = state;
 
-  const baseTheme = theme && typeof theme.plain === 'object' ? theme.plain : {};
+  const baseTheme = theme && typeof theme.plain === "object" ? theme.plain : {};
 
   return (
     <Editor
@@ -61,10 +61,10 @@ const CodeEditor = props => {
       highlight={highlightCode}
       onValueChange={updateContent}
       style={{
-        whiteSpace: 'pre',
-        fontFamily: 'monospace',
+        whiteSpace: "pre",
+        fontFamily: "monospace",
         ...baseTheme,
-        ...style
+        ...style,
       }}
       {...rest}
     />
@@ -77,7 +77,7 @@ CodeEditor.propTypes = {
   language: PropTypes.string,
   onChange: PropTypes.func,
   style: PropTypes.object,
-  theme: PropTypes.object
+  theme: PropTypes.object,
 };
 
 export default CodeEditor;
