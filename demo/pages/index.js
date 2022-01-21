@@ -12,7 +12,6 @@ const Container = styled.div`
   width: ${polished.rem(1024)};
   padding: ${polished.rem(20)};
   padding-bottom: ${polished.rem(100)};
-  text-align: center;
 `;
 
 const Description = styled.p`
@@ -20,6 +19,7 @@ const Description = styled.p`
   font-size: ${polished.modularScale(1)};
   margin-bottom: ${polished.rem(20)};
   margin-top: ${polished.rem(50)};
+  text-align: center;
 `;
 
 const componentClassExample = `
