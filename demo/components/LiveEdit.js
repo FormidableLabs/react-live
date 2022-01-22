@@ -57,6 +57,7 @@ const StyledPreview = styled(LivePreview)`
   color: black;
   height: auto;
   overflow: hidden;
+  text-align: center;
 
   ${column};
 `;
