@@ -1,6 +1,6 @@
 import React from "react";
 import { generateElement, renderElementAsync } from "../transpile";
-import { shallow } from "enzyme";
+import { shallow } from "./renderer";
 
 describe("transpile", () => {
   describe("generateElement", () => {

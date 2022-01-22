@@ -1,6 +1,6 @@
 import React from "react";
 import errorBoundary from "../transpile/errorBoundary";
-import { render } from "enzyme";
+import { render } from "./renderer";
 
 describe("errorBoundary", () => {
   it("should wrap PFCs in an error boundary", () => {
