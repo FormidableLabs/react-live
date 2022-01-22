@@ -1,5 +1,7 @@
 import React from "react";
-import { _poly } from "./transform";
+import assign from "core-js/features/object/assign";
+
+export const _poly = { assign };
 
 const evalCode = (code, scope) => {
   const scopeKeys = Object.keys(scope);

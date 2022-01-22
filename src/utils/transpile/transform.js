@@ -1,18 +1,5 @@
-import { transform as _transform } from "buble";
-import assign from "core-js/features/object/assign";
+import { transform as _transform } from "sucrase";
 
-export const _poly = { assign };
+const opts = { transforms: ["jsx", "imports"] };
 
-export default (code, transpileOptions = {}) => {
-  const opts = {
-    ...transpileOptions,
-    objectAssign: "_poly.assign",
-    transforms: {
-      dangerousForOf: true,
-      dangerousTaggedTemplateString: true,
-      ...transpileOptions.transforms,
-    },
-  };
-
-  return _transform(code, opts).code;
-};
+export default (code) => _transform(code, opts).code;

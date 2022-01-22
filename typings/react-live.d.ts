@@ -1,8 +1,5 @@
 import { ComponentClass, HTMLProps, ComponentType, Context } from 'react'
 import { PrismTheme, Language } from 'prism-react-renderer';
-import { TransformOptions } from 'buble';
-
-type TranspileOptions = TransformOptions & { transforms: {asyncAwait?: boolean}}
 
 // Helper types
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
@@ -17,7 +14,6 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   code?: string;
   noInline?: boolean;
   transformCode?: (code: string) => string;
-  transpileOptions?: TranspileOptions;
   language?: Language;
   disabled?: boolean;
   theme?: PrismTheme;

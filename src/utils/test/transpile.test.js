@@ -59,23 +59,6 @@ describe("transpile", () => {
 
       expect(wrapper.text()).toBe("Hello World!");
     });
-
-    it("adopts code generation based on transpileOptions", () => {
-      const code = `(() => {
-        class Foo { async bar() { await Promise.resolve(1); } }
-      })();`;
-
-      expect(() => generateElement({ code })).toThrow();
-
-      expect(() =>
-        generateElement({
-          code,
-          transpileOptions: {
-            transforms: { classes: false, asyncAwait: false },
-          },
-        })
-      ).not.toThrow();
-    });
   });
 
   describe("renderElementAsync", () => {
