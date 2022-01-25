@@ -27,7 +27,7 @@ const plugins = [
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-private-property-in-object",
       "@babel/plugin-proposal-private-methods",
-      "transform-react-remove-prop-types",
+      ["transform-react-remove-prop-types", { removeImport: true }],
     ].filter(Boolean),
   }),
 ];
@@ -51,7 +51,13 @@ const prodPlugins = plugins.concat([
 
 const base = {
   input: "src/index.js",
-  external: ["react", "react-dom", "prism-react-renderer", "sucrase"],
+  external: [
+    "react",
+    "react-dom",
+    "prop-types",
+    "prism-react-renderer",
+    "sucrase",
+  ],
 };
 
 const output = {
@@ -61,6 +67,7 @@ const output = {
     react: "React",
     sucrase: "Sucrase",
     "react-dom": "ReactDOM",
+    "prop-types": "PropTypes",
   },
 };
 
