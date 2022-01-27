@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-import LiveContext from './LiveContext';
-import { generateElement, renderElementAsync } from '../../utils/transpile';
+import LiveContext from "./LiveContext";
+import { generateElement, renderElementAsync } from "../../utils/transpile";
 
 function LiveProvider({
   children,
@@ -12,12 +12,11 @@ function LiveProvider({
   disabled,
   scope,
   transformCode,
-  transpileOptions,
-  noInline = false
+  noInline = false,
 }) {
   const [state, setState] = useState({
     error: undefined,
-    element: undefined
+    element: undefined,
   });
 
   function transpile(newCode) {
@@ -25,13 +24,12 @@ function LiveProvider({
     const input = {
       code: transformCode ? transformCode(newCode) : newCode,
       scope,
-      transpileOptions
     };
 
-    const errorCallback = error =>
+    const errorCallback = (error) =>
       setState({ error: error.toString(), element: undefined });
 
-    const renderElement = element => setState({ error: undefined, element });
+    const renderElement = (element) => setState({ error: undefined, element });
 
     try {
       if (noInline) {
@@ -47,11 +45,11 @@ function LiveProvider({
 
   useEffect(() => {
     transpile(code);
-  }, [code, scope, noInline, transformCode, transpileOptions]);
+  }, [code, scope, noInline, transformCode]);
 
-  const onChange = newCode => transpile(newCode);
+  const onChange = (newCode) => transpile(newCode);
 
-  const onError = error => setState({ error: error.toString() });
+  const onError = (error) => setState({ error: error.toString() });
 
   return (
     <LiveContext.Provider
@@ -62,7 +60,7 @@ function LiveProvider({
         theme,
         disabled,
         onError,
-        onChange
+        onChange,
       }}
     >
       {children}
@@ -79,14 +77,13 @@ LiveProvider.propTypes = {
   scope: PropTypes.object,
   theme: PropTypes.object,
   transformCode: PropTypes.node,
-  transpileOptions: PropTypes.object
 };
 
 LiveProvider.defaultProps = {
-  code: '',
+  code: "",
   noInline: false,
-  language: 'jsx',
-  disabled: false
+  language: "jsx",
+  disabled: false,
 };
 
 export default LiveProvider;

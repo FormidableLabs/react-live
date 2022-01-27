@@ -1,10 +1,13 @@
 {
   "root": true,
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
+  "plugins": [
+    "prettier"
+  ],
   "extends": [
-    "formidable/configurations/es6-react",
-    "prettier",
-    "prettier/react"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended"
   ],
   "env": {
     "browser": true,
@@ -23,7 +26,8 @@
       "jsx": true,
       "generators": true,
       "experimentalObjectRestSpread": true
-    }
+    },
+    "requireConfigFile": false
   },
   "rules": {
     "comma-dangle": "off",
@@ -57,6 +61,7 @@
     "filenames/match-regex": "off",
     "react/react-in-jsx-scope": "off",
     "max-params": ["error", 5],
-    "max-nested-callbacks": ["error", 5]
+    "max-nested-callbacks": ["error", 5],
+    "prettier/prettier": "error"
   }
 }

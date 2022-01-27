@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import LiveContext from './LiveContext';
+import React, { useContext } from "react";
+import LiveContext from "./LiveContext";
 
 export default function LiveError(props) {
   const { error } = useContext(LiveContext);

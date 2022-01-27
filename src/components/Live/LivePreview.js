@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import LiveContext from './LiveContext';
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
+import LiveContext from "./LiveContext";
 
 function LivePreview({ Component, ...rest }) {
   const { element: Element } = useContext(LiveContext);
@@ -8,11 +8,11 @@ function LivePreview({ Component, ...rest }) {
 }
 
 LivePreview.propTypes = {
-  Component: PropTypes.node
+  Component: PropTypes.node,
 };
 
 LivePreview.defaultProps = {
-  Component: 'div'
+  Component: "div",
 };
 
 export default LivePreview;

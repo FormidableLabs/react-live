@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { theme } from '../src/constants/theme';
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import { theme } from "../src/constants/theme";
 
 import {
   LiveProvider,
   LiveEditor,
   LiveError,
   LivePreview,
-  withLive
-} from '../src/index';
+  withLive,
+} from "../src/index";
 
 const code = `
 <strong>
@@ -119,7 +119,7 @@ const Container = styled.div`
     }
 
     &:before {
-      content: '💛';
+      content: "💛";
       font-size: 30px;
     }
   }
@@ -144,12 +144,12 @@ const TestComponent = ({ live }) => {
   );
 };
 TestComponent.propTypes = {
-  live: PropTypes.object
-}
+  live: PropTypes.object,
+};
 const CustomEditor = (args) => {
   // eslint-disable-next-line no-shadow
   const [code, updateCode] = React.useState(functionExample);
-  const handleChange = e => {
+  const handleChange = (e) => {
     updateCode(e.target.value);
   };
   return (
@@ -167,10 +167,7 @@ function Sandbox(args) {
   `.trim();
   const [customCode, setCustomCode] = React.useState(initialCode);
   return (
-    <LiveProvider
-      {...args}
-      code={customCode}
-    >
+    <LiveProvider {...args} code={customCode}>
       <StyledEditor onChange={setCustomCode} />
       <LiveError />
       <LivePreview />
@@ -179,16 +176,16 @@ function Sandbox(args) {
 }
 
 export default {
-  title: 'Live',
+  title: "Live",
   component: LiveProvider,
   argTypes: {
     code: {
       table: {
-        disable: true
-      }
-    }
-  }
-}
+        disable: true,
+      },
+    },
+  },
+};
 
 const DefaultTemplate = (args) => (
   <LiveProvider {...args}>
@@ -218,59 +215,59 @@ const WithLiveTemplate = (args) => (
   <LiveProvider {...args}>
     <LiveComponent />
   </LiveProvider>
-)
+);
 
 const defaultControls = {
   disabled: false,
   noInline: false,
-}
+};
 
 export const Default = DefaultTemplate.bind({});
 Default.args = {
   ...defaultControls,
-  code: code
+  code: code,
 };
 
 export const FunctionExample = StyledPreviewTemplate.bind({});
 FunctionExample.args = {
   ...defaultControls,
   code: functionExample,
-}
+};
 
 export const StyledSubcomponents = StyledPreviewTemplate.bind({});
 StyledSubcomponents.args = {
   ...defaultControls,
   code: code,
-}
+};
 
 export const ComponentExample = StyledEditorTemplate.bind({});
 ComponentExample.args = {
   ...defaultControls,
   code: componentExample,
-  language: 'jsx',
-}
+  language: "jsx",
+};
 
 export const ComponentWithTheme = StyledEditorTemplate.bind({});
 ComponentWithTheme.args = {
   ...defaultControls,
   code: componentExample,
-  language: 'jsx',
+  language: "jsx",
   theme: theme,
-}
+};
 
 export const ComponentWithCustomOnchange = Sandbox.bind({});
 ComponentWithCustomOnchange.args = {
   ...defaultControls,
   language: "jsx",
-}
+};
 
 export const WithLiveExample = WithLiveTemplate.bind({});
 WithLiveExample.args = {
   ...defaultControls,
   code: hooksExample,
-}
+};
 
 export const WithCustomEditor = CustomEditor.bind({});
 WithCustomEditor.args = {
   ...defaultControls,
-}
+};

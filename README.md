@@ -5,8 +5,8 @@
 <br><br>
 <a href="https://npmjs.com/package/react-live"><img src="https://img.shields.io/npm/dm/react-live.svg"></a>
 <a href="https://npmjs.com/package/react-live"><img src="https://img.shields.io/npm/v/react-live.svg"></a>
-<img src="http://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
-<img src="http://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?label=size">
+<img src="https://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
+<img src="https://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?label=size">
 <img src="https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20esm-green.svg">
 <a href="https://github.com/FormidableLabs/react-live#maintenance-status">
   <img alt="Maintenance Status" src="https://img.shields.io/badge/maintenance-active-green.svg" />
@@ -129,7 +129,7 @@ the kind of sizes you will get in a production app. The minified
 bundles we publish _exclude_ some dependencies that we depend
 on.
 
-<img src="http://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
+<img src="https://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
 
 In an actual app when you use `react-live` you will also be bundling
 Buble for transpilation, which adds `~135kB` to your bundle. This also
@@ -138,7 +138,7 @@ is rather large as well.
 
 We maintain a fork of Buble which excludes the ESnext Regular Expression
 transpilation with removes Buble's large dependency and weighs in at
-a smaller size of `~51kB`, which you can find published at [`@philpl/buble`](http://npm.im/@philpl/buble).
+a smaller size of `~51kB`, which you can find published at [`@philpl/buble`](https://npm.im/@philpl/buble).
 
 You can alias this in Webpack or the build tool of your choice, which
 will reduce the overall bundle size of `react-live` to about `83kB`.
