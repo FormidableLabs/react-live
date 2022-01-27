@@ -28,7 +28,7 @@ const CodeEditor = (props) => {
   }, [code]);
 
   return (
-    <div className={props.className}>
+    <div className={props.className} style={props.style}>
       <Highlight
         Prism={Prism}
         code={code}
