@@ -8,6 +8,10 @@ const CodeEditor = (props) => {
   const editorRef = useRef(null);
   const [code, setCode] = useState(props.code || "");
 
+  useEffect(() => {
+    setCode(props.code);
+  }, [props.code]);
+
   const onEditableChange = useCallback((_code) => {
     setCode(_code.slice(0, -1));
   }, []);
