@@ -48,6 +48,7 @@ const CodeEditor = (props) => {
               margin: 0,
               outline: "none",
               padding: 10,
+              fontFamily: "inherit",
               ...(!props.className || !props.theme ? {} : _style),
             }}
             ref={editorRef}
