@@ -30,7 +30,7 @@ const CodeEditor = (props) => {
   return (
     <div className={props.className} style={props.style}>
       <Highlight
-        Prism={Prism}
+        Prism={props.prism || Prism}
         code={code}
         theme={props.theme || liveTheme}
         language={props.language}
@@ -79,6 +79,7 @@ CodeEditor.propTypes = {
   disabled: PropTypes.bool,
   language: PropTypes.string,
   onChange: PropTypes.func,
+  prism: PropTypes.object,
   style: PropTypes.object,
   theme: PropTypes.object,
 };
