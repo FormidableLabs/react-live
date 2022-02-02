@@ -90,6 +90,8 @@
     "react live"
   ],
   "jest": {
+    "testEnvironment": "jsdom",
+    "resetMocks": true,
     "rootDir": "./src",
     "testURL": "http://localhost/"
   },

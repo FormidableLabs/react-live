@@ -19,37 +19,54 @@ function LiveProvider({
     element: undefined,
   });
 
-  function transpile(newCode) {
-    // Transpilation arguments
-    const input = {
-      code: transformCode ? transformCode(newCode) : newCode,
-      scope,
+  function transpileAsync(newCode) {
+    const errorCallback = (error) => {
+      setState({ error: error.toString(), element: undefined });
     };
 
-    const errorCallback = (error) =>
-      setState({ error: error.toString(), element: undefined });
-
-    const renderElement = (element) => setState({ error: undefined, element });
-
+    // - transformCode may be synchronous or asynchronous.
+    // - transformCode may throw an exception or return a rejected promise, e.g.
+    //   if newCode is invalid and cannot be transformed.
+    // - Not using async-await to since it requires targeting ES 2017 or
+    //   importing regenerator-runtime... in the next major version of
+    //   react-live, should target ES 2017+
     try {
-      if (noInline) {
-        setState({ error: undefined, element: null }); // Reset output for async (no inline) evaluation
-        renderElementAsync(input, renderElement, errorCallback);
-      } else {
-        renderElement(generateElement(input, errorCallback));
-      }
-    } catch (error) {
-      errorCallback(error);
+      const transformResult = transformCode ? transformCode(newCode) : newCode;
+
+      return Promise.resolve(transformResult)
+        .then((transformedCode) => {
+          const renderElement = (element) =>
+            setState({ error: undefined, element });
+
+          // Transpilation arguments
+          const input = {
+            code: transformedCode,
+            scope,
+          };
+
+          if (noInline) {
+            setState({ error: undefined, element: null }); // Reset output for async (no inline) evaluation
+            renderElementAsync(input, renderElement, errorCallback);
+          } else {
+            renderElement(generateElement(input, errorCallback));
+          }
+        })
+        .catch(errorCallback);
+    } catch (e) {
+      errorCallback(e);
+      return Promise.resolve();
     }
   }
 
+  const onError = (error) => setState({ error: error.toString() });
+
   useEffect(() => {
-    transpile(code);
+    transpileAsync(code).catch(onError);
   }, [code, scope, noInline, transformCode]);
 
-  const onChange = (newCode) => transpile(newCode);
-
-  const onError = (error) => setState({ error: error.toString() });
+  const onChange = (newCode) => {
+    transpileAsync(newCode).catch(onError);
+  };
 
   return (
     <LiveContext.Provider
@@ -76,7 +93,7 @@ LiveProvider.propTypes = {
   noInline: PropTypes.bool,
   scope: PropTypes.object,
   theme: PropTypes.object,
-  transformCode: PropTypes.node,
+  transformCode: PropTypes.func,
 };
 
 LiveProvider.defaultProps = {
