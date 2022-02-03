@@ -98,8 +98,7 @@ const Header = () => (
 
     <Description>
       <div>
-        Easily render live editable React components with server-side rendering
-        support and a tiny bundle size, thanks to Bublé and a Prism.js-based
+        Easily render live editable React components thanks to Sucrase and a Prism.js-based
         editor.
       </div>
 

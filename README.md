@@ -14,7 +14,6 @@
 </p>
 
 **React Live** brings you the ability to render React components with editable source code and live preview.
-It supports server-side rendering and comes in a tiny bundle.
 
 The library is structured modularly and lets you style and compose its components freely.
 
@@ -48,10 +47,22 @@ import {
 
 ### How does it work?
 
-It takes your code and transpiles it with [Bublé](https://github.com/bublejs/buble), while the code is displayed using [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code is highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
+It takes your code and transpiles it with [Sucrase](https://github.com/alangpierce/sucrase), while the code is displayed using [`use-editable`](https://github.com/FormidableLabs/use-editable) and the code is highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
 The transpiled code is then rendered in the preview component (`LivePreview`), which does a fake mount if the code
 is a React component.
+
+Prior to `v3.0.0`, earlier versions of the library used different internals. We recommend using the latest version you can.
+
+|Version|Supported React version|Editor                    |Transpiler
+|-------|-----------------------|--------------------------|----------
+|v3.x.x |v17.x.x                |`use-editable`            |`Sucrase`
+|v2.x.x |v16.x.x                |`react-simple-code-editor`|`Bublé`
+
+Please see also the related Formidable libraries:-
+
+- [https://github.com/FormidableLabs/prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer)
+- [https://github.com/FormidableLabs/use-editable](https://github.com/FormidableLabs/use-editable)
 
 ### What code can I use?
 
@@ -59,6 +70,7 @@ The code can be one of the following things:
 
 - React elements, e.g. `<strong>Hello World!</strong>`
 - React pure functional components, e.g. `() => <strong>Hello World!</strong>`
+- React functional components with Hooks
 - React component classes
 
 If you enable the `noInline` prop on your `LiveProvider`, you’ll be able to write imperative code,
@@ -122,6 +134,28 @@ const code = `
 </LiveProvider>
 ```
 
+### Using Hooks
+
+React Live supports using Hooks, but you may need to be mindful of the scope. As mentioned above, only React is injected into scope by default.
+
+This means that while you may be used to destructuring `useState` when importing React, to use hooks provided by React in React Live you will either need to stick to using `React.useState` or alternately you can set the scope up so that `useState` is provided separately.
+
+```js
+() => {
+  const [likes, increaseLikes] = React.useState(0);
+
+  return (
+    <>
+      <p>
+        {`${likes} likes`}
+      </p>
+      <button onClick={() => increaseLikes(likes + 1)}>Like</button>
+    </>
+  );
+}
+```
+
+
 ### What bundle size can I expect?
 
 Our reported bundle size badges don't give you the full picture of
@@ -132,16 +166,7 @@ on.
 <img src="https://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?compression=gzip&label=gzip%20size">
 
 In an actual app when you use `react-live` you will also be bundling
-Buble for transpilation, which adds `~135kB` to your bundle. This also
-includes their dependency on `regenerate-unicode-properties`, which
-is rather large as well.
-
-We maintain a fork of Buble which excludes the ESnext Regular Expression
-transpilation with removes Buble's large dependency and weighs in at
-a smaller size of `~51kB`, which you can find published at [`@philpl/buble`](https://npm.im/@philpl/buble).
-
-You can alias this in Webpack or the build tool of your choice, which
-will reduce the overall bundle size of `react-live` to about `83kB`.
+Sucrase for transpilation.
 
 ## API
 
@@ -216,14 +241,9 @@ The component wrapped with `withLive`  gets injected the following props:
 
 
 ## FAQ
-> **I want to use experimental feature x but Bublé doesn't support it! Can I use babel instead?**
+> **I want to use experimental feature x but Sucrase doesn't support it! Can I use babel instead?**
 
-`react-live` doesn't currently support configuring the transpiler and it ships with Bublé.  The current workaround for using some experimental features `bublé` doesn't support  would be to use the `transformCode` prop on `LiveProvider` to transform your code with `babel` alongside `bublé`.
-
-Here is a  minimal example on how you could use `babel` to support class-properties in `react-live`:
-
-
-[![Edit 7ml9mjw766](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/7ml9mjw766?fontsize=14)
+`react-live` doesn't currently support configuring the transpiler and it ships with Sucrase.  The current workaround for using some experimental features `Sucrase` doesn't support  would be to use the `transformCode` prop on `LiveProvider` to transform your code with `babel` alongside `Sucrase`.
 
 
 
@@ -238,12 +258,11 @@ Here's a high-level decision tree:
 
 Here are the various factors at play:
 
-- **Build**: `component-playground` uses `babel-standalone`, `react-live` uses `bublé`. (_Note_: `react-live` might make transpiler customizable in the future).
+- **Build**: `component-playground` uses `babel-standalone`, `react-live` uses `Sucrase`.
 - **Bundle size**: `component-playground` has a larger bundle, but uses a more familiar editor setup. `react-live` is smaller, but more customized editor around `prism`.
 - **Ease vs. flexibility**: `react-live` is more modular/customizable, while `component-playground` is easier/faster to set up.
-- **SSR**: `component-playground` is not server-side renderable, `react-live` is.
 - **Extra features**: `component-playground` supports raw evaluation and pretty-printed output out-of-the-box, while `react-live` does not.
-- **Error handling**: `component-playground` might have more predictable error handling than `react-live` in some cases (due to `react-dom`, although this might change with React 16).
+- **Error handling**: `component-playground` might have more predictable error handling than `react-live` in some cases (due to `react-dom`).
 
 ## Maintenance Status
 
