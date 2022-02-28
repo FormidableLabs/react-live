@@ -1,28 +1,28 @@
+import * as React from "react";
 import {
-  LiveProvider,
   Editor,
+  LiveContext,
   LiveEditor,
   LiveError,
   LivePreview,
-  LiveContext,
-  withLive
-} from '../';
-import * as React from 'react';
+  LiveProvider,
+  withLive,
+} from "../";
 
 export const providerC = (
   <LiveProvider
     code="code"
     className="class"
     scope={{ Component: React.Component }}
-    transformCode={(code: string): string => code + ';;'}
+    transformCode={(code: string): string => code + ";;"}
     noInline={false}
     language="typescript"
     theme={{
       plain: {
-        fontWeight: '800',
-        color: 'salmon'
+        fontWeight: "800",
+        color: "salmon",
       },
-      styles: []
+      styles: [],
     }}
   />
 );
@@ -42,6 +42,19 @@ export const customError = () => (
 );
 
 export const livePreviewC = <LivePreview />;
+
+export const liveCustomPreviewC = (
+  <LivePreview Component={(props) => <div {...props} />} />
+);
+
+type BoxProps = { padding: string; children: React.ReactNode };
+const Box = ({ padding, children }: BoxProps) => (
+  <div style={{ padding }}>{children}</div>
+);
+
+export const liveCustomPreviewWithExtraPropsC = (
+  <LivePreview Component={Box} padding="2px" />
+);
 
 const Component: React.StatelessComponent<{}> = () => <div>Hello World!</div>;
 
