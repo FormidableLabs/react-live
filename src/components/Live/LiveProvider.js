@@ -14,6 +14,7 @@ function LiveProvider({
   transformCode,
   noInline = false,
 }) {
+  const typescript = ["typescript", "tsx"].includes(language);
   const [state, setState] = useState({
     error: undefined,
     element: undefined,
@@ -42,6 +43,7 @@ function LiveProvider({
           const input = {
             code: transformedCode,
             scope,
+            typescript,
           };
 
           if (noInline) {

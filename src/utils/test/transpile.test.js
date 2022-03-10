@@ -59,6 +59,17 @@ describe("transpile", () => {
 
       expect(wrapper.text()).toBe("Hello World!");
     });
+
+    it("should transpile typescript", () => {
+      const code = `(() => {
+  class Test extends React.Component<{ name: string}> { render() { return <div>Hello {this.props.name}!</div> }};
+  return <Test name="World"/>;
+})`;
+      const Component = generateElement({ code, typescript: true });
+      const wrapper = shallow(<Component />);
+
+      expect(wrapper.html()).toBe("<div>Hello World!</div>");
+    });
   });
 
   describe("renderElementAsync", () => {
@@ -100,6 +111,22 @@ describe("transpile", () => {
       const code = "render(<div>Hello World!</div>)";
 
       renderElementAsync({ code }, resultCb);
+
+      expect(resultCb).toHaveBeenCalled();
+
+      const Component = resultCb.mock.calls[0][0];
+      const wrapper = shallow(<Component />);
+
+      expect(wrapper.html()).toBe("<div>Hello World!</div>");
+    });
+
+    it("should emit from code written in typescript", () => {
+      const resultCb = jest.fn();
+      const code = `
+const name: string = "World";
+render(<div>Hello {name}!</div>)`;
+
+      renderElementAsync({ code, typescript: true }, resultCb);
 
       expect(resultCb).toHaveBeenCalled();
 
