@@ -17,7 +17,6 @@
 
 The library is structured modularly and lets you style and compose its components freely.
 
-
 <p align="center"><img src="https://user-images.githubusercontent.com/17658189/63181897-1d67d380-c049-11e9-9dd2-7da2a3a57f05.gif" width=500></p>
 
 ## Usage
@@ -25,18 +24,13 @@ The library is structured modularly and lets you style and compose its component
 Install it with `npm install react-live` or `yarn add react-live` and try out this piece of JSX:
 
 ```js
-import {
-  LiveProvider,
-  LiveEditor,
-  LiveError,
-  LivePreview
-} from 'react-live'
+import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 
 <LiveProvider code="<strong>Hello World!</strong>">
   <LiveEditor />
   <LiveError />
   <LivePreview />
-</LiveProvider>
+</LiveProvider>;
 ```
 
 ## Demo
@@ -54,10 +48,10 @@ is a React component.
 
 Prior to `v3.0.0`, earlier versions of the library used different internals. We recommend using the latest version you can.
 
-|Version|Supported React version|Editor                    |Transpiler
-|-------|-----------------------|--------------------------|----------
-|v3.x.x |v17.x.x                |`use-editable`            |`Sucrase`
-|v2.x.x |v16.x.x                |`react-simple-code-editor`|`Bublé`
+| Version | Supported React version | Editor                     | Transpiler |
+| ------- | ----------------------- | -------------------------- | ---------- |
+| v3.x.x  | v17.x.x                 | `use-editable`             | `Sucrase`  |
+| v2.x.x  | v16.x.x                 | `react-simple-code-editor` | `Bublé`    |
 
 Please see also the related Formidable libraries:-
 
@@ -85,7 +79,7 @@ means that the user can use it in their code like this:
 //                    ↓↓↓↓↓
 class Example extends React.Component {
   render() {
-    return <strong>Hello World!</strong>
+    return <strong>Hello World!</strong>;
   }
 }
 ```
@@ -146,15 +140,12 @@ This means that while you may be used to destructuring `useState` when importing
 
   return (
     <>
-      <p>
-        {`${likes} likes`}
-      </p>
+      <p>{`${likes} likes`}</p>
       <button onClick={() => increaseLikes(likes + 1)}>Like</button>
     </>
   );
-}
+};
 ```
-
 
 ### What bundle size can I expect?
 
@@ -175,16 +166,15 @@ Sucrase for transpilation.
 This component provides the `context` for all the other ones. It also transpiles the user’s code!
 It supports these props, while passing any others through to the `children`:
 
-|Name|PropType|Description|
-|---|---|---|
-|code|PropTypes.string|The code that should be rendered, apart from the user’s edits
-|scope|PropTypes.object|Accepts custom globals that the `code` can use
-|noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}`
-|transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it
-|language|PropTypes.string|What language you're writing for correct syntax highlighting. (Default: `jsx`)
-|disabled|PropTypes.bool|Disable editing on the `<LiveEditor />` (Default: `false`)
-|theme|PropTypes.object|A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)
-
+| Name          | PropType         | Description                                                                                                                                                                                                                                                                                   |
+| ------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| code          | PropTypes.string | The code that should be rendered, apart from the user’s edits                                                                                                                                                                                                                                 |
+| scope         | PropTypes.object | Accepts custom globals that the `code` can use                                                                                                                                                                                                                                                |
+| noInline      | PropTypes.bool   | Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}` |
+| transformCode | PropTypes.func   | Accepts and returns the code to be transpiled, affording an opportunity to first transform it                                                                                                                                                                                                 |
+| language      | PropTypes.string | What language you're writing for correct syntax highlighting. (Default: `jsx`)                                                                                                                                                                                                                |
+| disabled      | PropTypes.bool   | Disable editing on the `<LiveEditor />` (Default: `false`)                                                                                                                                                                                                                                    |
+| theme         | PropTypes.object | A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)                                                                                                                                                                        |
 
 All subsequent components must be rendered inside a provider, since they communicate
 using one.
@@ -197,10 +187,10 @@ with valid JSX elements.
 
 This component renders the editor that displays the code. It is a wrapper around [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
 
-|Name|PropType|Description|
-|---|---|---|
-|style|PropTypes.object|Allows overriding default styles on the `LiveEditor` component.
-
+| Name    | PropType                                  | Description                                                       |
+| ------- | ----------------------------------------- | ----------------------------------------------------------------- |
+| style   | PropTypes.object                          | Allows overriding default styles on the `LiveEditor` component.   |
+| tabMode | PropTypes.oneOf(["indentation", "focus"]) | Sets how you want the tab key to work. (Default: `"indentation"`) |
 
 ### &lt;LiveError /&gt;
 
@@ -213,10 +203,9 @@ It passes through any props to a `pre`.
 
 This component renders the actual component that the code generates inside an error boundary.
 
-|Name|PropType|Description|
-|---|---|---|
-|Component|PropTypes.node|Element that wraps the generated code. (Default: `div`)
-
+| Name      | PropType       | Description                                             |
+| --------- | -------------- | ------------------------------------------------------- |
+| Component | PropTypes.node | Element that wraps the generated code. (Default: `div`) |
 
 ### withLive
 
@@ -226,26 +215,23 @@ by `LiveProvider` into a component.
 Using this HOC allows you to add new components to react-live, or replace the default ones, with a new
 desired behavior.
 
-The component wrapped with `withLive`  gets injected the following props:
+The component wrapped with `withLive` gets injected the following props:
 
-|Name|PropType|Description|
-|---|---|---|
-|code|PropTypes.string|Reflects the code that is passed in as the `code` prop
-|error|PropTypes.string|An error that the code has thrown when it was previewed
-|onError|PropTypes.func|A callback that, when called, changes the error to what's passed as the first argument
-|onChange|PropTypes.func|A callback that accepts new code and transpiles it
-|element|React.Element|The result of the transpiled code that is previewed
-
+| Name     | PropType         | Description                                                                            |
+| -------- | ---------------- | -------------------------------------------------------------------------------------- |
+| code     | PropTypes.string | Reflects the code that is passed in as the `code` prop                                 |
+| error    | PropTypes.string | An error that the code has thrown when it was previewed                                |
+| onError  | PropTypes.func   | A callback that, when called, changes the error to what's passed as the first argument |
+| onChange | PropTypes.func   | A callback that accepts new code and transpiles it                                     |
+| element  | React.Element    | The result of the transpiled code that is previewed                                    |
 
 > Note: The code prop doesn't reflect the up-to-date code, but the `code` prop, that is passed to the `LiveProvider`.
 
-
 ## FAQ
+
 > **I want to use experimental feature x but Sucrase doesn't support it! Can I use babel instead?**
 
-`react-live` doesn't currently support configuring the transpiler and it ships with Sucrase.  The current workaround for using some experimental features `Sucrase` doesn't support  would be to use the `transformCode` prop on `LiveProvider` to transform your code with `babel` alongside `Sucrase`.
-
-
+`react-live` doesn't currently support configuring the transpiler and it ships with Sucrase. The current workaround for using some experimental features `Sucrase` doesn't support would be to use the `transformCode` prop on `LiveProvider` to transform your code with `babel` alongside `Sucrase`.
 
 ## Comparison to [component-playground](https://github.com/FormidableLabs/component-playground)
 
@@ -266,5 +252,4 @@ Here are the various factors at play:
 
 ## Maintenance Status
 
-**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
-
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.

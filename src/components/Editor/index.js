@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import PropTypes from "prop-types";
-import { useEditable } from "use-editable";
 import Highlight, { Prism } from "prism-react-renderer";
+import PropTypes from "prop-types";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEditable } from "use-editable";
 import { theme as liveTheme } from "../../constants/theme";
 
 const CodeEditor = (props) => {
@@ -18,7 +18,7 @@ const CodeEditor = (props) => {
 
   useEditable(editorRef, onEditableChange, {
     disabled: props.disabled,
-    indentation: 2,
+    indentation: props.tabMode === "indentation" ? 2 : undefined,
   });
 
   useEffect(() => {
@@ -82,7 +82,12 @@ CodeEditor.propTypes = {
   onChange: PropTypes.func,
   prism: PropTypes.object,
   style: PropTypes.object,
+  tabMode: PropTypes.oneOf(["focus", "indentation"]),
   theme: PropTypes.object,
+};
+
+CodeEditor.defaultProps = {
+  tabMode: "indentation",
 };
 
 export default CodeEditor;
