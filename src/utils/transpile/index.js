@@ -1,3 +1,4 @@
+import React from "react";
 import transform from "./transform";
 import errorBoundary from "./errorBoundary";
 import evalCode from "./evalCode";
@@ -8,7 +9,10 @@ export const generateElement = ({ code = "", scope = {} }, errorCallback) => {
 
   // NOTE: Workaround for classes and arrow functions.
   const transformed = transform(`return (${codeTrimmed})`).trim();
-  return errorBoundary(evalCode(transformed, scope), errorCallback);
+  return errorBoundary(
+    evalCode(transformed, { React, ...scope }),
+    errorCallback
+  );
 };
 
 export const renderElementAsync = (
@@ -31,5 +35,5 @@ export const renderElementAsync = (
     );
   }
 
-  evalCode(transform(code), { ...scope, render });
+  evalCode(transform(code), { React, ...scope, render });
 };
