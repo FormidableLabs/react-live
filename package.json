@@ -19,7 +19,6 @@
     "lint": "eslint --config .eslintrc \"./**/*.js\""
   },
   "dependencies": {
-    "core-js": "^3.14.0",
     "prism-react-renderer": "^1.2.1",
     "sucrase": "^3.20.3",
     "use-editable": "^2.3.3"
