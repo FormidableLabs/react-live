@@ -1,6 +1,6 @@
 {
   "name": "react-live",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A production-focused playground for live editing React code",
   "main": "dist/react-live.cjs.js",
   "typings": "./typings/react-live.d.ts",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "prism-react-renderer": "^1.2.1",
-    "sucrase": "^3.20.3",
+    "sucrase": "^3.21.0",
     "use-editable": "^2.3.3"
   },
   "devDependencies": {
