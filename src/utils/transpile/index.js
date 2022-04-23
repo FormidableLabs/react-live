@@ -1,3 +1,4 @@
+import React from "react";
 import transform from "./transform";
 import errorBoundary from "./errorBoundary";
 import evalCode from "./evalCode";
@@ -13,7 +14,10 @@ export const generateElement = (
   const transformed = transform(`return (${codeTrimmed})`, {
     typescript,
   }).trim();
-  return errorBoundary(evalCode(transformed, scope), errorCallback);
+  return errorBoundary(
+    evalCode(transformed, { React, ...scope }),
+    errorCallback
+  );
 };
 
 export const renderElementAsync = (
@@ -36,5 +40,5 @@ export const renderElementAsync = (
     );
   }
 
-  evalCode(transform(code, { typescript }), { ...scope, render });
+  evalCode(transform(code), { typescript }), { React, ...scope, render });
 };
