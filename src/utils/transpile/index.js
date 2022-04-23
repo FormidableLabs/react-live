@@ -40,5 +40,5 @@ export const renderElementAsync = (
     );
   }
 
-  evalCode(transform(code), { typescript }), { React, ...scope, render });
+  evalCode(transform(code, { typescript }), { React, ...scope, render });
 };
