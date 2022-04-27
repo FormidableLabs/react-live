@@ -10,7 +10,7 @@ type DivProps = HTMLProps<HTMLDivElement>;
 type PreProps = HTMLProps<HTMLPreElement>;
 
 // LiveProvider
-export type LiveProviderProps = Omit<DivProps, "scope"> & {
+export type LiveProviderProps = Omit<DivProps, "scope" | "onChange"> & {
   scope?: { [key: string]: any };
   code?: string;
   noInline?: boolean;
@@ -18,6 +18,7 @@ export type LiveProviderProps = Omit<DivProps, "scope"> & {
   language?: Language;
   disabled?: boolean;
   theme?: PrismTheme;
+  onChange?: (code: string) => void;
 };
 
 export const LiveProvider: ComponentClass<LiveProviderProps>;

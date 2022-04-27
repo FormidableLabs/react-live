@@ -184,6 +184,7 @@ It supports these props, while passing any others through to the `children`:
 |language|PropTypes.string|What language you're writing for correct syntax highlighting. (Default: `jsx`)
 |disabled|PropTypes.bool|Disable editing on the `<LiveEditor />` (Default: `false`)
 |theme|PropTypes.object|A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)
+[onChange|PropTypes.func|Callback for when the code changes
 
 
 All subsequent components must be rendered inside a provider, since they communicate
@@ -200,6 +201,7 @@ This component renders the editor that displays the code. It is a wrapper around
 |Name|PropType|Description|
 |---|---|---|
 |style|PropTypes.object|Allows overriding default styles on the `LiveEditor` component.
+|onChange|PropTypes.func|Callback for when the code changes
 
 
 ### &lt;LiveError /&gt;

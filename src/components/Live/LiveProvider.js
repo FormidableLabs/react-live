@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
-import LiveContext from "./LiveContext";
+import React, { useEffect, useState } from "react";
 import { generateElement, renderElementAsync } from "../../utils/transpile";
+import LiveContext from "./LiveContext";
 
 function LiveProvider({
   children,
@@ -13,6 +12,7 @@ function LiveProvider({
   scope,
   transformCode,
   noInline = false,
+  onChange,
 }) {
   const [state, setState] = useState({
     error: undefined,
@@ -64,7 +64,10 @@ function LiveProvider({
     transpileAsync(code).catch(onError);
   }, [code, scope, noInline, transformCode]);
 
-  const onChange = (newCode) => {
+  const handleChange = (newCode) => {
+    if (onChange) {
+      onChange(newCode);
+    }
     transpileAsync(newCode).catch(onError);
   };
 
@@ -77,7 +80,7 @@ function LiveProvider({
         theme,
         disabled,
         onError,
-        onChange,
+        onChange: handleChange,
       }}
     >
       {children}
@@ -91,6 +94,7 @@ LiveProvider.propTypes = {
   disabled: PropTypes.bool,
   language: PropTypes.string,
   noInline: PropTypes.bool,
+  onChange: PropTypes.func,
   scope: PropTypes.object,
   theme: PropTypes.object,
   transformCode: PropTypes.func,
