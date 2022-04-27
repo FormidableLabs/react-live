@@ -41,6 +41,7 @@ export interface ContextProps {
   theme: PrismTheme;
   disabled?: boolean;
   error?: string;
+  onChange?: (code: string) => void;
 }
 
 export const LiveContext: Context<ContextProps>;
