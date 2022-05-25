@@ -180,6 +180,7 @@ It supports these props, while passing any others through to the `children`:
 |code|PropTypes.string|The code that should be rendered, apart from the user’s edits
 |scope|PropTypes.object|Accepts custom globals that the `code` can use
 |noInline|PropTypes.bool|Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}`
+|skipInitialRender|PropTypes.bool|Skip the initial render used for SSR (Default: `false`)
 |transformCode|PropTypes.func|Accepts and returns the code to be transpiled, affording an opportunity to first transform it
 |language|PropTypes.string|What language you're writing for correct syntax highlighting. (Default: `jsx`)
 |disabled|PropTypes.bool|Disable editing on the `<LiveEditor />` (Default: `false`)
