@@ -1,6 +1,6 @@
 {
   "name": "react-live",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A production-focused playground for live editing React code",
   "main": "dist/react-live.cjs.js",
   "typings": "./typings/react-live.d.ts",
