@@ -5,35 +5,53 @@ import Highlight, { Prism } from "prism-react-renderer";
 import { theme as liveTheme } from "../../constants/theme";
 
 const CodeEditor = (props) => {
-  const editorRef = useRef(null);
-  const [code, setCode] = useState(props.code || "");
+  const {
+    code: origCode,
+    className,
+    style,
+    theme,
+    prism,
+    language,
+    disabled,
+    onChange,
+    editorRef,
+
+    // Remove v2 props from beeing forwarded
+    textareaId, // eslint-disable-line
+    ignoreTabKey, // eslint-disable-line
+    padding, // eslint-disable-line
+    ...rest
+  } = props;
+
+  const _editorRef = editorRef || useRef(null);
+  const [code, setCode] = useState(origCode || "");
 
   useEffect(() => {
-    setCode(props.code);
-  }, [props.code]);
+    setCode(origCode);
+  }, [origCode]);
 
   const onEditableChange = useCallback((_code) => {
     setCode(_code.slice(0, -1));
   }, []);
 
-  useEditable(editorRef, onEditableChange, {
-    disabled: props.disabled,
+  useEditable(_editorRef, onEditableChange, {
+    disabled,
     indentation: 2,
   });
 
   useEffect(() => {
-    if (props.onChange) {
-      props.onChange(code);
+    if (onChange) {
+      onChange(code);
     }
   }, [code]);
 
   return (
-    <div className={props.className} style={props.style}>
+    <div className={className} style={style}>
       <Highlight
-        Prism={props.prism || Prism}
+        Prism={prism || Prism}
         code={code}
-        theme={props.theme || liveTheme}
-        language={props.language}
+        theme={theme || liveTheme}
+        language={language}
       >
         {({
           className: _className,
@@ -49,10 +67,11 @@ const CodeEditor = (props) => {
               outline: "none",
               padding: 10,
               fontFamily: "inherit",
-              ...(!props.className || !props.theme ? {} : _style),
+              ...(!className || !theme ? {} : _style),
             }}
             ref={editorRef}
             spellCheck="false"
+            {...rest}
           >
             {tokens.map((line, lineIndex) => (
               // eslint-disable-next-line react/jsx-key
@@ -79,6 +98,7 @@ CodeEditor.propTypes = {
   className: PropTypes.string,
   code: PropTypes.string,
   disabled: PropTypes.bool,
+  editorRef: PropTypes.object,
   language: PropTypes.string,
   onChange: PropTypes.func,
   prism: PropTypes.object,

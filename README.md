@@ -200,6 +200,7 @@ This component renders the editor that displays the code. It is a wrapper around
 |Name|PropType|Description|
 |---|---|---|
 |style|PropTypes.object|Allows overriding default styles on the `LiveEditor` component.
+|editorRef|PropTypes.object|Provide your own React Ref to reference the `pre` HTLM element
 
 
 ### &lt;LiveError /&gt;
