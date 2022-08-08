@@ -3,12 +3,17 @@ import transform from "./transform";
 import errorBoundary from "./errorBoundary";
 import evalCode from "./evalCode";
 
-export const generateElement = ({ code = "", scope = {} }, errorCallback) => {
+export const generateElement = ({ code = "", scope = {}, customTransform }, errorCallback) => {
   // NOTE: Remove trailing semicolon to get an actual expression.
   const codeTrimmed = code.trim().replace(/;$/, "");
 
   // NOTE: Workaround for classes and arrow functions.
-  const transformed = transform(`return (${codeTrimmed})`).trim();
+  let transformed
+  if(customTransform){
+    transformed = customTransform(`return (${codeTrimmed})`).trim();
+  }else{
+    transformed = transform(`return (${codeTrimmed})`).trim();
+  }
   return errorBoundary(
     evalCode(transformed, { React, ...scope }),
     errorCallback
@@ -16,7 +21,7 @@ export const generateElement = ({ code = "", scope = {} }, errorCallback) => {
 };
 
 export const renderElementAsync = (
-  { code = "", scope = {} },
+  { code = "", scope = {}, customTransform },
   resultCallback,
   errorCallback
   // eslint-disable-next-line consistent-return
@@ -35,5 +40,11 @@ export const renderElementAsync = (
     );
   }
 
-  evalCode(transform(code), { React, ...scope, render });
+  let transformed
+  if(customTransform){
+    transformed = customTransform(code);
+  }else{
+    transformed = transform(code)
+  }
+  evalCode(transformed, { React, ...scope, render });
 };

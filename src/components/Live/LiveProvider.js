@@ -12,6 +12,7 @@ function LiveProvider({
   disabled,
   scope,
   transformCode,
+  customTransform,
   noInline = false,
 }) {
   const [state, setState] = useState({
@@ -42,6 +43,7 @@ function LiveProvider({
           const input = {
             code: transformedCode,
             scope,
+            customTransform
           };
 
           if (noInline) {
@@ -94,6 +96,7 @@ LiveProvider.propTypes = {
   scope: PropTypes.object,
   theme: PropTypes.object,
   transformCode: PropTypes.func,
+  customTransform: PropTypes.func,
 };
 
 LiveProvider.defaultProps = {

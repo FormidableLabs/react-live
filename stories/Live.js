@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { theme } from "../src/constants/theme";
+import { transform } from 'sucrase';
 
 import {
   LiveProvider,
@@ -133,6 +134,27 @@ const Container = styled.div`
     font-size: 18px;
   }
 `;
+
+const customTransformExample = `
+function LikeButton() {
+  enum Color {
+    red,
+    green,
+    blue,
+  }
+  const [index, setIndex] = React.useState<number>(0)
+
+  return (
+    <>
+      <p style={{color: Color[index]}}>use "CustomTransform" to support tsx! love from China~</p>
+      <button
+        className="button"
+        onClick={() => setIndex((index + 1)%3)} />
+    </>
+  )
+}
+`.trim();
+
 const TestComponent = ({ live }) => {
   const Result = live.element;
   return (
@@ -174,6 +196,8 @@ function Sandbox(args) {
     </LiveProvider>
   );
 }
+
+const customTransform =  (code) => transform(code, { transforms: ["jsx", "typescript", "imports"] }).code;
 
 export default {
   title: "Live",
@@ -270,4 +294,11 @@ WithLiveExample.args = {
 export const WithCustomEditor = CustomEditor.bind({});
 WithCustomEditor.args = {
   ...defaultControls,
+};
+
+export const WithCustomTransform = WithLiveTemplate.bind({});
+WithCustomTransform.args = {
+  ...defaultControls,
+  code: customTransformExample,
+  customTransform
 };
