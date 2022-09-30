@@ -1,5 +1,5 @@
 {
-  "name": "react-live",
+  "name": "@iosifnicolae22/react-live",
   "version": "3.1.2",
   "description": "A production-focused playground for live editing React code",
   "main": "dist/react-live.cjs.js",
