@@ -22,6 +22,17 @@ const Description = styled.p`
   text-align: center;
 `;
 
+const importLibraryExample = `
+const Example = await import(\`https://cdn.skypack.dev/example-react-component-npm\`);
+const Main = () => {
+    return (
+        <Example.Button>Ok</Example.Button>
+    );
+}
+
+render(<Main/>)
+`.trim();
+
 const componentClassExample = `
 class Counter extends React.Component {
   constructor() {
@@ -110,6 +121,9 @@ class Index extends Component {
           call &quot;render&quot;.
         </Description>
         <LiveEdit noInline code={noInlineExample} />
+
+        <Description>Import remote libraries (you must pass noInline to LiveEdit)...</Description>
+        <LiveEdit noInline code={importLibraryExample} />
       </Container>
     );
   }

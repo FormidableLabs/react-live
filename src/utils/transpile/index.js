@@ -1,7 +1,7 @@
 import React from "react";
 import transform from "./transform";
 import errorBoundary from "./errorBoundary";
-import evalCode from "./evalCode";
+import { evalCode, evalCodeAsync } from "./evalCode";
 
 export const generateElement = ({ code = "", scope = {} }, errorCallback) => {
   // NOTE: Remove trailing semicolon to get an actual expression.
@@ -35,5 +35,5 @@ export const renderElementAsync = (
     );
   }
 
-  evalCode(transform(code), { React, ...scope, render });
+  evalCodeAsync(transform(code), { React, ...scope, render });
 };

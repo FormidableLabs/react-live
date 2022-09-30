@@ -26,6 +26,17 @@ const functionExample = `
 )
 `.trim();
 
+const importLibraryExample = `
+const Example = await import(\`https://cdn.skypack.dev/example-react-component-npm\`);
+const Main = () => {
+    return (
+        <Example.Button>Ok</Example.Button>
+    );
+}
+
+render(<Main/>)
+`.trim();
+
 const componentExample = `
 class Counter extends React.Component {
   constructor() {
@@ -238,6 +249,13 @@ export const StyledSubcomponents = StyledPreviewTemplate.bind({});
 StyledSubcomponents.args = {
   ...defaultControls,
   code: code,
+};
+
+export const ImportLibraryExample = StyledEditorTemplate.bind({});
+ImportLibraryExample.args = {
+  ...defaultControls,
+  code: importLibraryExample,
+  noInline: true,
 };
 
 export const ComponentExample = StyledEditorTemplate.bind({});
