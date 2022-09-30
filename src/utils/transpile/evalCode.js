@@ -7,7 +7,5 @@ export const evalCode = (code, scope) => {
 export const evalCodeAsync = (code, scope) => {
   const scopeKeys = Object.keys(scope);
   const scopeValues = scopeKeys.map((key) => scope[key]);
-  new Function(...scopeKeys, `return async () => {${code}}`)(
-    ...scopeValues
-  )();
+  new Function(...scopeKeys, `return async () => {${code}}`)(...scopeValues)();
 };
