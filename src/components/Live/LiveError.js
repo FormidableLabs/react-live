@@ -3,5 +3,5 @@ import LiveContext from "./LiveContext";
 
 export default function LiveError(props) {
   const { error } = useContext(LiveContext);
-  return error ? <pre {...props}>{error}</pre> : null;
+  return error ? <pre {...props}>{error.message} {error.stack}</pre> : null;
 }
