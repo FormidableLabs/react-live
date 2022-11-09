@@ -8,6 +8,7 @@ import LiveContext from "./components/Live/LiveContext";
 
 import withLive from "./hoc/withLive";
 
+import { evalCode, evalCodeAsync } from "./utils/transpile/evalCode";
 export * from "./utils/transpile";
 
 export {
@@ -19,4 +20,6 @@ export {
   LivePreview,
   LiveContext,
   withLive,
+  evalCode,
+  evalCodeAsync,
 };

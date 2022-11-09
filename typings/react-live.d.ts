@@ -57,3 +57,6 @@ export const LivePreview: ComponentClass<DivProps>
 
 // withLive HOC
 export function withLive<P>(wrappedComponent: ComponentType<P>): ComponentClass<P>
+
+export function evalCode(code: string, scope: { [key: string]: any }): Function
+export function evalCodeAsync(code: string, scope: { [key: string]: any }): void
