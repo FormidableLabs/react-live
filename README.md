@@ -1,5 +1,8 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/17658189/63178611-4e90d580-c042-11e9-875f-f2455148b9ae.png" width=250></p>
-<h2 align="center">React Live</h2>
+<p align="center">
+  <a href="https://formidable.com/open-source/" target="_blank">
+    <img alt="React Live — Formidable, We build the modern web" src="./react-live-Hero.png" />
+  </a>
+</p>
 <p align="center">
 <strong>A flexible playground for live editing React code</strong>
 <br><br>
