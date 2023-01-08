@@ -205,6 +205,20 @@ This component renders the editor that displays the code. It is a wrapper around
 |style|PropTypes.object|Allows overriding default styles on the `LiveEditor` component.
 
 
+`LiveEditor` can create a focus trap on the page for users using keyboard navigation. `react-simple-code-editor` provides a focus escape hatch via the `escape` key, allowing the user to continue tab navigating. More custom solutions may be passed down via the `onKeyDown` property with an `event.preventDefault` included in the handler. For example if you would like to exit the focus state when pressing the tab key inside the editor:
+
+```js
+<LiveEditor onKeyDown={(e) => {
+   if (e.keyCode === 9 ) { // tab key
+      e.preventDefault()
+      e.target.blur()
+   }
+ }}
+/>
+
+```
+
+
 ### &lt;LiveError /&gt;
 
 This component renders any error that occur while executing the code, or transpiling it.
