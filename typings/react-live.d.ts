@@ -13,6 +13,7 @@ export type LiveProviderProps = Omit<DivProps, 'scope'> & {
   scope?: { [key: string]: any };
   code?: string;
   noInline?: boolean;
+  skipInitialRender?: boolean;
   transformCode?: (code: string) => (string | Promise<string>);
   language?: Language;
   disabled?: boolean;

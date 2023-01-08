@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 import LiveContext from "./LiveContext";
@@ -13,13 +13,58 @@ function LiveProvider({
   scope,
   transformCode,
   noInline = false,
+  skipInitialRender = false,
 }) {
-  const [state, setState] = useState({
-    error: undefined,
-    element: undefined,
-  });
+  // avoid to render code twice when rendered initially (ssr)
+  const cache = useRef("initial");
+
+  // ssr render the code in sync
+  const [state, setState] = useState(() => transpileSync(code));
+
+  function transpileSync(code) {
+    const returnObject = {
+      element: undefined,
+      error: undefined,
+    };
+
+    if (!skipInitialRender) {
+      const renderElement = (element) => {
+        return (returnObject.element = element);
+      };
+      const errorCallback = (error) => {
+        return (returnObject.error = error);
+      };
+
+      try {
+        const transformResult = transformCode ? transformCode(code) : code;
+
+        // Transpilation arguments
+        const input = {
+          code: transformResult,
+          scope,
+        };
+
+        if (noInline) {
+          renderElementAsync(input, renderElement, errorCallback);
+        } else {
+          renderElement(generateElement(input, errorCallback));
+        }
+
+        cache.current = code;
+      } catch (e) {
+        errorCallback(e);
+      }
+    }
+
+    return returnObject;
+  }
 
   function transpileAsync(newCode) {
+    if (cache.current === newCode) {
+      cache.current = "used"; // do not check for null or undefined, in case the new code is such
+      return Promise.resolve();
+    }
+
     const errorCallback = (error) => {
       setState({ error: error.toString(), element: undefined });
     };
@@ -92,6 +137,7 @@ LiveProvider.propTypes = {
   language: PropTypes.string,
   noInline: PropTypes.bool,
   scope: PropTypes.object,
+  skipInitialRender: PropTypes.bool,
   theme: PropTypes.object,
   transformCode: PropTypes.func,
 };
@@ -99,6 +145,7 @@ LiveProvider.propTypes = {
 LiveProvider.defaultProps = {
   code: "",
   noInline: false,
+  skipInitialRender: false,
   language: "jsx",
   disabled: false,
 };
