@@ -39,7 +39,7 @@ export interface ContextProps {
   language?: Language;
   theme: PrismTheme;
   disabled?: boolean;
-  error?: string;
+  error?: Error;
 }
 
 export const LiveContext: Context<ContextProps>;

@@ -21,7 +21,7 @@ function LiveProvider({
 
   function transpileAsync(newCode) {
     const errorCallback = (error) => {
-      setState({ error: error.toString(), element: undefined });
+      setState({ error: error, element: undefined });
     };
 
     // - transformCode may be synchronous or asynchronous.
@@ -58,7 +58,7 @@ function LiveProvider({
     }
   }
 
-  const onError = (error) => setState({ error: error.toString() });
+  const onError = (error) => setState({ error: error });
 
   useEffect(() => {
     transpileAsync(code).catch(onError);
