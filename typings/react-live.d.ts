@@ -28,7 +28,8 @@ export type EditorProps = Omit<PreProps, 'onChange'> & {
   language?: Language;
   onChange?: (code: string) => void;
   theme?: PrismTheme;
-  prism?: unknown
+  prism?: unknown;
+  tabMode?: "indentation" | "focus"
 }
 
 export const Editor: ComponentClass<EditorProps>
