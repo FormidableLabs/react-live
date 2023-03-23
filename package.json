@@ -69,7 +69,7 @@
     "react-live.css",
     "typings/react-live.d.ts"
   ],
-  "author": "Phil Plückthun <phil@plckthn.me> (https://github.com/philpl)",
+  "author": "@FormidableLabs",
   "bugs": {
     "url": "https://github.com/philpl/react-live/issues"
   },
