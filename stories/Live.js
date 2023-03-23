@@ -226,6 +226,7 @@ export const Default = DefaultTemplate.bind({});
 Default.args = {
   ...defaultControls,
   code: code,
+  theme: theme,
 };
 
 export const FunctionExample = StyledPreviewTemplate.bind({});

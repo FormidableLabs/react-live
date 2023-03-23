@@ -41,6 +41,7 @@ const CodeEditor = (props) => {
           getLineProps,
           getTokenProps,
           style: _style,
+          theme: _theme,
         }) => (
           <pre
             className={_className}
@@ -49,7 +50,10 @@ const CodeEditor = (props) => {
               outline: "none",
               padding: 10,
               fontFamily: "inherit",
-              ...(!props.className || !props.theme ? {} : _style),
+              ...(_theme && typeof _theme.plain === "object"
+                ? _theme.plain
+                : {}),
+              ..._style,
             }}
             ref={editorRef}
             spellCheck="false"
