@@ -1,0 +1,64 @@
+---
+sidebar_position: 1
+slug: /
+---
+
+import { DemoLiveEditor } from '../website/src/components/live-edit'
+
+# Introduction
+
+**React Live** brings you the ability to render React components with editable source code and live preview.
+
+The library is structured modularly and lets you style and compose its components freely.
+
+
+### Basic Demo
+
+export const jsxExample = `
+<h3 style={{
+  background: 'darkslateblue',
+  color: 'white',
+  padding: 8,
+  borderRadius: 4
+}}>
+  Hello World! 👋
+</h3>
+`.trim();
+
+<DemoLiveEditor code={jsxExample} />
+
+### No Inline Demo
+export const noInlineExample = `
+const Counter = () => {
+  const [count, setCount] =
+    React.useState(0)
+  return (
+    <div>
+      <h3 style={{
+        background: 'darkslateblue',
+        color: 'white',
+        padding: 8,
+        borderRadius: 4
+      }}>
+        Counter: {count} 🧮
+      </h3>
+      <button
+        onClick={() =>
+          setCount(c => c + 1)
+        }>
+        Increment
+      </button>
+    </div>
+  )
+}
+render(<Counter />)
+`.trim();
+
+<DemoLiveEditor code={noInlineExample} noInline />
+
+### Syntax Error Demo
+export const syntaxError = `
+const badVariable = ;
+`.trim();
+
+<DemoLiveEditor code={syntaxError} />
