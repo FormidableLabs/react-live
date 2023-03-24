@@ -6,6 +6,9 @@ module.exports = {
     "@storybook/addon-controls",
     // "@storybook/addon-actions"
   ],
+  core: {
+    builder: 'webpack5',
+  },
   "webpackFinal": async (config) => {
     config.module.rules.push({
       test: /\.mjs$/,
