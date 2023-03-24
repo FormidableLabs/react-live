@@ -36,6 +36,8 @@
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-replace": "^3.0.0",
     "@storybook/addon-controls": "^6.4.13",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.4.13",
     "@types/react": "^17.0.38",
     "babel-jest": "^27.0.6",
@@ -60,7 +62,8 @@
     "rollup-plugin-visualizer": "^5.5.4",
     "styled-components": "^4.0.0-beta.8",
     "typescript": "^2.9.2",
-    "typings-tester": "^0.3.1"
+    "typings-tester": "^0.3.1",
+    "webpack": "^5.76.3"
   },
   "files": [
     "src",
