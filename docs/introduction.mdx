@@ -3,16 +3,15 @@ sidebar_position: 1
 slug: /
 ---
 
-import { DemoLiveEditor } from '../website/src/components/live-edit'
+import { DemoLiveEditor } from "../website/src/components/live-edit";
 
 # Introduction
 
-**React Live** brings you the ability to render React components with editable source code and live preview.
+**React Live** brings you the ability to render React components with editable source code and live preview. React Live is structured modularly and lets you style and compose its components freely. The following demos show typical use cases including the editor, preview, and error pane components. To see React Live in action make changes to the following editor panes below.
 
-The library is structured modularly and lets you style and compose its components freely.
+### Inline Demo
 
-
-### Basic Demo
+React Live by default takes a block of JSX and renders it in the preview as if it were returned from a functional component. A header component represented in JSX is rendered as shown below with the style props.
 
 export const jsxExample = `
 <h3 style={{
@@ -27,7 +26,10 @@ export const jsxExample = `
 
 <DemoLiveEditor code={jsxExample} />
 
-### No Inline Demo
+### Render-function Demo
+
+To render a series of components or render components beyond just JSX, React Live also provides a `render` function to pass JSX into when the `noInline` prop is present. This lets you render multiple or functional components with hooks. This example shows a functional component with a `useState` hook.
+
 export const noInlineExample = `
 const Counter = () => {
   const [count, setCount] =
@@ -57,6 +59,9 @@ render(<Counter />)
 <DemoLiveEditor code={noInlineExample} noInline />
 
 ### Syntax Error Demo
+
+React Live can also display customizable errors when your code contains errors.
+
 export const syntaxError = `
 const badVariable = ;
 `.trim();
