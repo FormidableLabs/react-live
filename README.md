@@ -22,7 +22,7 @@ The library is structured modularly and lets you style and compose its component
 
 <p align="center"><img src="https://user-images.githubusercontent.com/17658189/63181897-1d67d380-c049-11e9-9dd2-7da2a3a57f05.gif" width=500></p>
 
-Come learn more at our [docs site](http://CHANGE_THIS_AND_DONT_FORGET.com)!
+Come learn more at our [docs site](https://formidable-react-live-docs.vercel.app)!
 
 ## Support
 
