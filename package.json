@@ -19,7 +19,8 @@
     "lint": "eslint --config .eslintrc \"./**/*.js\"",
     "install:docs": "yarn --cwd website install",
     "start:docs": "yarn --cwd website start",
-    "build:docs": "yarn --cwd website build"
+    "build:docs": "yarn --cwd website build",
+    "format:docs": "prettier --write docs"
   },
   "dependencies": {
     "prism-react-renderer": "^1.3.1",

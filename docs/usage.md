@@ -87,6 +87,6 @@ This means that while you may be used to destructuring `useState` when importing
       <p>{`${likes} likes`}</p>
       <button onClick={() => increaseLikes(likes + 1)}>Like</button>
     </>
-  )
-}
+  );
+};
 ```
