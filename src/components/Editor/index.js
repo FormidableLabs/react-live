@@ -5,6 +5,7 @@ import { useEditable } from "use-editable";
 import { theme as liveTheme } from "../../constants/theme";
 
 const CodeEditor = (props) => {
+  const { tabMode = "indentation" } = props;
   const editorRef = useRef(null);
   const [code, setCode] = useState(props.code || "");
 
@@ -18,7 +19,7 @@ const CodeEditor = (props) => {
 
   useEditable(editorRef, onEditableChange, {
     disabled: props.disabled,
-    indentation: props.tabMode === "indentation" ? 2 : undefined,
+    indentation: tabMode === "indentation" ? 2 : undefined,
   });
 
   useEffect(() => {
@@ -89,10 +90,6 @@ CodeEditor.propTypes = {
   style: PropTypes.object,
   tabMode: PropTypes.oneOf(["focus", "indentation"]),
   theme: PropTypes.object,
-};
-
-CodeEditor.defaultProps = {
-  tabMode: "indentation",
 };
 
 export default CodeEditor;

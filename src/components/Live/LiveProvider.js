@@ -6,10 +6,10 @@ import { generateElement, renderElementAsync } from "../../utils/transpile";
 
 function LiveProvider({
   children,
-  code,
-  language,
+  code = "",
+  language = "jsx",
   theme,
-  disabled,
+  disabled = "false",
   scope,
   transformCode,
   noInline = false,
@@ -94,13 +94,6 @@ LiveProvider.propTypes = {
   scope: PropTypes.object,
   theme: PropTypes.object,
   transformCode: PropTypes.func,
-};
-
-LiveProvider.defaultProps = {
-  code: "",
-  noInline: false,
-  language: "jsx",
-  disabled: false,
 };
 
 export default LiveProvider;
