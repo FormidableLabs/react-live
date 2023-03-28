@@ -9,6 +9,7 @@ function LiveProvider({
   code,
   language,
   theme,
+  enableTypeScript = true,
   disabled,
   scope,
   transformCode,
@@ -42,6 +43,7 @@ function LiveProvider({
           const input = {
             code: transformedCode,
             scope,
+            enableTypeScript,
           };
 
           if (noInline) {
@@ -89,6 +91,7 @@ LiveProvider.propTypes = {
   children: PropTypes.node,
   code: PropTypes.string,
   disabled: PropTypes.bool,
+  enableTypeScript: PropTypes.bool,
   language: PropTypes.string,
   noInline: PropTypes.bool,
   scope: PropTypes.object,
@@ -98,6 +101,7 @@ LiveProvider.propTypes = {
 
 LiveProvider.defaultProps = {
   code: "",
+  enableTypeScript: true,
   noInline: false,
   language: "jsx",
   disabled: false,

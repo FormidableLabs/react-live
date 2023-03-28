@@ -1,5 +1,11 @@
 import { transform as _transform } from "sucrase";
 
-const opts = { transforms: ["jsx", "imports"] };
+const defaultTransforms = ["jsx", "imports"];
 
-export default (code) => _transform(code, opts).code;
+export default function transform(opts = {}) {
+  const transforms = Array.isArray(opts.transforms)
+    ? opts.transforms.filter(Boolean)
+    : defaultTransforms;
+
+  return (code) => _transform(code, { transforms }).code;
+}
