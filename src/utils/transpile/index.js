@@ -2,13 +2,35 @@ import React from "react";
 import transform from "./transform";
 import errorBoundary from "./errorBoundary";
 import evalCode from "./evalCode";
+import compose from "./compose";
 
-export const generateElement = ({ code = "", scope = {} }, errorCallback) => {
-  // NOTE: Remove trailing semicolon to get an actual expression.
-  const codeTrimmed = code.trim().replace(/;$/, "");
+const jsxConst = 'const _jsxFileName = "";';
+const trimCode = (code) => code.trim().replace(/;$/, "");
+const spliceJsxConst = (code) => code.replace(jsxConst, "").trim();
+const addJsxConst = (code) => jsxConst + code;
+const wrapReturn = (code) => `return (${code})`;
 
-  // NOTE: Workaround for classes and arrow functions.
-  const transformed = transform(`return (${codeTrimmed})`).trim();
+export const generateElement = (
+  { code = "", scope = {}, enableTypeScript = true },
+  errorCallback
+) => {
+  /**
+   * To enable TypeScript we need to transform the TS to JS code first,
+   * splice off the JSX const, wrap the eval in a return statement, then
+   * transform any imports. The two-phase approach is required to do
+   * the implicit evaluation and not wrap leading Interface or Type
+   * statements in the return.
+   */
+  const transformed = compose(
+    addJsxConst,
+    transform({ transforms: ["imports"] }),
+    wrapReturn,
+    spliceJsxConst,
+    trimCode,
+    transform({ transforms: ["jsx", enableTypeScript && "typescript"] }),
+    trimCode
+  )(code);
+
   return errorBoundary(
     evalCode(transformed, { React, ...scope }),
     errorCallback
@@ -16,7 +38,7 @@ export const generateElement = ({ code = "", scope = {} }, errorCallback) => {
 };
 
 export const renderElementAsync = (
-  { code = "", scope = {} },
+  { code = "", scope = {}, enableTypeScript = true },
   resultCallback,
   errorCallback
   // eslint-disable-next-line consistent-return
@@ -35,5 +57,10 @@ export const renderElementAsync = (
     );
   }
 
-  evalCode(transform(code), { React, ...scope, render });
+  evalCode(
+    transform({
+      transforms: ["jsx", enableTypeScript && "typescript", "imports"],
+    })(code),
+    { React, ...scope, render }
+  );
 };

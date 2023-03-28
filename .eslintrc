@@ -1,9 +1,12 @@
 {
   "root": true,
   "parser": "@babel/eslint-parser",
-  "plugins": [
-    "prettier"
-  ],
+  "plugins": ["prettier"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",

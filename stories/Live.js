@@ -26,6 +26,31 @@ const functionExample = `
 )
 `.trim();
 
+const functionNoInlineExample = `
+  const Counter = () => {
+    const [count, setCount] = React.useState<number>(0)
+    return (
+      <div>
+        <h3 style={{
+          background: 'darkslateblue',
+          color: 'white',
+          padding: 8,
+          borderRadius: 4
+        }}>
+          Counter: {count} 🧮
+        </h3>
+        <button
+          onClick={() =>
+            setCount(c => c + 1)
+          }>
+          Increment
+        </button>
+      </div>
+    )
+  }
+  render(<Counter />)
+`;
+
 const componentExample = `
 class Counter extends React.Component {
   constructor() {
@@ -55,9 +80,55 @@ class Counter extends React.Component {
 }
 `.trim();
 
+const tsComponentExample = `
+interface CounterElement extends JSX.Element {}
+
+class Counter extends React.Component<{}> {
+  constructor() {
+    super()
+    this.state = { count: 0 }
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState(state => ({ count: state.count + 1 }))
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  render(): CounterElement {
+    return (
+      <center>
+        <h3>
+          {this.state.count}
+        </h3>
+      </center>
+    )
+  }
+}
+`.trim();
+
 const hooksExample = `
 function LikeButton() {
   const [likes, increaseLikes] = React.useState(0)
+
+  return (
+    <>
+      <p className="likes">{likes} likes</p>
+      <button
+        className="button"
+        onClick={() => increaseLikes(likes + 1)} />
+    </>
+  )
+}
+`.trim();
+
+const tsHooksExample = `
+function LikeButton(): JSX.Element {
+  const [likes, increaseLikes] = React.useState<number>(0)
 
   return (
     <>
@@ -235,6 +306,13 @@ FunctionExample.args = {
   code: functionExample,
 };
 
+export const FunctionNoInlineExample = StyledPreviewTemplate.bind({});
+FunctionNoInlineExample.args = {
+  ...defaultControls,
+  noInline: false,
+  code: functionNoInlineExample,
+};
+
 export const StyledSubcomponents = StyledPreviewTemplate.bind({});
 StyledSubcomponents.args = {
   ...defaultControls,
@@ -246,6 +324,13 @@ ComponentExample.args = {
   ...defaultControls,
   code: componentExample,
   language: "jsx",
+};
+
+export const TSComponentExample = StyledEditorTemplate.bind({});
+TSComponentExample.args = {
+  ...defaultControls,
+  code: tsComponentExample,
+  language: "tsx",
 };
 
 export const ComponentWithTheme = StyledEditorTemplate.bind({});
@@ -266,6 +351,12 @@ export const WithLiveExample = WithLiveTemplate.bind({});
 WithLiveExample.args = {
   ...defaultControls,
   code: hooksExample,
+};
+
+export const WithTSLiveExample = WithLiveTemplate.bind({});
+WithTSLiveExample.args = {
+  ...defaultControls,
+  code: tsHooksExample,
 };
 
 export const WithCustomEditor = CustomEditor.bind({});
