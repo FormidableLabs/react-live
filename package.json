@@ -20,7 +20,10 @@
     "install:docs": "yarn --cwd website install",
     "start:docs": "yarn --cwd website start",
     "build:docs": "yarn --cwd website build",
-    "format:docs": "prettier --write docs"
+    "format:docs": "prettier --write docs",
+    "prepare": "yarn build",
+    "changeset": "changeset",
+    "version": "yarn changeset version && yarn install --frozen-lockfile"
   },
   "dependencies": {
     "prism-react-renderer": "^1.3.1",
@@ -35,6 +38,7 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
+    "@changesets/cli": "^2.26.1",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
