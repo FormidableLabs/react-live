@@ -21,9 +21,8 @@
     "start:docs": "yarn --cwd website start",
     "build:docs": "yarn --cwd website build",
     "format:docs": "prettier --write docs",
-    "prepare": "yarn build",
     "changeset": "changeset",
-    "version": "yarn changeset version && yarn install --frozen-lockfile"
+    "version": "yarn changeset version"
   },
   "dependencies": {
     "prism-react-renderer": "^1.3.1",
@@ -47,6 +46,7 @@
     "@storybook/builder-webpack5": "^6.5.16",
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.4.13",
+    "@svitejs/changesets-changelog-github-compact": "^1.1.0",
     "@types/react": "^17.0.38",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
