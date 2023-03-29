@@ -321,7 +321,7 @@ export const FunctionNoInlineExample: Story<StoryProps> =
   StyledPreviewTemplate.bind({});
 FunctionNoInlineExample.args = {
   ...defaultControls,
-  noInline: false,
+  noInline: true,
   code: functionNoInlineExample,
 };
 
