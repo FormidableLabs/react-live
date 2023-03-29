@@ -57,6 +57,7 @@ const CodeEditor = (props) => {
             }}
             ref={editorRef}
             spellCheck="false"
+            translate="no"
           >
             {tokens.map((line, lineIndex) => (
               // eslint-disable-next-line react/jsx-key
