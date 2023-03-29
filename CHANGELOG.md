@@ -1,10 +1,5 @@
 # React-Live Changelog
 
-## 4.0.0
-
-* Migrated codebase over to TypeScript
-* Added support for TypeScript-based components in the React Live editor
-
 ## 3.2.0
 
 ### Minor Changes
