@@ -1,18 +1,25 @@
-import React from "react";
+import React, { ComponentType } from "react";
 import transform from "./transform";
 import errorBoundary from "./errorBoundary";
 import evalCode from "./evalCode";
 import compose from "./compose";
+import { Transform } from "sucrase";
 
 const jsxConst = 'const _jsxFileName = "";';
-const trimCode = (code) => code.trim().replace(/;$/, "");
-const spliceJsxConst = (code) => code.replace(jsxConst, "").trim();
-const addJsxConst = (code) => jsxConst + code;
-const wrapReturn = (code) => `return (${code})`;
+const trimCode = (code: string) => code.trim().replace(/;$/, "");
+const spliceJsxConst = (code: string) => code.replace(jsxConst, "").trim();
+const addJsxConst = (code: string) => jsxConst + code;
+const wrapReturn = (code: string) => `return (${code})`;
+
+type GenerateOptions = {
+  code: string;
+  scope?: Record<string, unknown>,
+  enableTypeScript: boolean
+}
 
 export const generateElement = (
-  { code = "", scope = {}, enableTypeScript = true },
-  errorCallback
+  { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
+  errorCallback: (error: Error) => void
 ) => {
   /**
    * To enable TypeScript we need to transform the TS to JS code first,
@@ -21,13 +28,17 @@ export const generateElement = (
    * the implicit evaluation and not wrap leading Interface or Type
    * statements in the return.
    */
-  const transformed = compose(
+
+  const firstPassTransforms: Transform[] = ["jsx"]
+  enableTypeScript && firstPassTransforms.push("typescript")
+
+  const transformed = compose<string>(
     addJsxConst,
     transform({ transforms: ["imports"] }),
     wrapReturn,
     spliceJsxConst,
     trimCode,
-    transform({ transforms: ["jsx", enableTypeScript && "typescript"] }),
+    transform({ transforms: firstPassTransforms }),
     trimCode
   )(code);
 
@@ -38,12 +49,12 @@ export const generateElement = (
 };
 
 export const renderElementAsync = (
-  { code = "", scope = {}, enableTypeScript = true },
-  resultCallback,
-  errorCallback
+  { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
+  resultCallback: Function,
+  errorCallback: (error: Error) => void
   // eslint-disable-next-line consistent-return
 ) => {
-  const render = (element) => {
+  const render = (element: ComponentType) => {
     if (typeof element === "undefined") {
       errorCallback(new SyntaxError("`render` must be called with valid JSX."));
     } else {
@@ -57,10 +68,11 @@ export const renderElementAsync = (
     );
   }
 
+  const transforms: Transform[] = ["jsx", "imports"]
+  enableTypeScript && transforms.splice(1, 0, "typescript")
+
   evalCode(
-    transform({
-      transforms: ["jsx", enableTypeScript && "typescript", "imports"],
-    })(code),
+    transform({ transforms })(code),
     { React, ...scope, render }
   );
 };

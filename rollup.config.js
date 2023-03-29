@@ -5,6 +5,7 @@ import { babel } from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
 import filesize from "rollup-plugin-filesize";
 import { visualizer } from "rollup-plugin-visualizer";
+import typescript from "@rollup/plugin-typescript";
 
 const plugins = [
   nodeResolve({
@@ -33,6 +34,7 @@ const plugins = [
 ];
 
 const devPlugins = plugins.concat([
+  typescript(),
   replace({
     "process.env.NODE_ENV": JSON.stringify("development"),
     preventAssignment: true,
@@ -40,6 +42,7 @@ const devPlugins = plugins.concat([
 ]);
 
 const prodPlugins = plugins.concat([
+  typescript(),
   replace({
     "process.env.NODE_ENV": JSON.stringify("production"),
     preventAssignment: true,
@@ -50,19 +53,21 @@ const prodPlugins = plugins.concat([
 ]);
 
 const base = {
-  input: "src/index.js",
+  input: "src/index.ts",
   external: [
     "react",
     "react-dom",
     "prop-types",
     "prism-react-renderer",
     "sucrase",
+    "react/jsx-runtime",
   ],
 };
 
 const output = {
   exports: "named",
   globals: {
+    "react/jsx-runtime": "jsx-runtime",
     "prism-react-renderer": "Prism",
     react: "React",
     sucrase: "Sucrase",

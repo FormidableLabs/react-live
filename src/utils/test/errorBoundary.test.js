@@ -1,5 +1,5 @@
 import React from "react";
-import errorBoundary from "../transpile/errorBoundary";
+import errorBoundary from "../transpile/errorBoundary.tsx";
 import { render } from "./renderer";
 
 describe("errorBoundary", () => {

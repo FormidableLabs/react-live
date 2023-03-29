@@ -1,4 +1,6 @@
-export const theme = {
+import type { PrismTheme } from "prism-react-renderer";
+
+export const theme: PrismTheme = {
   plain: {
     color: "#C5C8C6",
     backgroundColor: "#1D1F21",
@@ -66,7 +68,7 @@ export const theme = {
     {
       types: ["punctuation", "symbol"],
       style: {
-        opacity: "0.7",
+        opacity: 0.7,
       },
     },
   ],

@@ -28,6 +28,9 @@ jobs:
       - name: Test
         run: yarn run test
 
+      - name: Type Check
+        run: yarn run typecheck
+
       - name: Library Build
         run: yarn run build
 

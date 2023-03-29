@@ -1,4 +1,4 @@
-import compose from "../transpile/compose";
+import compose from "../transpile/compose.ts";
 
 describe("compose", () => {
   it("should compose functions and call the result", () => {

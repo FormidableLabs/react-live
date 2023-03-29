@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@babel/eslint-parser",
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "@typescript-eslint"],
   "settings": {
     "react": {
       "version": "detect"
@@ -9,6 +9,7 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:import/recommended"
   ],

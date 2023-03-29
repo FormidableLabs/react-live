@@ -1,23 +1,23 @@
-import React from "react";
 import Prism from "prismjs";
-import { Editor } from "../src/index";
+import { Editor } from "../../index";
+import type { Story } from "@storybook/react";
 
 export default {
   title: "Editor",
   component: Editor,
 };
 
-const Template = (args) => <Editor {...args} />;
+const Template = (args: any) => <Editor {...args} />;
 
 const defaultArgs = {
   language: "js",
   code: "const x = 'Hello World!';",
 };
 
-export const Default = Template.bind({});
+export const Default: Story = Template.bind({});
 Default.args = defaultArgs;
 
-export const FontFamilyExample = Template.bind({});
+export const FontFamilyExample: Story = Template.bind({});
 FontFamilyExample.args = {
   ...defaultArgs,
   style: {
@@ -27,5 +27,9 @@ FontFamilyExample.args = {
 
 // Can't pass Prism as an arg since it is not JSON-serializable
 export const PrismFromNpm = () => (
-  <Editor language="js" prism={Prism} code="const x = 'Hello World!';" />
+  <Editor
+    language="javascript"
+    prism={Prism as any}
+    code="const x = 'Hello World!';"
+  />
 );
