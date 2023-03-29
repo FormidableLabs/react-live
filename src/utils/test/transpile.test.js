@@ -1,5 +1,5 @@
 import React from "react";
-import { generateElement, renderElementAsync } from "../transpile";
+import { generateElement, renderElementAsync } from "../transpile/index.ts";
 import { shallow } from "./renderer";
 
 describe("transpile", () => {

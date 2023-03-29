@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+import React, { ComponentType, Component } from "react";
 
-const errorBoundary = (Element, errorCallback) => {
+const errorBoundary = (
+  Element: ComponentType,
+  errorCallback: (error: Error) => void
+) => {
   return class ErrorBoundary extends Component {
-    componentDidCatch(error) {
+    componentDidCatch(error: Error) {
       errorCallback(error);
     }
 

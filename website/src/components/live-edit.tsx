@@ -1,7 +1,12 @@
 import React from "react";
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 
-export const DemoLiveEditor = ({ noInline, code }) => {
+type Props = {
+  noInline?: boolean;
+  code: string;
+};
+
+export const DemoLiveEditor = ({ noInline = false, code }: Props) => {
   return (
     <LiveProvider code={code} noInline={noInline}>
       <div className="grid lg:grid-cols-2 gap-4">

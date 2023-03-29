@@ -1,10 +1,21 @@
-import Highlight, { Prism } from "prism-react-renderer";
-import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import Highlight, { Language, Prism, PrismTheme } from "prism-react-renderer";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { useEditable } from "use-editable";
 import { theme as liveTheme } from "../../constants/theme";
 
-const CodeEditor = (props) => {
+export type Props = {
+  className?: string;
+  code: string;
+  disabled?: boolean;
+  language: Language;
+  prism?: typeof Prism;
+  style?: CSSProperties;
+  tabMode?: "focus" | "indentation";
+  theme?: PrismTheme;
+  onChange?(value: string): void;
+};
+
+const CodeEditor = (props: Props) => {
   const editorRef = useRef(null);
   const [code, setCode] = useState(props.code || "");
 
@@ -12,7 +23,7 @@ const CodeEditor = (props) => {
     setCode(props.code);
   }, [props.code]);
 
-  const onEditableChange = useCallback((_code) => {
+  const onEditableChange = useCallback((_code: string) => {
     setCode(_code.slice(0, -1));
   }, []);
 
@@ -41,6 +52,7 @@ const CodeEditor = (props) => {
           getLineProps,
           getTokenProps,
           style: _style,
+          /* @ts-ignore — this property exists but the lib's types are incorrect */
           theme: _theme,
         }) => (
           <pre
@@ -79,20 +91,8 @@ const CodeEditor = (props) => {
   );
 };
 
-CodeEditor.propTypes = {
-  className: PropTypes.string,
-  code: PropTypes.string,
-  disabled: PropTypes.bool,
-  language: PropTypes.string,
-  onChange: PropTypes.func,
-  prism: PropTypes.object,
-  style: PropTypes.object,
-  tabMode: PropTypes.oneOf(["focus", "indentation"]),
-  theme: PropTypes.object,
-};
-
 CodeEditor.defaultProps = {
   tabMode: "indentation",
-};
+} as Pick<Props, "tabMode">;
 
 export default CodeEditor;

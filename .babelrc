@@ -6,7 +6,8 @@
         "loose": true
       }
     ],
-    "@babel/preset-react"
+    "@babel/preset-typescript",
+    ["@babel/preset-react", { "runtime": "automatic" }]
   ],
   "plugins": [
     "add-module-exports",

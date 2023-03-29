@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { ChangeEvent } from "react";
 import styled from "styled-components";
-import { theme } from "../src/constants/theme";
+import type { Story } from "@storybook/react";
+import { theme } from "../../constants/theme";
 
 import {
   LiveProvider,
@@ -9,7 +9,8 @@ import {
   LiveError,
   LivePreview,
   withLive,
-} from "../src/index";
+} from "../../index";
+import type { Language, PrismTheme } from "prism-react-renderer";
 
 const code = `
 <strong>
@@ -204,27 +205,39 @@ const Container = styled.div`
     font-size: 18px;
   }
 `;
-const TestComponent = ({ live }) => {
-  const Result = live.element;
+
+const defaultControls = {
+  disabled: false,
+  noInline: false,
+};
+
+type StoryProps = typeof defaultControls & {
+  code?: string;
+  language?: Language;
+  theme?: PrismTheme;
+};
+
+const TestComponent = ({ live }: { live: Record<string, unknown> }) => {
+  const Result = live.element as React.ComponentType;
   return (
     <Container>
-      <StyledEditor />
-      {Result && <Result />}
-      <pre>{live.error}</pre>
+      <>
+        <StyledEditor />
+        {Result && <Result />}
+        <pre>{live.error as string}</pre>
+      </>
     </Container>
   );
 };
-TestComponent.propTypes = {
-  live: PropTypes.object,
-};
-const CustomEditor = (args) => {
+
+const CustomEditor = (props: StoryProps) => {
   // eslint-disable-next-line no-shadow
   const [code, updateCode] = React.useState(functionExample);
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     updateCode(e.target.value);
   };
   return (
-    <LiveProvider code={code} {...args}>
+    <LiveProvider code={code} {...props}>
       <StyledTextarea onChange={handleChange} value={code} />
       <LivePreview />
       <LiveError />
@@ -232,13 +245,14 @@ const CustomEditor = (args) => {
   );
 };
 const LiveComponent = withLive(TestComponent);
-function Sandbox(args) {
+
+function Sandbox(props: StoryProps) {
   const initialCode = `
     <em>We're using a custom onChange event on the editor to update the code</em>
   `.trim();
   const [customCode, setCustomCode] = React.useState(initialCode);
   return (
-    <LiveProvider {...args} code={customCode}>
+    <LiveProvider {...props} code={customCode}>
       <StyledEditor onChange={setCustomCode} />
       <LiveError />
       <LivePreview />
@@ -258,82 +272,87 @@ export default {
   },
 };
 
-const DefaultTemplate = (args) => (
-  <LiveProvider {...args}>
+const DefaultTemplate = (props: StoryProps) => (
+  <LiveProvider {...props}>
     <LiveEditor />
     <LiveError />
     <LivePreview />
   </LiveProvider>
 );
 
-const StyledPreviewTemplate = (args) => (
-  <LiveProvider {...args}>
+const StyledPreviewTemplate = (props: StoryProps) => (
+  <LiveProvider {...props}>
     <LiveEditor />
     <LiveError />
     <StyledLivePreview />
   </LiveProvider>
 );
 
-const StyledEditorTemplate = (args) => (
-  <LiveProvider {...args}>
+const StyledEditorTemplate = (props: StoryProps) => (
+  <LiveProvider {...props}>
     <StyledEditor />
     <LiveError />
     <LivePreview />
   </LiveProvider>
 );
 
-const WithLiveTemplate = (args) => (
-  <LiveProvider {...args}>
+const WithLiveTemplate = (props: StoryProps) => (
+  <LiveProvider {...props}>
     <LiveComponent />
   </LiveProvider>
 );
 
-const defaultControls = {
-  disabled: false,
-  noInline: false,
-};
-
-export const Default = DefaultTemplate.bind({});
+export const Default: Story<StoryProps> = DefaultTemplate.bind({});
 Default.args = {
   ...defaultControls,
   code: code,
   theme: theme,
 };
 
-export const FunctionExample = StyledPreviewTemplate.bind({});
+export const FunctionExample: Story<StoryProps> = StyledPreviewTemplate.bind(
+  {}
+);
 FunctionExample.args = {
   ...defaultControls,
   code: functionExample,
 };
 
-export const FunctionNoInlineExample = StyledPreviewTemplate.bind({});
+export const FunctionNoInlineExample: Story<StoryProps> =
+  StyledPreviewTemplate.bind({});
 FunctionNoInlineExample.args = {
   ...defaultControls,
-  noInline: false,
+  noInline: true,
   code: functionNoInlineExample,
 };
 
-export const StyledSubcomponents = StyledPreviewTemplate.bind({});
+export const StyledSubcomponents: Story<StoryProps> =
+  StyledPreviewTemplate.bind({});
 StyledSubcomponents.args = {
   ...defaultControls,
   code: code,
 };
 
-export const ComponentExample = StyledEditorTemplate.bind({});
+export const ComponentExample: Story<StoryProps> = StyledEditorTemplate.bind(
+  {}
+);
 ComponentExample.args = {
   ...defaultControls,
   code: componentExample,
   language: "jsx",
 };
 
-export const TSComponentExample = StyledEditorTemplate.bind({});
+export const TSComponentExample: Story<StoryProps> = StyledEditorTemplate.bind(
+  {}
+);
 TSComponentExample.args = {
   ...defaultControls,
   code: tsComponentExample,
   language: "tsx",
 };
 
-export const ComponentWithTheme = StyledEditorTemplate.bind({});
+export const ComponentWithTheme: Story<StoryProps> = StyledEditorTemplate.bind(
+  {}
+);
 ComponentWithTheme.args = {
   ...defaultControls,
   code: componentExample,
@@ -341,25 +360,25 @@ ComponentWithTheme.args = {
   theme: theme,
 };
 
-export const ComponentWithCustomOnchange = Sandbox.bind({});
+export const ComponentWithCustomOnchange: Story<StoryProps> = Sandbox.bind({});
 ComponentWithCustomOnchange.args = {
   ...defaultControls,
   language: "jsx",
 };
 
-export const WithLiveExample = WithLiveTemplate.bind({});
+export const WithLiveExample: Story<StoryProps> = WithLiveTemplate.bind({});
 WithLiveExample.args = {
   ...defaultControls,
   code: hooksExample,
 };
 
-export const WithTSLiveExample = WithLiveTemplate.bind({});
+export const WithTSLiveExample: Story<StoryProps> = WithLiveTemplate.bind({});
 WithTSLiveExample.args = {
   ...defaultControls,
   code: tsHooksExample,
 };
 
-export const WithCustomEditor = CustomEditor.bind({});
+export const WithCustomEditor: Story<StoryProps> = CustomEditor.bind({});
 WithCustomEditor.args = {
   ...defaultControls,
 };

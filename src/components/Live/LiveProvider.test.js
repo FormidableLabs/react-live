@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { act } from "react-dom/test-utils";
-import { renderElementAsync } from "../../utils/transpile";
+import { renderElementAsync } from "../../utils/transpile/index.ts";
 import { render } from "../../utils/test/renderer";
-import LiveProvider from "./LiveProvider";
-import LiveContext from "./LiveContext";
+import LiveProvider from "./LiveProvider.tsx";
+import LiveContext from "./LiveContext.ts";
 
 jest.mock("../../utils/transpile");
 
