@@ -7,6 +7,8 @@ import { DemoLiveEditor } from "../website/src/components/live-edit";
 
 # Introduction
 
+[![React Live — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/react-live/master/react-live-Hero.png)](https://formidable.com/open-source/)
+
 **React Live** brings you the ability to render React components with editable source code and live preview. React Live is structured modularly and lets you style and compose its components freely. The following demos show typical use cases including the editor, preview, and error pane components.
 
 To see React Live in action, make changes to the following editor panes:
@@ -33,9 +35,12 @@ export const jsxExample = `
 To render a series of components or render components beyond just JSX, React Live also provides a `render` function to pass JSX into when the `noInline` prop is present. This lets you render multiple or functional components with hooks. This example shows a functional component with a `useState` hook.
 
 export const noInlineExample = `
-const Counter = () => {
+type Props = {
+  label: string;
+}
+const Counter = (props: Props) => {
   const [count, setCount] =
-    React.useState(0)
+    React.useState<number>(0)
   return (
     <div>
       <h3 style={{
@@ -44,7 +49,7 @@ const Counter = () => {
         padding: 8,
         borderRadius: 4
       }}>
-        Counter: {count} 🧮
+        {props.label}: {count} 🧮
       </h3>
       <button
         onClick={() =>
@@ -55,7 +60,7 @@ const Counter = () => {
     </div>
   )
 }
-render(<Counter />)
+render(<Counter label="Counter" />)
 `.trim();
 
 <DemoLiveEditor code={noInlineExample} noInline />

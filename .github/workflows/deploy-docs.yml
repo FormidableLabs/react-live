@@ -1,0 +1,54 @@
+name: Deploy Docs Site
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'website/**'
+  pull_request:
+    branches:
+      - 'master'
+    paths:
+      - 'docs/**'
+      - 'website/**'
+
+jobs:
+  deploy-website:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: AWS CLI version
+        run: "aws --version"
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: ./website
+
+      - name: Build the website
+        run: yarn build
+        working-directory: ./website
+
+      # Use `gh` tool to infer more information about the pull request.
+      # The underlying issue here is pushes to a non-mergeable/master target branch
+      # don't have the PR number easily available.
+      # https://stackoverflow.com/a/70102700
+      - name: Get pull request info
+        id: pr_info
+        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy docs (production)
+        if: github.ref == 'refs/heads/master'
+        run: yarn deploy:prod
+        working-directory: ./website
+        env:
+          GITHUB_DEPLOYMENT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

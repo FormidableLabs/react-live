@@ -9,7 +9,7 @@ const config = {
   title: "React Live",
   tagline: "A flexible playground for live editing React components",
   url: "https://formidable.com",
-  baseUrl: "/",
+  baseUrl: "/open-source/react-live",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
