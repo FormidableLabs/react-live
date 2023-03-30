@@ -35,7 +35,7 @@ jobs:
         working-directory: ./website
 
       # Use `gh` tool to infer more information about the pull request.
-      # The underlying issue here is pushes to a non-mergeable/main target branch
+      # The underlying issue here is pushes to a non-mergeable/master target branch
       # don't have the PR number easily available.
       # https://stackoverflow.com/a/70102700
       - name: Get pull request info
@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy docs (production)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: yarn deploy:prod
         working-directory: ./website
         env:
