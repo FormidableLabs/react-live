@@ -13,7 +13,7 @@ type Props = {
   disabled?: boolean;
   enableTypeScript?: boolean;
   language?: Language;
-  noInline: boolean;
+  noInline?: boolean;
   scope?: Record<string, unknown>;
   theme?: PrismTheme;
   transformCode?(code: string): void;
