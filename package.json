@@ -81,6 +81,9 @@
     "typings-tester": "^0.3.1",
     "webpack": "^5.76.3"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "files": [
     "src",
     "lib",
