@@ -81,6 +81,9 @@
     "typings-tester": "^0.3.1",
     "webpack": "^5.76.3"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "files": [
     "src",
     "lib",
@@ -94,7 +97,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/philpl/react-live.git"
+    "url": "https://github.com/FormidableLabs/react-live"
   },
   "engines": {
     "npm": ">= 2.0.0",
