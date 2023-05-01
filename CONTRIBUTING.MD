@@ -34,11 +34,42 @@ Thanks for taking the time to help us make react-live even better! Before you go
 - Run lint and flow using `yarn run lint`
 - Update the [type definitions](./typings/react-live.d.ts) for anything that modifies the React-Live API, like breaking changes or new features.
 
+### Changesets
+
+We use [changesets](https://github.com/changesets/changesets) to create package versions and publish them.
+
+If your work contributes changes that require a change in version to any of the packages, add a changeset by running:
+
+```sh
+$ yarn changeset
+```
+
+which will open an interactive CLI menu. Use this menu to select which packages need versioning, which semantic version changes are needed, and add appropriate messages accordingly.
+
+After this, you'll see a new uncommitted file in `.changesets` that looks something like:
+
+```
+$ git status
+# ....
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.changeset/flimsy-pandas-marry.md
+```
+
+Review this file, make any necessary adjustments, and commit the file to source. During the next package release, the changes (and changeset notes) will be automatically incorporated based on these changeset files.
+
 ## Releasing a new version to NPM (only for project administrators)
+
+<details>
+<summary>
+<i>Only for project administrators</i>
+</summary>
 
 1.  Run `npm version patch` (or `minor`, `major` as appropriate) to run tests and lint, build the `lib` and `dist` directories, and automatically update the `package.json` with a new git tag.
 2.  Run `npm publish` and publish to npm if all is well.
 3.  Run `git push && git push --tags`
+
+</details>
 
 ## Contributor Covenant Code of Conduct
 
