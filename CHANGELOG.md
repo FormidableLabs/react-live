@@ -1,5 +1,11 @@
 # React-Live Changelog
 
+## 4.0.1
+
+### Patch Changes
+
+- Setup NPM Provenance ([#352](https://github.com/FormidableLabs/react-live/pull/352))
+
 ## 4.0.0
 
 ### Major Changes
