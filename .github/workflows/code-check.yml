@@ -12,12 +12,14 @@ jobs:
   build:
     name: Check codebase (lint and typecheck)
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v2
         with:
-          node-version: 18
-          cache: 'yarn'
+          node-version: ${{ matrix.node-version }}
 
       - uses: pnpm/action-setup@v2.2.2
         with:
