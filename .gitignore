@@ -10,3 +10,5 @@ bundle-stats.html
 .history/
 stats.html
 /.idea
+/packages/react-live/LICENSE
+/packages/react-live/README.md
