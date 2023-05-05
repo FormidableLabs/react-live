@@ -50,7 +50,7 @@ export const generateElement = (
 
 export const renderElementAsync = (
   { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
-  resultCallback: (...args: unknown[]) => React.ReactNode,
+  resultCallback: (sender: ComponentType) => void,
   errorCallback: (error: Error) => void
   // eslint-disable-next-line consistent-return
 ) => {
