@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { act } from "react-dom/test-utils";
-import { renderElementAsync } from "../../utils/transpile/index.ts";
+import { renderElementAsync } from "../../utils/transpile";
 import { render } from "../../utils/test/renderer";
 import LiveProvider from "./LiveProvider.tsx";
 import LiveContext from "./LiveContext.ts";

@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import type { Story } from "@storybook/react";
-import { theme } from "../../constants/theme";
 
 import {
   LiveProvider,
@@ -10,7 +9,7 @@ import {
   LivePreview,
   withLive,
 } from "../../index";
-import type { Language, PrismTheme } from "prism-react-renderer";
+import { themes } from "prism-react-renderer";
 
 const code = `
 <strong>
@@ -213,8 +212,8 @@ const defaultControls = {
 
 type StoryProps = typeof defaultControls & {
   code?: string;
-  language?: Language;
-  theme?: PrismTheme;
+  language?: string;
+  theme?: typeof themes.duotoneDark;
 };
 
 const TestComponent = ({ live }: { live: Record<string, unknown> }) => {
@@ -306,7 +305,7 @@ export const Default: Story<StoryProps> = DefaultTemplate.bind({});
 Default.args = {
   ...defaultControls,
   code: code,
-  theme: theme,
+  theme: themes.duotoneDark,
 };
 
 export const FunctionExample: Story<StoryProps> = StyledPreviewTemplate.bind(
@@ -357,7 +356,7 @@ ComponentWithTheme.args = {
   ...defaultControls,
   code: componentExample,
   language: "jsx",
-  theme: theme,
+  theme: themes.duotoneDark,
 };
 
 export const ComponentWithCustomOnchange: Story<StoryProps> = Sandbox.bind({});

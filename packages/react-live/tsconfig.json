@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "target": "ES6",
-    "outDir": "./dist",
+    "outDir": "dist",
     "lib": ["DOM", "ES2019"],
     "jsx": "react-jsx",
 
@@ -17,5 +17,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["website", "dist"]
+  "exclude": ["dist"]
 }

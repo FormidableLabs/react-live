@@ -1,7 +1,7 @@
 import { useEffect, useState, ComponentType, PropsWithChildren } from "react";
 import LiveContext from "./LiveContext";
 import { generateElement, renderElementAsync } from "../../utils/transpile";
-import type { Language, PrismTheme } from "prism-react-renderer";
+import { themes } from "prism-react-renderer";
 
 type ProviderState = {
   element?: ComponentType | null;
@@ -12,10 +12,10 @@ type Props = {
   code?: string;
   disabled?: boolean;
   enableTypeScript?: boolean;
-  language?: Language;
+  language?: string;
   noInline?: boolean;
   scope?: Record<string, unknown>;
-  theme?: PrismTheme;
+  theme?: typeof themes.nightOwl;
   transformCode?(code: string): void;
 };
 
