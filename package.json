@@ -9,6 +9,9 @@
   "scripts": {
     "start:docs": "pnpm run --filter website start",
     "build": "pnpm run -r build",
+    "build:lib": "pnpm run --filter react-live build",
+    "lint": "pnpm run --parallel lint",
+    "lint:fix": "pnpm run --parallel lint --fix",
     "changeset": "changeset",
     "version": "pnpm changeset version && pnpm install --no-frozen-lockfile"
   },

@@ -19,20 +19,27 @@ jobs:
           node-version: 18
           cache: 'yarn'
 
-      - name: Installation
-        run: yarn --frozen-lockfile
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
 
-      - name: Lint
-        run: yarn lint
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - name: Test
-        run: yarn run test
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('./pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-      - name: Type Check
-        run: yarn run typecheck
+      - name: Install dependencies
+        run: pnpm install
 
-      - name: Library Build
-        run: yarn run build
+      - name: Check Code ${{ matrix.node-version }}
+        run: pnpm lint
 
-      - name: Storybook Build
-        run: yarn run storybook:build
+      - name: Build ${{ matrix.node-version }}
+        run: pnpm build

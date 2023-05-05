@@ -10,7 +10,7 @@ export type Props = {
   prism?: typeof Prism;
   style?: CSSProperties;
   tabMode?: "focus" | "indentation";
-  theme?: any;
+  theme?: typeof themes.nightOwl;
   onChange?(value: string): void;
 };
 

@@ -7,5 +7,5 @@ export default defineConfig({
   dts: true,
   format: ["cjs", "esm"],
   target: "es6",
-  external: ['react', 'react-dom']
+  external: ["react", "react-dom"],
 });

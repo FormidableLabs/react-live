@@ -1,6 +1,6 @@
 {
   "root": true,
-  "parser": "@babel/eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "plugins": ["prettier", "@typescript-eslint"],
   "settings": {
     "react": {
@@ -11,7 +11,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:import/recommended"
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
   "env": {
     "browser": true,
@@ -54,18 +55,15 @@
     "react/no-find-dom-node": "off",
     "no-invalid-this": "off",
     "complexity": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "^_+$"
-      }
-    ],
+    "no-unused-vars": 0,
     "import/no-unresolved": [2, { "ignore": ["polished", "next/document"] }],
     "prefer-template": "off",
     "filenames/match-regex": "off",
     "react/react-in-jsx-scope": "off",
     "max-params": ["error", 5],
     "max-nested-callbacks": ["error", 5],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-var-requires": 0
   }
 }

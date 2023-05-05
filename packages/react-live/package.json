@@ -16,8 +16,8 @@
     "test": "jest",
     "test:typings": "typings-tester --dir typings",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint --ext .js,.ts,.tsx .",
-    "lint:fix": "eslint --ext .js,.ts,.tsx . --fix"
+    "lint": "eslint --ext .js,.ts,.tsx src",
+    "lint:fix": "eslint --ext .js,.ts,.tsx src --fix"
   },
   "dependencies": {
     "prism-react-renderer": "*",
