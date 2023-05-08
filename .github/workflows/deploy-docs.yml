@@ -18,17 +18,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
         with:
-          fetch-depth: 0
+          node-version: 18
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
+      - name: AWS CLI version
+        run: "aws --version"
 
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8.2.0
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -42,12 +41,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: AWS CLI version
-        run: "aws --version"
-
       - name: Install Dependencies
         run: pnpm install
-        working-directory: ./
 
       - name: Build the website
         run: pnpm build
@@ -64,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy docs (production)
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: pnpm run deploy:prod
         working-directory: ./website
         env:

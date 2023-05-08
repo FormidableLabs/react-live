@@ -8,16 +8,20 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      issues: write
+      repository-projects: write
+      deployments: write
+      packages: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
         with:
-          fetch-depth: 0
-
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
+          node-version: 18
 
       - uses: pnpm/action-setup@v2.2.2
         with:
