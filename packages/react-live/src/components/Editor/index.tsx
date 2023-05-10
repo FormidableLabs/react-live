@@ -1,23 +1,23 @@
-import Highlight, { Language, Prism, PrismTheme } from "prism-react-renderer";
+import { Highlight, Prism, themes } from "prism-react-renderer";
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { useEditable } from "use-editable";
-import { theme as liveTheme } from "../../constants/theme";
 
 export type Props = {
   className?: string;
   code: string;
   disabled?: boolean;
-  language: Language;
+  language: string;
   prism?: typeof Prism;
   style?: CSSProperties;
   tabMode?: "focus" | "indentation";
-  theme?: PrismTheme;
+  theme?: typeof themes.nightOwl;
   onChange?(value: string): void;
 };
 
 const CodeEditor = (props: Props) => {
   const editorRef = useRef(null);
   const [code, setCode] = useState(props.code || "");
+  const { theme } = props;
 
   useEffect(() => {
     setCode(props.code);
@@ -41,9 +41,8 @@ const CodeEditor = (props: Props) => {
   return (
     <div className={props.className} style={props.style}>
       <Highlight
-        Prism={props.prism || Prism}
         code={code}
-        theme={props.theme || liveTheme}
+        theme={props.theme || themes.nightOwl}
         language={props.language}
       >
         {({
@@ -52,8 +51,6 @@ const CodeEditor = (props: Props) => {
           getLineProps,
           getTokenProps,
           style: _style,
-          /* @ts-ignore — this property exists but the lib's types are incorrect */
-          theme: _theme,
         }) => (
           <pre
             className={_className}
@@ -62,23 +59,20 @@ const CodeEditor = (props: Props) => {
               outline: "none",
               padding: 10,
               fontFamily: "inherit",
-              ...(_theme && typeof _theme.plain === "object"
-                ? _theme.plain
-                : {}),
+              ...(theme && typeof theme.plain === "object" ? theme.plain : {}),
               ..._style,
             }}
             ref={editorRef}
             spellCheck="false"
           >
             {tokens.map((line, lineIndex) => (
-              // eslint-disable-next-line react/jsx-key
-              <div {...getLineProps({ line, key: `line-${lineIndex}` })}>
+              <div key={`line-${lineIndex}`} {...getLineProps({ line })}>
                 {line
                   .filter((token) => !token.empty)
                   .map((token, tokenIndex) => (
-                    // eslint-disable-next-line react/jsx-key
                     <span
-                      {...getTokenProps({ token, key: `token-${tokenIndex}` })}
+                      key={`token-${tokenIndex}`}
+                      {...getTokenProps({ token })}
                     />
                   ))}
                 {"\n"}

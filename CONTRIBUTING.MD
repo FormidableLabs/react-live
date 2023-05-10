@@ -8,7 +8,7 @@ Thanks for contributing!
 yarn install
 ```
 
-You will find all building blocks that make up React Live in the [`src`](src) folder and examples in the [`demo`](demo) folder.
+You will find all building blocks that make up React Live in the [`src`](packages/react-live/src) folder and examples in the [`demo`](demo) folder.
 
 ### Testing
 

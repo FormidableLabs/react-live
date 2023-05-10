@@ -1,8 +1,8 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/okaidia");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { themes } = require("prism-react-renderer");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -89,8 +89,8 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Formidable`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: themes.nightOwlLight,
+        darkTheme: themes.nightOwl,
       },
     }),
 };

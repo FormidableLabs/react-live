@@ -1,4 +1,4 @@
-import { Language, PrismTheme } from "prism-react-renderer";
+import { themes } from "prism-react-renderer";
 import { ComponentType, createContext } from "react";
 
 type ContextValue = {
@@ -6,11 +6,11 @@ type ContextValue = {
   element?: ComponentType | null;
   code: string;
   disabled: boolean;
-  language: Language;
-  theme?: PrismTheme;
+  language: string;
+  theme?: typeof themes.nightOwl;
   onError(error: Error): void;
   onChange(value: string): void;
-}
+};
 
 const LiveContext = createContext<ContextValue>({} as ContextValue);
 

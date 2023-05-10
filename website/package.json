@@ -5,8 +5,11 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
+    "postinstall": "pnpm run -C ../ build:lib",
     "build": "docusaurus build --out-dir build/open-source/react-live",
+    "build:vercel": "docusaurus build --out-dir build/open-source/react-live --config docusaurus-vercel.config.js",
     "swizzle": "docusaurus swizzle",
+    "lint": "eslint --ext .js,.ts,.tsx src",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
@@ -22,14 +25,15 @@
     "autoprefixer": "^10.4.14",
     "clsx": "^1.2.1",
     "postcss": "^8.4.21",
-    "prism-react-renderer": "^1.3.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-live": "^4.0.0",
+    "prism-react-renderer": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-live": "*",
     "tailwindcss": "^3.2.7"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.4.0",
+    "@docusaurus/types": "^2.4.0",
     "@tsconfig/docusaurus": "^1.0.5",
     "formideploy": "^0.4.2",
     "typescript": "^4.7.4"

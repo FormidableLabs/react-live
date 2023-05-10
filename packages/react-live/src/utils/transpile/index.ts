@@ -13,9 +13,9 @@ const wrapReturn = (code: string) => `return (${code})`;
 
 type GenerateOptions = {
   code: string;
-  scope?: Record<string, unknown>,
-  enableTypeScript: boolean
-}
+  scope?: Record<string, unknown>;
+  enableTypeScript: boolean;
+};
 
 export const generateElement = (
   { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
@@ -29,8 +29,8 @@ export const generateElement = (
    * statements in the return.
    */
 
-  const firstPassTransforms: Transform[] = ["jsx"]
-  enableTypeScript && firstPassTransforms.push("typescript")
+  const firstPassTransforms: Transform[] = ["jsx"];
+  enableTypeScript && firstPassTransforms.push("typescript");
 
   const transformed = compose<string>(
     addJsxConst,
@@ -50,7 +50,7 @@ export const generateElement = (
 
 export const renderElementAsync = (
   { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
-  resultCallback: Function,
+  resultCallback: (sender: ComponentType) => void,
   errorCallback: (error: Error) => void
   // eslint-disable-next-line consistent-return
 ) => {
@@ -68,11 +68,8 @@ export const renderElementAsync = (
     );
   }
 
-  const transforms: Transform[] = ["jsx", "imports"]
-  enableTypeScript && transforms.splice(1, 0, "typescript")
+  const transforms: Transform[] = ["jsx", "imports"];
+  enableTypeScript && transforms.splice(1, 0, "typescript");
 
-  evalCode(
-    transform({ transforms })(code),
-    { React, ...scope, render }
-  );
+  evalCode(transform({ transforms })(code), { React, ...scope, render });
 };
