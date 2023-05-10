@@ -2,4 +2,4 @@
 "react-live": patch
 ---
 
-Fix live preview types.
+Fix live preview types. @kyletsang
