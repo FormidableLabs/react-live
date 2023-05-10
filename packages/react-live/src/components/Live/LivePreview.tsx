@@ -1,15 +1,16 @@
-import React, { PropsWithChildren, useContext } from "react";
+import React, { useContext } from "react";
 import LiveContext from "./LiveContext";
 
-type Props = {
-  Component?: React.ComponentType<PropsWithChildren<Record<string, unknown>>>;
-};
+type Props<T extends React.ElementType = React.ElementType> = {
+  Component?: T;
+} & React.ComponentPropsWithoutRef<T>;
 
-const fallbackComponent = (
-  props: PropsWithChildren<Record<string, unknown>>
-) => <div {...props} />;
+function LivePreview<T extends keyof JSX.IntrinsicElements>(
+  props: Props<T>
+): JSX.Element;
+function LivePreview<T extends React.ElementType>(props: Props<T>): JSX.Element;
 
-function LivePreview({ Component = fallbackComponent, ...rest }: Props) {
+function LivePreview({ Component = "div", ...rest }: Props): JSX.Element {
   const { element: Element } = useContext(LiveContext);
   return <Component {...rest}>{Element ? <Element /> : null}</Component>;
 }
