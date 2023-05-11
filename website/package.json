@@ -7,7 +7,7 @@
     "start": "docusaurus start",
     "postinstall": "pnpm run -C ../ build:lib",
     "build": "docusaurus build --out-dir build/open-source/react-live",
-    "build:vercel": "docusaurus build --out-dir build/open-source/react-live --config docusaurus-vercel.config.js",
+    "build:vercel": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "lint": "eslint --ext .js,.ts,.tsx src",
     "deploy": "docusaurus deploy",
