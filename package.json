@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start:docs": "pnpm run --filter website start",
+    "dev:demo": "pnpm run --filter demo dev",
     "build": "pnpm run -r build",
     "build:lib": "pnpm run --filter react-live build",
     "lint": "pnpm run --parallel lint",
@@ -16,7 +17,7 @@
     "version": "pnpm changeset version && pnpm install --no-frozen-lockfile"
   },
   "dependencies": {
-    "prism-react-renderer": "^2.0.3"
+    "prism-react-renderer": "^2.0.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.0",

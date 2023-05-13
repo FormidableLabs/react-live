@@ -1,5 +1,5 @@
 import { Highlight, Prism, themes } from "prism-react-renderer";
-import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useEditable } from "use-editable";
 
 export type Props = {
@@ -23,11 +23,7 @@ const CodeEditor = (props: Props) => {
     setCode(props.code);
   }, [props.code]);
 
-  const onEditableChange = useCallback((_code: string) => {
-    setCode(_code.slice(0, -1));
-  }, []);
-
-  useEditable(editorRef, onEditableChange, {
+  useEditable(editorRef, (text) => setCode(text.trimEnd()), {
     disabled: props.disabled,
     indentation: props.tabMode === "indentation" ? 2 : undefined,
   });
@@ -66,7 +62,7 @@ const CodeEditor = (props: Props) => {
             spellCheck="false"
           >
             {tokens.map((line, lineIndex) => (
-              <div key={`line-${lineIndex}`} {...getLineProps({ line })}>
+              <span key={`line-${lineIndex}`} {...getLineProps({ line })}>
                 {line
                   .filter((token) => !token.empty)
                   .map((token, tokenIndex) => (
@@ -76,7 +72,7 @@ const CodeEditor = (props: Props) => {
                     />
                   ))}
                 {"\n"}
-              </div>
+              </span>
             ))}
           </pre>
         )}
