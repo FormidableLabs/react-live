@@ -30,7 +30,7 @@ Prior to `v3.0.0`, earlier versions of the library used different internals. We 
 | v3.x.x  | v17.x.x                 | `use-editable`             | `Sucrase`  |
 | v2.x.x  | v16.x.x                 | `react-simple-code-editor` | `Bublé`    |
 
-Please see also the related Formidable libraries:-
+Please see also the related Formidable libraries:
 
 - [https://github.com/FormidableLabs/prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer)
 - [https://github.com/FormidableLabs/use-editable](https://github.com/FormidableLabs/use-editable)
