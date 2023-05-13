@@ -1,6 +1,6 @@
 import { Highlight, Prism, themes } from "prism-react-renderer";
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import { Position, useEditable } from "use-editable";
+import { useEditable } from "use-editable";
 
 export type Props = {
   className?: string;
