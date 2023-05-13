@@ -16,7 +16,7 @@
     "version": "pnpm changeset version && pnpm install --no-frozen-lockfile"
   },
   "dependencies": {
-    "prism-react-renderer": "^2.0.3"
+    "prism-react-renderer": "^2.0.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.0",
