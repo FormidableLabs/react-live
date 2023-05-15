@@ -4,6 +4,8 @@ sidebar_position: 4
 
 # API
 
+foobar
+
 ### `<LiveProvider />`
 
 This component provides the `context` for all the other ones. It also transpiles the user’s code!
