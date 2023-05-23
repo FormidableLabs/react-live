@@ -1,5 +1,11 @@
 # react-live
 
+## 4.1.2
+
+### Patch Changes
+
+- Fix ability to insert a new line at the end of the editor. ([#361](https://github.com/FormidableLabs/react-live/pull/361))
+
 ## 4.1.1
 
 ### Patch Changes
