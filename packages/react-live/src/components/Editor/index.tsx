@@ -23,7 +23,7 @@ const CodeEditor = (props: Props) => {
     setCode(props.code);
   }, [props.code]);
 
-  useEditable(editorRef, (text) => setCode(text.trimEnd()), {
+  useEditable(editorRef, (text) => setCode(text.slice(0, -1)), {
     disabled: props.disabled,
     indentation: props.tabMode === "indentation" ? 2 : undefined,
   });
