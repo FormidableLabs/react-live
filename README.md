@@ -31,11 +31,11 @@ Have a question about react-live? Submit an issue in this repository using the
 
 Notice something inaccurate or confusing? Feel free to [open an issue](https://github.com/FormidableLabs/react-live/issues/new/choose) or [make a pull request](https://github.com/FormidableLabs/react-live/pulls) to help improve the documentation for everyone!
 
-The source for our docs site lives in this repo in the [`docs`](https://github.com/FormidableLabs/react-live/blob/main/docs) folder.
+The source for our docs site lives in this repo in the [`docs`](docs) folder.
 
 ## Contributing
 
-Please see our [contributing guide](CONTRIBUTING.md).
+Please see our [contributing guide](CONTRIBUTING.MD).
 
 ## Maintenance Status
 
