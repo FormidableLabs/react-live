@@ -1,5 +1,11 @@
 # react-live
 
+## 4.1.3
+
+### Patch Changes
+
+- Fix version and peer deps. ([#366](https://github.com/FormidableLabs/react-live/pull/366))
+
 ## 4.1.2
 
 ### Patch Changes
