@@ -1,5 +1,11 @@
 # react-live
 
+## 4.1.4
+
+### Patch Changes
+
+- Unpin PRR version. Baseline at 2.0.6. ([#370](https://github.com/FormidableLabs/react-live/pull/370))
+
 ## 4.1.3
 
 ### Patch Changes
