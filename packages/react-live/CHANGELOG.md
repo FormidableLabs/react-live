@@ -1,5 +1,11 @@
 # react-live
 
+## 4.1.5
+
+### Patch Changes
+
+- Unpin PRR version on the lib. ([#372](https://github.com/FormidableLabs/react-live/pull/372))
+
 ## 4.1.4
 
 ### Patch Changes
