@@ -10,7 +10,7 @@ importers:
     dependencies:
       prism-react-renderer:
         specifier: ^2.0.6
-        version: 2.0.6
+        version: 2.0.6(react@18.2.0)
     devDependencies:
       '@babel/eslint-parser':
         specifier: ^7.15.0
@@ -104,8 +104,8 @@ importers:
   packages/react-live:
     dependencies:
       prism-react-renderer:
-        specifier: 2.0.5
-        version: 2.0.5(react@18.2.0)
+        specifier: ^2.0.6
+        version: 2.0.6(react@18.2.0)
       sucrase:
         specifier: ^3.31.0
         version: 3.31.0
@@ -15250,23 +15250,14 @@ packages:
       react: 18.2.0
     dev: false
 
-  /prism-react-renderer@2.0.5(react@18.2.0):
-    resolution: {integrity: sha512-VHTC2ZhOImeC3/mu/3TkEuRCa1K+kTCZQeCkwvWzQa01/ahU3dibyxWf3XiPLuO4k/rGjSTea1lEsfza6fMofw==}
-    peerDependencies:
-      react: '>=16.0.0'
-    dependencies:
-      '@types/prismjs': 1.26.0
-      clsx: 1.2.1
-      react: 18.2.0
-    dev: false
-
-  /prism-react-renderer@2.0.6:
+  /prism-react-renderer@2.0.6(react@18.2.0):
     resolution: {integrity: sha512-ERzmAI5UvrcTw5ivfEG20/dYClAsC84eSED5p9X3oKpm0xPV4A5clFK1mp7lPIdKmbLnQYsPTGiOI7WS6gWigw==}
     peerDependencies:
       react: '>=16.0.0'
     dependencies:
       '@types/prismjs': 1.26.0
       clsx: 1.2.1
+      react: 18.2.0
     dev: false
 
   /prismjs@1.26.0:
