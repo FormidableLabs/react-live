@@ -15,6 +15,7 @@ export type Props = {
 };
 
 const CodeEditor = (props: Props) => {
+  const { tabMode = "indentation" } = props;
   const editorRef = useRef(null);
   const [code, setCode] = useState(props.code || "");
   const { theme } = props;
@@ -25,7 +26,7 @@ const CodeEditor = (props: Props) => {
 
   useEditable(editorRef, (text) => setCode(text.slice(0, -1)), {
     disabled: props.disabled,
-    indentation: props.tabMode === "indentation" ? 2 : undefined,
+    indentation: tabMode === "indentation" ? 2 : undefined,
   });
 
   useEffect(() => {
@@ -80,9 +81,5 @@ const CodeEditor = (props: Props) => {
     </div>
   );
 };
-
-CodeEditor.defaultProps = {
-  tabMode: "indentation",
-} as Pick<Props, "tabMode">;
 
 export default CodeEditor;
