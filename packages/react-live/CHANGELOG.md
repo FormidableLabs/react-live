@@ -1,5 +1,11 @@
 # react-live
 
+## 4.1.6
+
+### Patch Changes
+
+- fix default props ([#380](https://github.com/FormidableLabs/react-live/pull/380))
+
 ## 4.1.5
 
 ### Patch Changes
