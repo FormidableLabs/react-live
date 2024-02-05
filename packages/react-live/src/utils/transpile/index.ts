@@ -35,10 +35,10 @@ export const generateElement = (
   const transformed = compose<string>(
     addJsxConst,
     transform({ transforms: ["imports"] }),
-    wrapReturn,
     spliceJsxConst,
     trimCode,
     transform({ transforms: firstPassTransforms }),
+    wrapReturn,
     trimCode
   )(code);
 
