@@ -7,8 +7,6 @@ import { DemoLiveEditor } from "../website/src/components/live-edit";
 
 # Introduction
 
-[![React Live — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/react-live/master/react-live-Hero.png)](https://formidable.com/open-source/)
-
 **React Live** brings you the ability to render React components with editable source code and live preview. React Live is structured modularly and lets you style and compose its components freely. The following demos show typical use cases including the editor, preview, and error pane components.
 
 To see React Live in action, make changes to the following editor panes:
@@ -29,6 +27,17 @@ export const jsxExample = `
 `.trim();
 
 <DemoLiveEditor code={jsxExample} />
+
+```jsx
+import { LiveProvider, LiveEditor, LivePreview } from "react-live";
+
+<LiveProvider code={code}>
+  <div className="grid grid-cols-2 gap-4">
+    <LiveEditor className="font-mono" />
+    <LivePreview />
+  </div>
+</LiveProvider>
+```
 
 ### Render-function Demo
 
@@ -65,6 +74,17 @@ render(<Counter label="Counter" />)
 
 <DemoLiveEditor code={noInlineExample} noInline />
 
+```jsx
+import { LiveProvider, LiveEditor, LivePreview } from "react-live";
+
+<LiveProvider code={code} noInline>
+  <div className="grid grid-cols-2 gap-4">
+    <LiveEditor className="font-mono" />
+    <LivePreview />
+  </div>
+</LiveProvider>
+```
+
 ### Syntax Error Demo
 
 React Live can also display customizable errors when your code contains errors.
@@ -74,3 +94,15 @@ const badVariable = ;
 `.trim();
 
 <DemoLiveEditor code={syntaxError} />
+
+```jsx
+import { LiveProvider, LiveEditor, LivePreview, LiveError } from "react-live";
+
+<LiveProvider code={code}>
+  <div className="grid grid-cols-2 gap-4">
+    <LiveEditor className="font-mono" />
+    <LivePreview />
+    <LiveError className="text-red-800 bg-red-100 mt-2" />
+  </div>
+</LiveProvider>
+```

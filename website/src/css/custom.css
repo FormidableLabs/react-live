@@ -1,109 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Override infima variables */
-:root {
-  --ifm-color-primary: #f159da;
-  --ifm-color-primary-dark: #c147ae;
-  --ifm-color-primary-darker: #a93e99;
-  --ifm-color-primary-darkest: #792d6d;
-  --ifm-color-primary-light: #f47ae1;
-  --ifm-color-primary-lighter: #f58be5;
-  --ifm-color-primary-lightest: #FFC5FF;
-
-  /* Fonts */
-  --ifm-font-family-base: Roboto, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --ifm-font-family-monospace: 'Roboto Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-
-  /* FORMIDABLE ~BRAND COLORS */
-  /*--ifm-color-primary: #f04d21;*/
-  /*--ifm-color-primary-dark: #e63d10;*/
-  /*--ifm-color-primary-darker: #d93a0f;*/
-  /*--ifm-color-primary-darkest: #b3300c;*/
-  /*--ifm-color-primary-light: #f2623b;*/
-  /*--ifm-color-primary-lighter: #f36c47;*/
-  /*--ifm-color-primary-lightest: #f58b6e;*/
-
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-
-  /* Spacing */
-  --ifm-spacing-horizontal: 2rem;
+body {
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #f159da;
-  --ifm-color-primary-dark: #c147ae;
-  --ifm-color-primary-darker: #a93e99;
-  --ifm-color-primary-darkest: #792d6d;
-  --ifm-color-primary-light: #f47ae1;
-  --ifm-color-primary-lighter: #f58be5;
-  --ifm-color-primary-lightest: #FFC5FF;
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter/InterRegular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-  /* FORMIDABLE ~BRAND COLORS */
-  /*--ifm-color-primary: #f2623b;*/
-  /*--ifm-color-primary-dark: #f04b1f;*/
-  /*--ifm-color-primary-darker: #ef4011;*/
-  /*--ifm-color-primary-darkest: #c6340d;*/
-  /*--ifm-color-primary-light: #f47957;*/
-  /*--ifm-color-primary-lighter: #f58465;*/
-  /*--ifm-color-primary-lightest: #f8a690;*/
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter/InterMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter/InterBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.hero-pattern {
+  background-image: url("../../static/img/hero-pattern.png");
+}
+
+:root {
+  --ifm-color-primary: #5abdee;
+  --ifm-color-primary-dark: #3cb1eb;
+  --ifm-color-primary-darker: #2dabe9;
+  --ifm-color-primary-darkest: #1592d0;
+  --ifm-color-primary-light: #78c9f1;
+  --ifm-color-primary-lighter: #87cff3;
+  --ifm-color-primary-lightest: #b3e1f7;
+  --ifm-code-font-size: 95%;
+  --ifm-list-item-margin: 0;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-navbar-background-color: #000e38;
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-footer-background-color: #000e38;
+  --ifm-footer-padding-vertical: 1rem;
+}
+
+[data-theme="dark"] {
+  --ifm-color-primary: #5abdee;
+  --ifm-color-primary-dark: #3cb1eb;
+  --ifm-color-primary-darker: #2dabe9;
+  --ifm-color-primary-darkest: #1592d0;
+  --ifm-color-primary-light: #78c9f1;
+  --ifm-color-primary-lighter: #87cff3;
+  --ifm-color-primary-lightest: #b3e1f7;
+  --ifm-list-item-margin: 0;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-navbar-background-color: #242526;
+  --ifm-footer-background-color: #242526;
 }
 
 .header-github-link::before {
-  content: '';
+  content: "";
   width: 24px;
   height: 24px;
   display: flex;
-  background-color: #1c1e21;
-  mask: url("/img/github.svg");
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  transition: background-color var(--fm-transition-fast);
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
+    no-repeat;
 }
 
-[data-theme='dark'] .header-github-link::before {
-  background-color: white;
+.navbar__inner button svg {
+  color: white;
 }
 
-.header-github-link:hover::before {
-  background-color: var(--ifm-color-primary);
-}
-
-
-
-.header-formidable-link::before {
-  content: '';
-  width: 26px;
-  height: 26px;
+/* Custom Footer */
+.footer__bottom.text--center {
   display: flex;
-  background-color: #1c1e21;
-  mask: url("/img/formidable-icon.svg");
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  transition: background-color var(--ifm-transition-fast);
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header-formidable-link:hover::before {
-  background-color: var(--ifm-color-primary);
+.footer__bottom.text--center a {
+  opacity: 1 !important;
 }
 
-[data-theme='dark'] .header-formidable-link::before {
-  background-color: white;
-}
-
-[data-theme='dark'] .header-formidable-link:hover::before {
-  background-color: var(--ifm-color-primary);
+.footer__copyright {
+  color: white;
 }

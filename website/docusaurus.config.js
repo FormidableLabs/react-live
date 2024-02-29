@@ -8,17 +8,11 @@ const { themes } = require("prism-react-renderer");
 const config = {
   title: "React Live",
   tagline: "A flexible playground for live editing React components",
-  url: "https://formidable.com",
-  baseUrl:
-    process.env.VERCEL_ENV === "preview" ? "/" : "/open-source/react-live",
+  url: "https://commerce.nearform.com",
+  baseUrl: "/open-source/react-live",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: "Formidable",
-  projectName: "react-live", // Usually your repo name.
+  favicon: "img/nearform-icon.svg",
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -34,7 +28,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: "/",
+          routeBasePath: "/docs",
           path: "../docs",
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl:
@@ -67,27 +61,28 @@ const config = {
       navbar: {
         title: "React Live",
         logo: {
-          alt: "Formidable logo",
-          src: "img/formidable-f.svg",
+          alt: "Nearform",
+          src: "/img/nearform-logo-white.svg",
         },
         items: [
+          { to: "docs", label: "Documentation", position: "left" },
           {
             href: "https://github.com/FormidableLabs/react-live",
             className: "header-github-link",
             "aria-label": "GitHub Repository",
             position: "right",
           },
-          {
-            href: "https://formidable.com",
-            className: "header-formidable-link",
-            "aria-label": "Formidable Website",
-            position: "right",
-          },
         ],
       },
       footer: {
-        style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} Formidable`,
+        logo: {
+          alt: "Nearform logo",
+          src: "img/nearform-logo-white.svg",
+          href: "https://nearform.com",
+          width: 100,
+          height: 100,
+        },
+        copyright: `Copyright © 2013-${new Date().getFullYear()} Nearform`,
       },
       prism: {
         theme: themes.nightOwlLight,

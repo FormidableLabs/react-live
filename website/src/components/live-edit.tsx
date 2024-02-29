@@ -9,7 +9,7 @@ type Props = {
 export const DemoLiveEditor = ({ noInline = false, code }: Props) => {
   return (
     <LiveProvider code={code} noInline={noInline}>
-      <div className="grid lg:grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 gap-4 mb-6">
         <LiveEditor className="font-mono" />
         <LivePreview />
       </div>
