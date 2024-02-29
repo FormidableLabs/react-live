@@ -12,6 +12,7 @@
 
 /* Override infima variables */
 :root {
+  --ifm-font-color-base: #000E38;
   --ifm-color-primary: #166BFF;
   /*--ifm-color-primary-dark: #526288;*/
   /*--ifm-color-primary-darker: #0C3D60;*/
@@ -33,13 +34,14 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #166BFF;
+  --ifm-font-color-base: #EAEBED;
+  --ifm-color-primary: #00E5A4;
   /*--ifm-color-primary-dark: #526288;*/
   /*--ifm-color-primary-darker: #0C3D60;*/
   /*--ifm-color-primary-darkest: #000E38;*/
-  --ifm-color-primary-light: #4589FF;
-  --ifm-color-primary-lighter: #8AB5FF;
-  --ifm-color-primary-lightest: #B9D3FF;
+  --ifm-color-primary-light: #33EAAE;
+  --ifm-color-primary-lighter: #78EEC5;
+  --ifm-color-primary-lightest: #B2F7E1;
 
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
