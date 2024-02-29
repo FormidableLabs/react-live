@@ -67,27 +67,27 @@ const config = {
       navbar: {
         title: "React Live",
         logo: {
-          alt: "Formidable logo",
-          src: "img/formidable-f.svg",
+          alt: "Nearform",
+          src: "img/nearform-logo.svg",
         },
         items: [
           {
             href: "https://github.com/FormidableLabs/react-live",
             className: "header-github-link",
-            "aria-label": "GitHub Repository",
+            "aria-label": "React Live GitHub Repository",
             position: "right",
           },
           {
-            href: "https://formidable.com",
+            href: "https://commerce.nearform.com",
             className: "header-formidable-link",
-            "aria-label": "Formidable Website",
+            "aria-label": "Nearform Commerce",
             position: "right",
           },
         ],
       },
       footer: {
         style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} Formidable`,
+        copyright: `Copyright © ${new Date().getFullYear()} Nearform`,
       },
       prism: {
         theme: themes.nightOwlLight,
