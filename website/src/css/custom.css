@@ -45,8 +45,8 @@ html[data-theme='dark'] {
 
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
-  --ifm-background-color: #191F30;
-  --ifm-navbar-background-color: #191F30;
+  --ifm-background-color: #000E38;
+  --ifm-navbar-background-color: #000E38;
 }
 
 .header-github-link::before {
