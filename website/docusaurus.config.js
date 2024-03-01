@@ -73,17 +73,22 @@ const config = {
             "aria-label": "React Live GitHub Repository",
             position: "right",
           },
-          {
-            href: "https://commerce.nearform.com",
-            className: "header-formidable-link",
-            "aria-label": "Nearform Commerce",
-            position: "right",
-          },
         ],
       },
       footer: {
         style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} Nearform`,
+        copyright: `As a global design and engineering consultancy, specializing in React.js, React Native, GraphQL, Node.js, and the extended JavaScript ecosystem - our Nearform team designs and builds digital solutions with impact for commerce businesses, leveraging composable architecture. With a global network of remote consultants, the focus is on delivering commerce-centric digital solutions. Copyright © ${new Date().getFullYear()} Nearform.`,
+        logo: {
+          src: "/img/nearform-icon.svg",
+          alt: "Nearform",
+          className: "footer-logo",
+        },
+        links: [
+          {
+            href: "https://commerce.nearform.com",
+            label: "Nearform Commerce",
+          },
+        ],
       },
       prism: {
         theme: themes.nightOwlLight,

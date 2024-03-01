@@ -69,26 +69,6 @@ html[data-theme='dark'] {
   background-color: var(--ifm-color-primary);
 }
 
-.header-formidable-link::before {
-  content: '';
-  width: 26px;
-  height: 21px;
-  display: block;
-  background-color: #1c1e21;
-  mask: url("/img/nearform-icon.svg");
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  transition: background-color var(--ifm-transition-fast);
-}
-
-.header-formidable-link:hover::before {
-  background-color: var(--ifm-color-primary);
-}
-
-[data-theme='dark'] .header-formidable-link::before {
-  background-color: white;
-}
-
 [data-theme='dark'] .header-formidable-link:hover::before {
   background-color: var(--ifm-color-primary);
 }
@@ -104,4 +84,9 @@ html[data-theme='dark'] {
 
 [data-theme='dark'] .navbar__brand:before {
   background-image: url("/img/nearform-logo-white.svg");
+}
+
+.footer-logo {
+  height: 44px;
+  width: 44px;
 }
