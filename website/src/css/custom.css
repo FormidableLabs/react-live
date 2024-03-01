@@ -89,3 +89,16 @@
 [data-theme='dark'] .header-formidable-link:hover::before {
   background-color: var(--ifm-color-primary);
 }
+
+.navbar__brand:before {
+  background-image: url("/img/nearform-logo.svg");
+  background-size: cover;
+  content: '';
+  height: 2rem;
+  margin-right: 1rem;
+  width: 2rem;
+}
+
+[data-theme='dark'] .navbar__brand:before {
+  background-image: url("/img/nearform-logo-white.svg");
+}

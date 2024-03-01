@@ -66,10 +66,6 @@ const config = {
     ({
       navbar: {
         title: "React Live",
-        logo: {
-          alt: "Nearform",
-          src: "img/nearform-logo.svg",
-        },
         items: [
           {
             href: "https://github.com/FormidableLabs/react-live",
