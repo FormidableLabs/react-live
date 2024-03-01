@@ -97,9 +97,9 @@ html[data-theme='dark'] {
   background-image: url("/img/nearform-logo.svg");
   background-size: cover;
   content: '';
-  height: 2rem;
+  height: 3rem;
   margin-right: 1rem;
-  width: 2rem;
+  width: 3rem;
 }
 
 [data-theme='dark'] .navbar__brand:before {
