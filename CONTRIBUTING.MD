@@ -5,22 +5,22 @@ Thanks for contributing!
 ### Installing dependencies
 
 ```sh
-yarn install
+pnpm install
 ```
 
-You will find all building blocks that make up React Live in the [`src`](packages/react-live/src) folder and examples in the [`demo`](demo) folder.
+You will find all building blocks that make up React Live in the [`src`](packages/react-live/src) folder and examples in the [`demo`](packages/demo) folder.
 
 ### Testing
 
-You will find tests for files colocated with `*.test.js` suffixes. Whenever making any changes, ensure that all existing tests pass by running `yarn run test`.
+You will find tests for files colocated with `*.test.js` suffixes. Whenever making any changes, ensure that all existing tests pass by running `pnpm run test` in the react-live directory.
 
 If you are adding a new feature or some extra functionality, you should also make sure to accompany those changes with appropriate tests.
 
 ### Linting and Formatting
 
-Before committing any changes, be sure to do `yarn run lint`; this will lint all relevant files using [ESLint](http://eslint.org/) and report on any changes that you need to make.
+Before committing any changes, be sure to do `pnpm run lint`; this will lint all relevant files using [ESLint](http://eslint.org/) and report on any changes that you need to make.
 
-You will also want to ensure your code meets the prettier formatting guidelines by running `yarn run prettier -l <filename>` on a specific file. If there are differences the script errors out. You can also specify a glob `yarn run prettier -l "src/**/*.js"` which will return a list of files that do not conform.
+You will also want to ensure your code meets the prettier formatting guidelines by running `pnpm run prettier -l <filename>` on a specific file. If there are differences the script errors out. You can also specify a glob `yarn run prettier -l "src/**/*.js"` which will return a list of files that do not conform.
 
 Alternatively, install the Prettier [editor plugin](https://prettier.io/docs/en/editors.html) in your favorite editor. This is the preferred method.
 
@@ -30,8 +30,8 @@ There is also a CI step in place to lint all committed files. If any of the stag
 
 Thanks for taking the time to help us make react-live even better! Before you go ahead and submit a PR, make sure that you have done the following:
 
-- Run the tests using `yarn run test`.
-- Run lint and flow using `yarn run lint`
+- Run the tests using `pnpm run test`.
+- Run lint and flow using `pnpm run lint`
 - Update the [type definitions](./typings/react-live.d.ts) for anything that modifies the React-Live API, like breaking changes or new features.
 
 ### Changesets
@@ -41,7 +41,7 @@ We use [changesets](https://github.com/changesets/changesets) to create package 
 If your work contributes changes that require a change in version to any of the packages, add a changeset by running:
 
 ```sh
-$ yarn changeset
+$ pnpm changeset
 ```
 
 which will open an interactive CLI menu. Use this menu to select which packages need versioning, which semantic version changes are needed, and add appropriate messages accordingly.
