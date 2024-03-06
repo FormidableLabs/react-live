@@ -8,7 +8,7 @@ const { themes } = require("prism-react-renderer");
 const config = {
   title: "React Live",
   tagline: "A flexible playground for live editing React components",
-  url: "https://formidable.com",
+  url: "https://commerce.nearform.com",
   baseUrl:
     process.env.VERCEL_ENV === "preview" ? "/" : "/open-source/react-live",
   onBrokenLinks: "throw",
@@ -67,27 +67,32 @@ const config = {
       navbar: {
         title: "React Live",
         logo: {
-          alt: "Formidable logo",
-          src: "img/formidable-f.svg",
+          src: "/img/nearform-logo.svg",
+          alt: "Nearform",
+          className: "navbar-logo",
         },
         items: [
           {
             href: "https://github.com/FormidableLabs/react-live",
             className: "header-github-link",
-            "aria-label": "GitHub Repository",
-            position: "right",
-          },
-          {
-            href: "https://formidable.com",
-            className: "header-formidable-link",
-            "aria-label": "Formidable Website",
+            "aria-label": "React Live GitHub Repository",
             position: "right",
           },
         ],
       },
       footer: {
-        style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} Formidable`,
+        copyright: `As a global design and engineering consultancy, specializing in React.js, React Native, GraphQL, Node.js, and the extended JavaScript ecosystem - our Nearform team designs and builds digital solutions with impact for commerce businesses, leveraging composable architecture. With a global network of remote consultants, the focus is on delivering commerce-centric digital solutions. Copyright © ${new Date().getFullYear()} Nearform.`,
+        logo: {
+          src: "/img/nearform-icon.svg",
+          alt: "Nearform",
+          className: "footer-logo",
+        },
+        links: [
+          {
+            href: "https://commerce.nearform.com",
+            label: "Nearform Commerce",
+          },
+        ],
       },
       prism: {
         theme: themes.nightOwlLight,

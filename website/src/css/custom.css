@@ -12,54 +12,44 @@
 
 /* Override infima variables */
 :root {
-  --ifm-color-primary: #f159da;
-  --ifm-color-primary-dark: #c147ae;
-  --ifm-color-primary-darker: #a93e99;
-  --ifm-color-primary-darkest: #792d6d;
-  --ifm-color-primary-light: #f47ae1;
-  --ifm-color-primary-lighter: #f58be5;
-  --ifm-color-primary-lightest: #FFC5FF;
+  --ifm-font-color-base: #000E38;
+  --ifm-color-primary: #166BFF;
+  /*--ifm-color-primary-dark: #526288;*/
+  /*--ifm-color-primary-darker: #0C3D60;*/
+  /*--ifm-color-primary-darkest: #000E38;*/
+  --ifm-color-primary-light: #4589FF;
+  --ifm-color-primary-lighter: #8AB5FF;
+  --ifm-color-primary-lightest: #B9D3FF;
 
   /* Fonts */
   --ifm-font-family-base: Roboto, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --ifm-font-family-monospace: 'Roboto Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-
-  /* FORMIDABLE ~BRAND COLORS */
-  /*--ifm-color-primary: #f04d21;*/
-  /*--ifm-color-primary-dark: #e63d10;*/
-  /*--ifm-color-primary-darker: #d93a0f;*/
-  /*--ifm-color-primary-darkest: #b3300c;*/
-  /*--ifm-color-primary-light: #f2623b;*/
-  /*--ifm-color-primary-lighter: #f36c47;*/
-  /*--ifm-color-primary-lightest: #f58b6e;*/
 
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
   /* Spacing */
   --ifm-spacing-horizontal: 2rem;
+
+  --ifm-footer-background-color: #FFF;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #f159da;
-  --ifm-color-primary-dark: #c147ae;
-  --ifm-color-primary-darker: #a93e99;
-  --ifm-color-primary-darkest: #792d6d;
-  --ifm-color-primary-light: #f47ae1;
-  --ifm-color-primary-lighter: #f58be5;
-  --ifm-color-primary-lightest: #FFC5FF;
-
-  /* FORMIDABLE ~BRAND COLORS */
-  /*--ifm-color-primary: #f2623b;*/
-  /*--ifm-color-primary-dark: #f04b1f;*/
-  /*--ifm-color-primary-darker: #ef4011;*/
-  /*--ifm-color-primary-darkest: #c6340d;*/
-  /*--ifm-color-primary-light: #f47957;*/
-  /*--ifm-color-primary-lighter: #f58465;*/
-  /*--ifm-color-primary-lightest: #f8a690;*/
+html[data-theme='dark'] {
+  --ifm-font-color-base: #EAEBED;
+  --ifm-color-primary: #00E5A4;
+  /*--ifm-color-primary-dark: #526288;*/
+  /*--ifm-color-primary-darker: #0C3D60;*/
+  /*--ifm-color-primary-darkest: #000E38;*/
+  --ifm-color-primary-light: #33EAAE;
+  --ifm-color-primary-lighter: #78EEC5;
+  --ifm-color-primary-lightest: #B2F7E1;
 
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-background-color: #000E38;
+  --ifm-navbar-background-color: #000E38;
+  --ifm-footer-background-color: #000E38;
 }
 
 .header-github-link::before {
@@ -82,28 +72,25 @@
   background-color: var(--ifm-color-primary);
 }
 
-
-
-.header-formidable-link::before {
-  content: '';
-  width: 26px;
-  height: 26px;
-  display: flex;
-  background-color: #1c1e21;
-  mask: url("/img/formidable-icon.svg");
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  transition: background-color var(--ifm-transition-fast);
-}
-
-.header-formidable-link:hover::before {
-  background-color: var(--ifm-color-primary);
-}
-
-[data-theme='dark'] .header-formidable-link::before {
-  background-color: white;
-}
-
 [data-theme='dark'] .header-formidable-link:hover::before {
   background-color: var(--ifm-color-primary);
+}
+
+.navbar__logo {
+  height: 3rem;
+  margin-right: 1rem;
+  width: 3rem;
+}
+
+[data-theme='dark'] .navbar-logo {
+  content: url("/img/nearform-logo-white.svg");
+}
+
+.footer-logo {
+  height: 44px;
+  width: 44px;
+}
+
+[data-theme='dark'] .footer-logo {
+  content: url("/img/nearform-icon-white.svg")
 }
