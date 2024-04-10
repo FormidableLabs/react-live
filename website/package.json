@@ -7,7 +7,6 @@
     "start": "docusaurus start",
     "postinstall": "pnpm run -C ../ build:lib",
     "build": "docusaurus build --out-dir build/open-source/react-live",
-    "build:vercel": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "lint": "eslint --ext .js,.ts,.tsx src",
     "deploy": "docusaurus deploy",
@@ -34,6 +33,7 @@
     "@docusaurus/module-type-aliases": "2.4.0",
     "@docusaurus/types": "^2.4.0",
     "@tsconfig/docusaurus": "^1.0.5",
+    "formidable-oss-badges": "^1.3.2",
     "typescript": "^4.7.4"
   },
   "browserslist": {
