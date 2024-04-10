@@ -1,10 +1,11 @@
 import React from "react";
+
+// eslint-disable-next-line import/no-unresolved
 import Layout from "@theme/Layout";
 
 import responsiveFeature from "../../static/img/feature-1.png";
 import nativeFeature from "../../static/img/feature-2.png";
 import styleFeature from "../../static/img/feature-3.png";
-import { LandingBanner } from "../components/landing/landing-banner";
 import { LandingHero } from "../components/landing/landing-hero";
 import { LandingFeaturedProjects } from "../components/landing/landing-featured-projects";
 import { LandingFeatures } from "../components/landing/landing-features";

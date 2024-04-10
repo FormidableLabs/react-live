@@ -1,6 +1,6 @@
-import React from 'react';
-import { NFLinkButton } from './nf-link-button';
-import { LandingDivider } from './landing-divider';
+import React from "react";
+import { NFLinkButton } from "./nf-link-button";
+import { LandingDivider } from "./landing-divider";
 
 export const LandingBanner = ({
   body,

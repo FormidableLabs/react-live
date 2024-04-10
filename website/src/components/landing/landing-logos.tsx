@@ -1,5 +1,5 @@
-import React from 'react';
-import { LandingDivider } from './landing-divider';
+import React from "react";
+import { LandingDivider } from "./landing-divider";
 
 export const LandingLogos = ({
   body,
@@ -20,7 +20,7 @@ export const LandingLogos = ({
       <p className="text-lg max-w-prose">{body}</p>
       <ul className="grid grid-cols-4 items-center content-start justify-items-start gap-8 list-none pl-0">
         {list.map(({ imgSrc, alt }) => (
-          <li className="col-span-1 ">
+          <li className="col-span-1" key={alt}>
             <img src={imgSrc} alt={alt} />
           </li>
         ))}
