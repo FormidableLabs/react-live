@@ -1,5 +1,11 @@
 # react-live
 
+## 4.1.7
+
+### Patch Changes
+
+- Fix optional chaining with sucrase ([#384](https://github.com/FormidableLabs/react-live/pull/384))
+
 ## 4.1.6
 
 ### Patch Changes
