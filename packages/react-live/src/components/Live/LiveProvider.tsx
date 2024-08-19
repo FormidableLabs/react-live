@@ -6,6 +6,7 @@ import { themes } from "prism-react-renderer";
 type ProviderState = {
   element?: ComponentType | null;
   error?: string;
+  newCode?: string;
 };
 
 type Props = {
@@ -37,7 +38,11 @@ function LiveProvider({
 
   async function transpileAsync(newCode: string) {
     const errorCallback = (error: Error) => {
-      setState({ error: error.toString(), element: undefined });
+      setState((previousState) => ({
+        ...previousState,
+        error: error.toString(),
+        element: undefined,
+      }));
     };
 
     // - transformCode may be synchronous or asynchronous.
@@ -51,7 +56,7 @@ function LiveProvider({
       try {
         const transformedCode = await Promise.resolve(transformResult);
         const renderElement = (element: ComponentType) =>
-          setState({ error: undefined, element });
+          setState({ error: undefined, element, newCode });
 
         if (typeof transformedCode !== "string") {
           throw new Error("Code failed to transform");
@@ -65,7 +70,11 @@ function LiveProvider({
         };
 
         if (noInline) {
-          setState({ error: undefined, element: null }); // Reset output for async (no inline) evaluation
+          setState((previousState) => ({
+            ...previousState,
+            error: undefined,
+            element: null,
+          })); // Reset output for async (no inline) evaluation
           renderElementAsync(input, renderElement, errorCallback);
         } else {
           renderElement(generateElement(input, errorCallback));
