@@ -29,6 +29,10 @@ class ErrorBoundary extends Component<
   }
 
   render() {
+    if (this.state.hasError) {
+      return null;
+    }
+
     return this.props.children;
   }
 }
@@ -39,11 +43,11 @@ function LivePreview<T extends keyof JSX.IntrinsicElements>(
 function LivePreview<T extends React.ElementType>(props: Props<T>): JSX.Element;
 
 function LivePreview({ Component = "div", ...rest }: Props): JSX.Element {
-  const { element: Element, onError, code } = useContext(LiveContext);
+  const { element: Element, onError, newCode } = useContext(LiveContext);
 
   return (
     <ErrorBoundary
-      key={code}
+      key={newCode}
       onError={(err) => {
         onError(err);
       }}
