@@ -24,16 +24,21 @@ const CodeEditor = (props: Props) => {
     setCode(props.code);
   }, [props.code]);
 
-  useEditable(editorRef, (text) => setCode(text.slice(0, -1)), {
-    disabled: props.disabled,
-    indentation: tabMode === "indentation" ? 2 : undefined,
-  });
+  useEditable(
+    editorRef,
+    (text) => {
+      const t = text.slice(0, -1);
+      setCode(t);
 
-  useEffect(() => {
-    if (props.onChange) {
-      props.onChange(code);
+      if (props.onChange) {
+        props.onChange(t);
+      }
+    },
+    {
+      disabled: props.disabled,
+      indentation: tabMode === "indentation" ? 2 : undefined,
     }
-  }, [code]);
+  );
 
   return (
     <div className={props.className} style={props.style}>
