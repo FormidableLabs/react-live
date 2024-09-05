@@ -5,6 +5,7 @@ type ContextValue = {
   error?: string;
   element?: ComponentType | null;
   code: string;
+  newCode?: string;
   disabled: boolean;
   language: string;
   theme?: typeof themes.nightOwl;
