@@ -1,4 +1,4 @@
-name: react-live Release Workflow
+name: Release Workflow
 
 on:
   push:
@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+
+      - name: Check Code
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
 
       - name: Build packages
         run: pnpm run build

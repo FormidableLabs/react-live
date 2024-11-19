@@ -13,6 +13,7 @@
     "build:lib": "pnpm run --filter react-live build",
     "lint": "pnpm run --parallel lint",
     "lint:fix": "pnpm run --parallel lint --fix",
+    "test": "pnpm run --filter react-live test",
     "changeset": "changeset",
     "version": "pnpm changeset version && pnpm install --no-frozen-lockfile"
   },
