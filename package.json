@@ -19,6 +19,7 @@
   "dependencies": {
     "prism-react-renderer": "^2.0.6"
   },
+  "packageManager": "pnpm@7.33.7",
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.0",
     "@changesets/cli": "^2.26.1",
