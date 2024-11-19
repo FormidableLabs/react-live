@@ -20,8 +20,8 @@
     "lint:fix": "eslint --ext .js,.ts,.tsx src --fix"
   },
   "dependencies": {
-    "prism-react-renderer": "^2.0.6",
-    "sucrase": "^3.31.0",
+    "prism-react-renderer": "^2.4.0",
+    "sucrase": "^3.35.0",
     "use-editable": "^2.3.3"
   },
   "peerDependencies": {
