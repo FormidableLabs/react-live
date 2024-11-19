@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+
+import { ErrorBoundary } from "./ErrorBoundary";
 import LiveContext from "./LiveContext";
 
 type Props<T extends React.ElementType = React.ElementType> = {
@@ -11,7 +13,12 @@ function LivePreview<T extends keyof JSX.IntrinsicElements>(
 function LivePreview<T extends React.ElementType>(props: Props<T>): JSX.Element;
 
 function LivePreview({ Component = "div", ...rest }: Props): JSX.Element {
-  const { element: Element } = useContext(LiveContext);
-  return <Component {...rest}>{Element ? <Element /> : null}</Component>;
+  const { element: Element, onError, newCode } = useContext(LiveContext);
+
+  return (
+    <ErrorBoundary key={newCode} onError={onError}>
+      <Component {...rest}>{Element ? <Element /> : null}</Component>
+    </ErrorBoundary>
+  );
 }
 export default LivePreview;
