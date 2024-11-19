@@ -1,5 +1,15 @@
 # react-live
 
+## 4.1.8
+
+### Patch Changes
+
+- Update runtime deps to latest ([#402](https://github.com/FormidableLabs/react-live/pull/402))
+
+- Fix cursor jump when typing fast ([#400](https://github.com/FormidableLabs/react-live/pull/400))
+
+- Wrap preview in error boundary ([#392](https://github.com/FormidableLabs/react-live/pull/392))
+
 ## 4.1.7
 
 ### Patch Changes
