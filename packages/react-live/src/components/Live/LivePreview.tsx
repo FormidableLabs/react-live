@@ -1,41 +1,11 @@
-import React, { useContext, Component } from "react";
+import React, { useContext } from "react";
+
+import { ErrorBoundary } from "./ErrorBoundary";
 import LiveContext from "./LiveContext";
 
 type Props<T extends React.ElementType = React.ElementType> = {
   Component?: T;
 } & React.ComponentPropsWithoutRef<T>;
-
-class ErrorBoundary extends Component<
-  {
-    children: React.ReactNode;
-    onError?: (error: Error) => void;
-  },
-  { hasError: boolean }
-> {
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  constructor(props: {
-    children: React.ReactNode;
-    onError: (error: Error) => void;
-  }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  componentDidCatch(err: Error): void {
-    this.props.onError?.(err);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return null;
-    }
-
-    return this.props.children;
-  }
-}
 
 function LivePreview<T extends keyof JSX.IntrinsicElements>(
   props: Props<T>
