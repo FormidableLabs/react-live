@@ -12,6 +12,14 @@ describe("transpile", () => {
       expect(wrapper.html()).toBe(code);
     });
 
+    it("should transpile JSX - automatic runtime", () => {
+      const code = "<div>Hello World!</div>";
+      const Component = generateElement({ code, jsxRuntime: "automatic" });
+      const wrapper = shallow(<Component />);
+
+      expect(wrapper.html()).toBe(code);
+    });
+
     it("should transpile PFCs", () => {
       const code = "() => <div>Hello World!</div>";
       const Component = generateElement({ code });

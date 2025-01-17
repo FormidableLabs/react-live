@@ -1,6 +1,10 @@
 import { useEffect, useState, ComponentType, PropsWithChildren } from "react";
 import LiveContext from "./LiveContext";
-import { generateElement, renderElementAsync } from "../../utils/transpile";
+import {
+  generateElement,
+  renderElementAsync,
+  type GenerateOptions,
+} from "../../utils/transpile";
 import { themes } from "prism-react-renderer";
 
 type ProviderState = {
@@ -13,6 +17,7 @@ type Props = {
   code?: string;
   disabled?: boolean;
   enableTypeScript?: boolean;
+  jsxRuntime?: GenerateOptions["jsxRuntime"];
   language?: string;
   noInline?: boolean;
   scope?: Record<string, unknown>;
@@ -26,6 +31,7 @@ function LiveProvider({
   language = "tsx",
   theme,
   enableTypeScript = true,
+  jsxRuntime,
   disabled = false,
   scope,
   transformCode,
@@ -67,6 +73,7 @@ function LiveProvider({
           code: transformedCode,
           scope,
           enableTypeScript,
+          jsxRuntime,
         };
 
         if (noInline) {
