@@ -9,6 +9,8 @@ type ProviderState = {
   newCode?: string;
 };
 
+type TransformResult = string | Promise<string>;
+
 type Props = {
   code?: string;
   disabled?: boolean;
@@ -17,7 +19,96 @@ type Props = {
   noInline?: boolean;
   scope?: Record<string, unknown>;
   theme?: typeof themes.nightOwl;
-  transformCode?(code: string): void;
+  transformCode?(code: string): TransformResult;
+};
+
+type TranspileOptions = Pick<
+  Props,
+  "enableTypeScript" | "noInline" | "scope" | "transformCode"
+>;
+
+const DEFAULT_STATE: ProviderState = {
+  error: undefined,
+  element: undefined,
+};
+
+const isPromiseLike = (value: TransformResult): value is Promise<string> => {
+  return typeof (value as Promise<string>)?.then === "function";
+};
+
+const getErrorState = (error: Error): ProviderState => ({
+  error: error.toString(),
+  element: undefined,
+});
+
+const getTranspileInput = (
+  code: string,
+  { scope, enableTypeScript = true }: TranspileOptions
+) => ({
+  code,
+  scope,
+  enableTypeScript,
+});
+
+const getPreviewState = (
+  newCode: string,
+  transformedCode: string,
+  options: TranspileOptions,
+  onError: (error: Error) => void
+): ProviderState => {
+  if (typeof transformedCode !== "string") {
+    throw new Error("Code failed to transform");
+  }
+
+  const input = getTranspileInput(transformedCode, options);
+
+  if (options.noInline) {
+    let nextState: ProviderState = {
+      error: undefined,
+      element: null,
+      newCode,
+    };
+
+    renderElementAsync(
+      input,
+      (element: ComponentType) => {
+        nextState = { error: undefined, element, newCode };
+      },
+      (error: Error) => {
+        nextState = getErrorState(error);
+      },
+      onError
+    );
+
+    return nextState;
+  }
+
+  return {
+    error: undefined,
+    element: generateElement(input, onError),
+    newCode,
+  };
+};
+
+const getInitialState = (
+  code: string,
+  options: TranspileOptions,
+  onError: (error: Error) => void
+): ProviderState => {
+  try {
+    const transformResult = options.transformCode
+      ? options.transformCode(code)
+      : code;
+
+    if (isPromiseLike(transformResult)) {
+      void transformResult.catch(() => undefined);
+      return DEFAULT_STATE;
+    }
+
+    return getPreviewState(code, transformResult, options, onError);
+  } catch (error) {
+    return getErrorState(error as Error);
+  }
 };
 
 function LiveProvider({
@@ -31,17 +122,29 @@ function LiveProvider({
   transformCode,
   noInline = false,
 }: PropsWithChildren<Props>) {
-  const [state, setState] = useState<ProviderState>({
-    error: undefined,
-    element: undefined,
-  });
+  const [state, setState] = useState<ProviderState>(DEFAULT_STATE);
+
+  const options: TranspileOptions = {
+    enableTypeScript,
+    noInline,
+    scope,
+    transformCode,
+  };
+
+  const onError = (error: Error) => setState(getErrorState(error));
+
+  const resolvedState =
+    state.element === undefined &&
+    state.error === undefined &&
+    state.newCode === undefined
+      ? getInitialState(code, options, onError)
+      : state;
 
   async function transpileAsync(newCode: string) {
     const errorCallback = (error: Error) => {
       setState((previousState) => ({
         ...previousState,
-        error: error.toString(),
-        element: undefined,
+        ...getErrorState(error),
       }));
     };
 
@@ -55,30 +158,7 @@ function LiveProvider({
       const transformResult = transformCode ? transformCode(newCode) : newCode;
       try {
         const transformedCode = await Promise.resolve(transformResult);
-        const renderElement = (element: ComponentType) =>
-          setState({ error: undefined, element, newCode });
-
-        if (typeof transformedCode !== "string") {
-          throw new Error("Code failed to transform");
-        }
-
-        // Transpilation arguments
-        const input = {
-          code: transformedCode,
-          scope,
-          enableTypeScript,
-        };
-
-        if (noInline) {
-          setState((previousState) => ({
-            ...previousState,
-            error: undefined,
-            element: null,
-          })); // Reset output for async (no inline) evaluation
-          renderElementAsync(input, renderElement, errorCallback);
-        } else {
-          renderElement(generateElement(input, errorCallback));
-        }
+        setState(getPreviewState(newCode, transformedCode, options, onError));
       } catch (error) {
         return errorCallback(error as Error);
       }
@@ -88,11 +168,9 @@ function LiveProvider({
     }
   }
 
-  const onError = (error: Error) => setState({ error: error.toString() });
-
   useEffect(() => {
     transpileAsync(code).catch(onError);
-  }, [code, scope, noInline, transformCode]);
+  }, [code, enableTypeScript, noInline, scope, transformCode]);
 
   const onChange = (newCode: string) => {
     transpileAsync(newCode).catch(onError);
@@ -101,7 +179,7 @@ function LiveProvider({
   return (
     <LiveContext.Provider
       value={{
-        ...state,
+        ...resolvedState,
         code,
         language,
         theme,
