@@ -90,3 +90,31 @@ This means that while you may be used to destructuring `useState` when importing
   );
 };
 ```
+
+### Server rendering
+
+`LiveProvider` can render the initial preview during SSR when the preview can be resolved synchronously.
+
+This works for:
+
+- Inline examples such as `<strong>Hello world</strong>`
+- `noInline` examples that call `render(...)` during evaluation
+- Synchronous `transformCode` functions
+
+If `transformCode` returns a Promise, React Live leaves the preview empty on the server and fills it in after hydration.
+
+```jsx
+const code = `<strong>Hello from SSR</strong>`;
+
+<LiveProvider code={code}>
+  <LivePreview />
+</LiveProvider>;
+```
+
+```jsx
+const code = `render(<strong>Hello from SSR</strong>)`;
+
+<LiveProvider code={code} noInline>
+  <LivePreview />
+</LiveProvider>;
+```
