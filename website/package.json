@@ -5,8 +5,8 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "prebuild": "npm run build --prefix ../packages/react-live",
     "build": "docusaurus build --out-dir build/open-source/react-live",
+    "build:prod": "npm run build --prefix ../packages/react-live && npm run build",
     "serve": "docusaurus serve --dir ./build/open-source/react-live --port 3565 --no-open",
     "swizzle": "docusaurus swizzle",
     "clear": "docusaurus clear",

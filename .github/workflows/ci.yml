@@ -27,10 +27,10 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "npm"
       - run: npm ci
-      - name: Check
-        run: npm run check
-      # Also builds the website, which is what Vercel deploys. `typecheck` runs
-      # with `noEmit`, so this is the only thing that exercises declaration emit
-      # and the Docusaurus production build.
+      # Build first: `check:types` typechecks the website against the library's
+      # *emitted* declarations, so `dist` has to exist. This also means the
+      # Docusaurus production build -- what Vercel deploys -- is exercised here.
       - name: Build
         run: npm run build
+      - name: Check
+        run: npm run check

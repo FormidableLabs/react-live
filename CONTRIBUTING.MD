@@ -48,6 +48,19 @@ All of these run from the repo root:
 | `npm run build:lib`    | Build only the library.                                                |
 | `npm run start:docs`   | Run the docs site locally.                                             |
 
+**Nothing builds the library implicitly.** There is no `prepare` or `postinstall` hook, so
+`npm install` never triggers a build. The website imports `react-live` and resolves it to
+that package's built `dist`, so you need to build the library at least once after cloning:
+
+```sh
+npm install
+npm run build:lib   # or `npm run build` for the library + website
+```
+
+Skip it and `npm run check:types` and `npm run start:docs` fail with
+`Cannot find module 'react-live'`. Re-run `npm run build:lib` after changing library source
+-- or leave `npm run build:watch -w react-live` running -- for the website to pick it up.
+
 ### Toolchain
 
 | Concern    | Tool                                                                        |
@@ -97,8 +110,15 @@ npm run start:docs
 ```
 
 The site reads its markdown from the repo-root [`docs`](docs) folder and imports the
-`react-live` workspace package, so the library is built first via the website's `prebuild`
-script.
+`react-live` workspace package, so the library must already be built -- see
+[Common commands](#common-commands).
+
+The website has two build scripts:
+
+| Script                          | What it does                                                       |
+| ------------------------------- | ------------------------------------------------------------------ |
+| `npm run build -w website`      | Builds only the site. Assumes the library is already built.        |
+| `npm run build:prod -w website` | Builds the library first, then the site. This is what Vercel runs. |
 
 ### How it deploys
 
@@ -108,7 +128,7 @@ The site is deployed to **Vercel** at
 | Setting          | Value                                              |
 | ---------------- | -------------------------------------------------- |
 | Root Directory   | `website`                                          |
-| Build Command    | `npm run build`                                    |
+| Build Command    | `npm run build:prod`                               |
 | Output Directory | `build`                                            |
 | Install Command  | (default -- Vercel runs `npm ci` at the repo root) |
 
@@ -118,37 +138,21 @@ there, update the dashboard too** -- a Build Command set in the Vercel UI overri
 `vercel.json`.
 
 > **Note:** this repo previously used pnpm, and the Vercel Build Command was
-> `pnpm run build`. It must be `npm run build`.
+> `pnpm run build`. It must be `npm run build:prod` -- plain `npm run build` would deploy
+> the site against whatever `dist` happened to be lying around, or fail outright on a
+> clean builder.
 
 Two things about the build are easy to trip over:
 
 1. **Root Directory is `website`, but the build reaches outside it** -- for `../docs` and for
    the `react-live` workspace package. Vercel's "Include files outside of the root directory"
    setting must stay enabled.
-2. **The library is built by `prebuild`**, not by a `postinstall` hook (which is how this used
-   to work). If the site builds against stale library code, check that `prebuild` ran.
+2. **The library is built by `build:prod`**, not by an install hook (which is how this used
+   to work under pnpm). If the site deploys against stale library code, check that the Build
+   Command is `npm run build:prod` and not `npm run build`.
 
 The output directory is `build`, but Docusaurus writes into
 `build/open-source/react-live` to match the site's `baseUrl`.
-
-### Why the library gets built twice
-
-Two hooks build `react-live`, and they cover different things:
-
-| Hook       | Where     | Covers                                                                                                                                                                                                  |
-| ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `prepare`  | repo root | Runs after `npm install`/`npm ci`. Without it, `npm run check` fails on a fresh clone: the website resolves `react-live` to its built `dist`, so `tsc` cannot find the module before anything is built. |
-| `prebuild` | `website` | Runs before `npm run build` _in the website directory_, which is exactly what Vercel does. Guarantees the site never builds against a stale `dist` after you edit library source.                       |
-
-The overlap costs one extra ~80ms build and is deliberate. Vercel's Root Directory is
-`website`, so if its install step ever stops triggering the repo-root `prepare`, `prebuild`
-still saves the deploy.
-
-`prepare` is also doing something worth keeping beyond convenience: because the website
-resolves `react-live` through the package's `exports` map, `npm run check:types` typechecks
-the site against the **emitted declarations**. That makes the website an integration test of
-the published type surface -- the kind of check that catches a broken `.d.ts` before release
-rather than after.
 
 ## Changesets
 

@@ -16,7 +16,6 @@
     "check:lint": "oxlint",
     "check:types": "npm run typecheck --workspaces --if-present",
     "format": "prettier --write . && oxlint --fix",
-    "prepare": "npm run build:lib",
     "start:docs": "npm run start -w website",
     "test": "npm test -w react-live"
   },
