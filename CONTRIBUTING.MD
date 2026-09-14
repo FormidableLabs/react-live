@@ -1,52 +1,151 @@
 Thanks for contributing!
 
+## Repository layout
+
+This is an [npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) monorepo
+with exactly two members:
+
+| Path                                         | What it is                                                                                                |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [`packages/react-live`](packages/react-live) | The published `react-live` package. The only thing released to npm.                                       |
+| [`website`](website)                         | The [Docusaurus](https://docusaurus.io/) docs site, deployed to Vercel.                                   |
+| [`docs`](docs)                               | Markdown docs. Lives at the repo root, but is rendered by the website via Docusaurus's `path: "../docs"`. |
+
+There is no separate demo app. **The live demo is part of the website** --
+[`website/src/components/live-edit.tsx`](website/src/components/live-edit.tsx) exports
+`DemoLiveEditor`, which is rendered at the `#demo` anchor on the landing page
+([`website/src/pages/index.tsx`](website/src/pages/index.tsx)) and imported directly by
+[`docs/introduction.mdx`](docs/introduction.mdx). A `packages/demo` Vite app used to exist
+and was removed: it duplicated that component, was never deployed, and resolved `react-live`
+to built output rather than source, so it was not even a live-source dev loop.
+
+To iterate on the library visually, run `npm run start:docs` and edit the library in another
+terminal with `npm run build:watch -w react-live`.
+
 ## Development
 
 ### Installing dependencies
 
 ```sh
-pnpm install
+npm install
 ```
 
-You will find all building blocks that make up React Live in the [`src`](packages/react-live/src) folder and examples in the [`demo`](packages/demo) folder.
+Node >= 20.19 is required; the repo ships an `.nvmrc`, so `nvm use` will pick the right one.
+
+### Common commands
+
+All of these run from the repo root:
+
+| Command                | What it does                                                           |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `npm run check`        | Everything CI runs: lint, format check, typecheck, tests.              |
+| `npm run check:lint`   | [oxlint](https://oxc.rs/docs/guide/usage/linter.html) across the repo. |
+| `npm run check:format` | [Prettier](https://prettier.io/) check.                                |
+| `npm run check:types`  | `tsc --noEmit` in every workspace.                                     |
+| `npm test`             | [Vitest](https://vitest.dev/) for the library.                         |
+| `npm run format`       | Auto-fix formatting and lint.                                          |
+| `npm run build`        | Build the library, then the website.                                   |
+| `npm run build:lib`    | Build only the library.                                                |
+| `npm run start:docs`   | Run the docs site locally.                                             |
+
+### Toolchain
+
+| Concern    | Tool                                                                        |
+| ---------- | --------------------------------------------------------------------------- |
+| Bundling   | [tsdown](https://tsdown.dev/) (rolldown + oxc) -- emits CJS, ESM, and types |
+| Types      | [TypeScript 7](https://www.typescriptlang.org/) (the native compiler)       |
+| Tests      | [Vitest](https://vitest.dev/)                                               |
+| Linting    | [oxlint](https://oxc.rs/docs/guide/usage/linter.html)                       |
+| Formatting | [Prettier](https://prettier.io/)                                            |
+
+A note on TypeScript 7: it ships **no JavaScript compiler API** (`require("typescript").createProgram`
+is `undefined`; only an `unstable/*` RPC surface exists). `tsc` and tsdown's declaration emit both
+work with it, but any future tool that needs the classic API would have to bring its own
+`typescript@6`.
 
 ### Testing
 
-You will find tests for files colocated with `*.test.js` suffixes. Whenever making any changes, ensure that all existing tests pass by running `pnpm run test` in the react-live directory.
+Tests are colocated with the source under
+[`packages/react-live/src`](packages/react-live/src). Files containing JSX use a `.jsx`
+extension -- Vite will not parse JSX inside a `.js` file.
 
-If you are adding a new feature or some extra functionality, you should also make sure to accompany those changes with appropriate tests.
+Run them with `npm test`, or `npm run test:watch -w react-live` while iterating.
 
-### Linting and Formatting
+> **Heads up:** every test in `LiveProvider.test.jsx` is currently `it.skip`ed. They have
+> never asserted anything -- see the comment at the top of that file for the full
+> explanation and what a real fix requires. If you touch `LiveProvider`, please consider
+> rewriting them.
 
-Before committing any changes, be sure to do `pnpm run lint`; this will lint all relevant files using [ESLint](http://eslint.org/) and report on any changes that you need to make.
+### Linting and formatting
 
-You will also want to ensure your code meets the prettier formatting guidelines by running `pnpm run prettier -l <filename>` on a specific file. If there are differences the script errors out. You can also specify a glob `yarn run prettier -l "src/**/*.js"` which will return a list of files that do not conform.
+Run `npm run format` before committing, or install the Prettier
+[editor plugin](https://prettier.io/docs/en/editors.html) (preferred). CI runs
+`npm run check`, which will fail the build on any lint error or formatting difference.
 
-Alternatively, install the Prettier [editor plugin](https://prettier.io/docs/en/editors.html) in your favorite editor. This is the preferred method.
+Some oxlint rules are set to `warn` rather than `error` in
+[`.oxlintrc.json`](.oxlintrc.json) because they flag real, pre-existing issues that are out
+of scope to fix in a tooling change -- `set-state-in-effect` and a missing `exhaustive-deps`
+entry in `LiveProvider`, among others. These are worth fixing; they are warnings only so
+that CI stays green in the meantime.
 
-There is also a CI step in place to lint all committed files. If any of the staged files do not conform to the eslint rules, your commit will fail until you resolve all outstanding issues. Prettier will be run automatically on your commit.
+## The website
 
-### Before submitting a PR...
-
-Thanks for taking the time to help us make react-live even better! Before you go ahead and submit a PR, make sure that you have done the following:
-
-- Run the tests using `pnpm run test`.
-- Run lint and flow using `pnpm run lint`
-- Update the [type definitions](./typings/react-live.d.ts) for anything that modifies the React-Live API, like breaking changes or new features.
-
-### Changesets
-
-We use [changesets](https://github.com/changesets/changesets) to create package versions and publish them.
-
-If your work contributes changes that require a change in version to any of the packages, add a changeset by running:
+### Local development
 
 ```sh
-$ pnpm changeset
+npm run start:docs
 ```
 
-which will open an interactive CLI menu. Use this menu to select which packages need versioning, which semantic version changes are needed, and add appropriate messages accordingly.
+The site reads its markdown from the repo-root [`docs`](docs) folder and imports the
+`react-live` workspace package, so the library is built first via the website's `prebuild`
+script.
 
-After this, you'll see a new uncommitted file in `.changesets` that looks something like:
+### How it deploys
+
+The site is deployed to **Vercel** at
+<https://commerce.nearform.com/open-source/react-live>. The Vercel project is configured as:
+
+| Setting          | Value                                              |
+| ---------------- | -------------------------------------------------- |
+| Root Directory   | `website`                                          |
+| Build Command    | `npm run build`                                    |
+| Output Directory | `build`                                            |
+| Install Command  | (default -- Vercel runs `npm ci` at the repo root) |
+
+The build and output settings are checked in at [`website/vercel.json`](website/vercel.json)
+so they live in version control rather than only in the dashboard. **If you change them
+there, update the dashboard too** -- a Build Command set in the Vercel UI overrides
+`vercel.json`.
+
+> **Note:** this repo previously used pnpm, and the Vercel Build Command was
+> `pnpm run build`. It must be `npm run build`.
+
+Two things about the build are easy to trip over:
+
+1. **Root Directory is `website`, but the build reaches outside it** -- for `../docs` and for
+   the `react-live` workspace package. Vercel's "Include files outside of the root directory"
+   setting must stay enabled.
+2. **The library is built by `prebuild`**, not by a `postinstall` hook (which is how this used
+   to work). If the site builds against stale library code, check that `prebuild` ran.
+
+The output directory is `build`, but Docusaurus writes into
+`build/open-source/react-live` to match the site's `baseUrl`.
+
+## Changesets
+
+We use [changesets](https://github.com/changesets/changesets) to create package versions and
+publish them.
+
+If your work changes the published package, add a changeset:
+
+```sh
+npm run changeset
+```
+
+which will open an interactive CLI menu. Use this menu to select the semantic version change
+needed and add an appropriate message.
+
+After this, you'll see a new uncommitted file in `.changeset` that looks something like:
 
 ```
 $ git status
@@ -56,18 +155,35 @@ Untracked files:
 	.changeset/flimsy-pandas-marry.md
 ```
 
-Review this file, make any necessary adjustments, and commit the file to source. During the next package release, the changes (and changeset notes) will be automatically incorporated based on these changeset files.
+Review this file, make any necessary adjustments, and commit it. During the next release, the
+changes and changeset notes will be automatically incorporated.
 
-## Releasing a new version to NPM (only for project administrators)
+## Releasing (project administrators)
 
 <details>
-<summary>
-<i>Only for project administrators</i>
-</summary>
+<summary><i>Only for project administrators</i></summary>
 
-1.  Run `npm version patch` (or `minor`, `major` as appropriate) to run tests and lint, build the `lib` and `dist` directories, and automatically update the `package.json` with a new git tag.
-2.  Run `npm publish` and publish to npm if all is well.
-3.  Run `git push && git push --tags`
+Releases are fully automated by [`.github/workflows/release.yml`](.github/workflows/release.yml).
+Nothing is published from a laptop.
+
+On every push to `master`, the workflow asks Changesets what to do:
+
+- **Pending changesets exist** -> it opens or updates a "Version Packages" PR that applies the
+  version bumps and changelog entries.
+- **That PR is merged** -> it packs a tarball and publishes it to npm.
+
+Publishing uses **npm trusted publishing (OIDC)**. There is no `NPM_TOKEN` secret; the
+`publish` job authenticates with a short-lived token minted from its `id-token: write`
+permission. This also means provenance is attested automatically.
+
+If publishing fails with an authentication error, check that trusted publishing is still
+configured for the `react-live` package on npmjs.com, pointing at this repository and the
+`release.yml` workflow.
+
+One subtlety worth knowing: the library's package script is `prepack`, **not**
+`prepublishOnly`. The release flow builds the tarball with `npm pack` in one job and
+publishes it in another, and `npm pack` does not trigger `prepublishOnly`. If it were named
+that, the published tarball would silently ship without its README, LICENSE, and `dist`.
 
 </details>
 
