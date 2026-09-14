@@ -1,0 +1,7 @@
+**/dist/**
+**/build/**
+**/.docusaurus/**
+**/node_modules/**
+package-lock.json
+CHANGELOG.md
+**/CHANGELOG.md

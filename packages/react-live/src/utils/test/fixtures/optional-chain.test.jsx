@@ -17,7 +17,7 @@ describe("transpile", () => {
     const wrapper = shallow(<Component />);
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<h3 style=\\"background:darkslateblue;color:white;padding:8px;border-radius:4px\\">1</h3>"`
+      `"<h3 style=\\"background:darkslateblue;color:white;padding:8px;border-radius:4px\\">1</h3>"`,
     );
   });
 });

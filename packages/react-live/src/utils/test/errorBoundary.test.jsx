@@ -4,7 +4,7 @@ import { render } from "./renderer";
 
 describe("errorBoundary", () => {
   it("should wrap PFCs in an error boundary", () => {
-    const errorCb = jest.fn();
+    const errorCb = vi.fn();
 
     const Component = errorBoundary(() => {
       throw new Error("test");
@@ -14,7 +14,7 @@ describe("errorBoundary", () => {
   });
 
   it("should wrap Components in an error boundary", () => {
-    const errorCb = jest.fn();
+    const errorCb = vi.fn();
 
     const Component = errorBoundary(
       class Test extends React.Component {
@@ -23,7 +23,7 @@ describe("errorBoundary", () => {
           throw new Error("test");
         }
       },
-      errorCb
+      errorCb,
     );
 
     expect(() => render(<Component />)).toThrowError("test");

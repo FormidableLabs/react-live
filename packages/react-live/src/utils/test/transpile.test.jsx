@@ -63,26 +63,26 @@ describe("transpile", () => {
 
   describe("renderElementAsync", () => {
     it("should emit error if render is not called", () => {
-      const errorCb = jest.fn();
+      const errorCb = vi.fn();
 
       renderElementAsync({ code: "" }, null, errorCb);
 
       expect(errorCb).toHaveBeenCalledWith(
-        new SyntaxError("No-Inline evaluations must call `render`.")
+        new SyntaxError("No-Inline evaluations must call `render`."),
       );
     });
 
     it("should emit error if render is not called with valid JSX", () => {
-      const errorCb = jest.fn();
+      const errorCb = vi.fn();
 
       renderElementAsync({ code: "render()" }, null, errorCb);
       expect(errorCb).toHaveBeenCalledWith(
-        new SyntaxError("`render` must be called with valid JSX.")
+        new SyntaxError("`render` must be called with valid JSX."),
       );
     });
 
     it("should emit result if render is called with a falsey value", () => {
-      const resultCb = jest.fn();
+      const resultCb = vi.fn();
       const code = "render(null)";
 
       renderElementAsync({ code }, resultCb);
@@ -96,7 +96,7 @@ describe("transpile", () => {
     });
 
     it("should emit result via the result callback", () => {
-      const resultCb = jest.fn();
+      const resultCb = vi.fn();
       const code = "render(<div>Hello World!</div>)";
 
       renderElementAsync({ code }, resultCb);

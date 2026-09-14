@@ -1,41 +1,32 @@
 {
   "name": "react-live-workspace",
-  "private": "true",
-  "main": "dist/react-live.cjs.js",
-  "types": "dist/index.d.ts",
-  "jsnext:main": "dist/react-live.es.js",
-  "module": "dist/react-live.es.js",
+  "private": true,
   "license": "MIT",
+  "workspaces": [
+    "packages/react-live",
+    "website"
+  ],
   "scripts": {
-    "start:docs": "pnpm run --filter website start",
-    "dev:demo": "pnpm run --filter demo dev",
-    "build": "pnpm run -r build",
-    "build:lib": "pnpm run --filter react-live build",
-    "lint": "pnpm run --parallel lint",
-    "lint:fix": "pnpm run --parallel lint --fix",
-    "test": "pnpm run --filter react-live test",
+    "build": "npm run build --workspaces --if-present",
+    "build:lib": "npm run build -w react-live",
     "changeset": "changeset",
-    "version": "pnpm changeset version && pnpm install --no-frozen-lockfile"
+    "changeset:version": "changeset version && npm install --package-lock-only",
+    "check": "npm run check:lint && npm run check:format && npm run check:types && npm test",
+    "check:format": "prettier --check .",
+    "check:lint": "oxlint",
+    "check:types": "npm run typecheck --workspaces --if-present",
+    "format": "prettier --write . && oxlint --fix",
+    "prepare": "npm run build:lib",
+    "start:docs": "npm run start -w website",
+    "test": "npm test -w react-live"
   },
-  "dependencies": {
-    "prism-react-renderer": "^2.0.6"
-  },
-  "packageManager": "pnpm@7.33.7",
   "devDependencies": {
-    "@babel/eslint-parser": "^7.15.0",
-    "@changesets/cli": "^2.26.1",
-    "@svitejs/changesets-changelog-github-compact": "^1.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^8.7.0",
-    "eslint-plugin-filenames": "^1.3.2",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
-    "prettier": "^2.5.1"
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "oxlint": "^1.83.0",
+    "prettier": "^3.9.6"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.19.0"
   }
 }

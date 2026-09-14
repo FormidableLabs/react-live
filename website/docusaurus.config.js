@@ -11,7 +11,11 @@ const config = {
   url: "https://commerce.nearform.com",
   baseUrl: "/open-source/react-live",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
+  },
   favicon: "img/nearform-icon.svg",
 
   // Even if you don't use internalization, you can use this field to set useful
