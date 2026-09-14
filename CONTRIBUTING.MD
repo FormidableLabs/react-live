@@ -131,6 +131,25 @@ Two things about the build are easy to trip over:
 The output directory is `build`, but Docusaurus writes into
 `build/open-source/react-live` to match the site's `baseUrl`.
 
+### Why the library gets built twice
+
+Two hooks build `react-live`, and they cover different things:
+
+| Hook       | Where     | Covers                                                                                                                                                                                                  |
+| ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prepare`  | repo root | Runs after `npm install`/`npm ci`. Without it, `npm run check` fails on a fresh clone: the website resolves `react-live` to its built `dist`, so `tsc` cannot find the module before anything is built. |
+| `prebuild` | `website` | Runs before `npm run build` _in the website directory_, which is exactly what Vercel does. Guarantees the site never builds against a stale `dist` after you edit library source.                       |
+
+The overlap costs one extra ~80ms build and is deliberate. Vercel's Root Directory is
+`website`, so if its install step ever stops triggering the repo-root `prepare`, `prebuild`
+still saves the deploy.
+
+`prepare` is also doing something worth keeping beyond convenience: because the website
+resolves `react-live` through the package's `exports` map, `npm run check:types` typechecks
+the site against the **emitted declarations**. That makes the website an integration test of
+the published type surface -- the kind of check that catches a broken `.d.ts` before release
+rather than after.
+
 ## Changesets
 
 We use [changesets](https://github.com/changesets/changesets) to create package versions and
