@@ -6,6 +6,6 @@ export default function compose<T>(...functions: ((...args: T[]) => T)[]) {
   return functions.reduce(
     (acc, currentFn) =>
       (...args: T[]) =>
-        acc(currentFn(...args))
+        acc(currentFn(...args)),
   );
 }

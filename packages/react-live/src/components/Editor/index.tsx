@@ -37,7 +37,7 @@ const CodeEditor = (props: Props) => {
     {
       disabled: props.disabled,
       indentation: tabMode === "indentation" ? 2 : undefined,
-    }
+    },
   );
 
   return (

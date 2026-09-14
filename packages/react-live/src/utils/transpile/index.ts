@@ -19,7 +19,7 @@ type GenerateOptions = {
 
 export const generateElement = (
   { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
-  errorCallback: (error: Error) => void
+  errorCallback: (error: Error) => void,
 ) => {
   /**
    * To enable TypeScript we need to transform the TS to JS code first,
@@ -39,19 +39,19 @@ export const generateElement = (
     trimCode,
     transform({ transforms: firstPassTransforms }),
     wrapReturn,
-    trimCode
+    trimCode,
   )(code);
 
   return errorBoundary(
     evalCode(transformed, { React, ...scope }),
-    errorCallback
+    errorCallback,
   );
 };
 
 export const renderElementAsync = (
   { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
   resultCallback: (sender: ComponentType) => void,
-  errorCallback: (error: Error) => void
+  errorCallback: (error: Error) => void,
   // eslint-disable-next-line consistent-return
 ) => {
   const render = (element: ComponentType) => {
@@ -64,7 +64,7 @@ export const renderElementAsync = (
 
   if (!/render\s*\(/.test(code)) {
     return errorCallback(
-      new SyntaxError("No-Inline evaluations must call `render`.")
+      new SyntaxError("No-Inline evaluations must call `render`."),
     );
   }
 
