@@ -5,10 +5,7 @@ import evalCode from "./evalCode";
 import compose from "./compose";
 import { Transform } from "sucrase";
 
-const jsxConst = 'const _jsxFileName = "";';
 const trimCode = (code: string) => code.trim().replace(/;$/, "");
-const spliceJsxConst = (code: string) => code.replace(jsxConst, "").trim();
-const addJsxConst = (code: string) => jsxConst + code;
 const wrapReturn = (code: string) => `return (${code})`;
 
 type GenerateOptions = {
@@ -23,10 +20,9 @@ export const generateElement = (
 ) => {
   /**
    * To enable TypeScript we need to transform the TS to JS code first,
-   * splice off the JSX const, wrap the eval in a return statement, then
-   * transform any imports. The two-phase approach is required to do
-   * the implicit evaluation and not wrap leading Interface or Type
-   * statements in the return.
+   * wrap the eval in a return statement, then transform any imports. The
+   * two-phase approach is required to do the implicit evaluation and not
+   * wrap leading Interface or Type statements in the return.
    */
 
   const firstPassTransforms: Transform[] = ["jsx"];
@@ -35,9 +31,7 @@ export const generateElement = (
   }
 
   const transformed = compose<string>(
-    addJsxConst,
     transform({ transforms: ["imports"] }),
-    spliceJsxConst,
     trimCode,
     transform({ transforms: firstPassTransforms }),
     wrapReturn,

@@ -19,7 +19,8 @@
     "start:docs": "npm run start -w website",
     "stories": "npm run stories -w react-live",
     "stories:test": "npm run stories:test -w react-live",
-    "test": "npm test -w react-live"
+    "test": "npm test -w react-live",
+    "dep:check": "npx npm-check-updates -w"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
