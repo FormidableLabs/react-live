@@ -1,41 +1,34 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+The [react-live](https://commerce.nearform.com/open-source/react-live) documentation site,
+built with [Docusaurus](https://docusaurus.io/).
 
-### Installation
+Markdown content lives in the repo-root [`docs`](../docs) folder, not here -- Docusaurus
+reads it via `path: "../docs"`.
 
+### Local development
+
+Run from the repo root:
+
+```sh
+npm install
+npm run build:lib   # the site imports the library's built output
+npm run start:docs
 ```
-$ yarn
-```
-
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 ### Build
 
-```
-$ yarn build
+```sh
+npm run build:prod -w website
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+`build:prod` builds the library first, then the site. Plain `npm run build -w website` builds
+only the site, and assumes `dist` is already current.
+
+Output goes to `build/open-source/react-live`, matching the site's `baseUrl`.
 
 ### Deployment
 
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+The site deploys to **Vercel** on push to `master`. Its build and output settings are checked
+in at [`vercel.json`](./vercel.json). See the deployment section of
+[CONTRIBUTING.MD](../CONTRIBUTING.MD) for the full configuration.

@@ -29,12 +29,13 @@ with valid JSX elements.
 
 ### `<LiveEditor />`
 
-This component renders the editor that displays the code. It is a wrapper around [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
+This component renders the editor that displays the code. It uses [`use-editable`](https://github.com/kitten/use-editable) for editing and [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer) for syntax highlighting.
 
-| Name    | PropType                                    | Description                                                       |
-| ------- | ------------------------------------------- | ----------------------------------------------------------------- |
-| style   | `PropTypes.object`                          | Allows overriding default styles on the `LiveEditor` component.   |
-| tabMode | `PropTypes.oneOf(["indentation", "focus"])` | Sets how you want the tab key to work. (Default: `"indentation"`) |
+| Name    | PropType                                    | Description                                                                                                                            |
+| ------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| style   | `PropTypes.object`                          | Allows overriding default styles on the `LiveEditor` component.                                                                        |
+| tabMode | `PropTypes.oneOf(["indentation", "focus"])` | Sets how you want the tab key to work. (Default: `"indentation"`)                                                                      |
+| prism   | `PropTypes.object`                          | A custom Prism instance, passed through to `prism-react-renderer`. Useful for languages or plugins the bundled Prism does not include. |
 
 ### `<LiveError />`
 

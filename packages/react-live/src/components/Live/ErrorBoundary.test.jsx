@@ -67,4 +67,44 @@ describe("ErrorBoundary", () => {
     );
     expect(await screen.findByText(/runtime boom/)).toBeDefined();
   });
+
+  /**
+   * `getDerivedStateFromError` makes `hasError` sticky for the lifetime of the
+   * boundary instance. That is only safe because a new boundary class is built
+   * on every transpile, so a fixed snippet gets a fresh one.
+   */
+  it("recovers once erroring code is fixed", async () => {
+    const ui = (code) => (
+      <LiveProvider code={code}>
+        <LivePreview />
+        <LiveError data-testid="live-error" />
+      </LiveProvider>
+    );
+
+    const { rerender } = render(ui("() => { throw new Error('boom') }"));
+    expect(await screen.findByTestId("live-error")).toBeDefined();
+
+    rerender(ui("<h3>recovered</h3>"));
+    expect(
+      await screen.findByRole("heading", { name: "recovered" }),
+    ).toBeDefined();
+  });
+
+  it("survives being broken and fixed repeatedly", async () => {
+    const ui = (code) => (
+      <LiveProvider code={code}>
+        <LivePreview />
+        <LiveError data-testid="live-error" />
+      </LiveProvider>
+    );
+
+    const { rerender } = render(ui("<h3>ok1</h3>"));
+    expect(await screen.findByRole("heading", { name: "ok1" })).toBeDefined();
+
+    rerender(ui("() => { throw new Error('boom') }"));
+    expect(await screen.findByTestId("live-error")).toBeDefined();
+
+    rerender(ui("<h3>ok2</h3>"));
+    expect(await screen.findByRole("heading", { name: "ok2" })).toBeDefined();
+  });
 });

@@ -38,6 +38,9 @@ const config = {
           editUrl:
             "https://github.com/FormidableLabs/react-live/tree/master/website",
         },
+        // The classic preset enables a blog by default; there is no blog
+        // content, so it only emitted an empty /blog page.
+        blog: false,
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
