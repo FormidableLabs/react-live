@@ -47,6 +47,8 @@ All of these run from the repo root:
 | `npm run build`        | Build the library, then the website.                                   |
 | `npm run build:lib`    | Build only the library.                                                |
 | `npm run start:docs`   | Run the docs site locally.                                             |
+| `npm run stories`      | Browse component scenarios in a dev server.                            |
+| `npm run test:browser` | Real-browser tests (needs Chromium, see below).                        |
 
 **Nothing builds the library implicitly.** There is no `prepare` or `postinstall` hook, so
 `npm install` never triggers a build. The website imports `react-live` and resolves it to
@@ -105,27 +107,68 @@ jsdom. Many of these scenarios are ported from the Storybook stories that used t
 alongside the components -- Storybook was never wired into CI, so they had only ever been
 checked by eye.
 
-**jsdom has no contentEditable editing model**, which sets a hard boundary on the `Editor`
-component. Rendering, syntax highlighting, theming, and configuration are covered; actual
-typing is not, because simulated key events do not produce input on a contentEditable
-element in jsdom. That leaves these untested:
+**jsdom has no contentEditable editing model**, so anything involving typing or caret
+position cannot run there. Those tests live in a separate real-browser suite -- see
+[Stories and browser tests](#stories-and-browser-tests). In jsdom the `Editor` covers
+rendering, syntax highlighting, theming, and configuration.
 
-- typing into the editor (the `useEditable` `onChange` path)
-- caret position after Enter -- note there is a past fix, "Fix cursor position on return key
-  press", with no regression test
-- `tabMode` of `"focus"` versus `"indentation"`
+### Stories and browser tests
 
-Covering those needs a real browser. [Vitest browser mode](https://vitest.dev/guide/browser/)
-with Playwright does work for this -- a proof-of-concept confirmed that real typing fires
-`onChange` -- but caret assertions take real care to write, so it has not been set up yet.
+There is no Storybook. Instead there is a ~110 line harness that does the two things we
+actually used it for, from one set of story definitions.
+
+```sh
+npm run stories        # dev server: browse scenarios by hand
+npm run test:browser   # the same stories + interaction tests, in real Chromium
+```
+
+Stories live in [`packages/react-live/stories`](packages/react-live/stories) as
+`*.stories.jsx`. A story is just an object:
+
+```jsx
+export const title = "Live";
+
+export const Inline = {
+  args: { code: "<strong>Hello World!</strong>" },
+  render: (args) => <Playground {...args} />,
+};
+```
+
+Add a file matching `*.stories.jsx` and it appears in the sidebar automatically --
+`stories/main.jsx` discovers them with `import.meta.glob`. The dev server aliases
+`react-live` to source, so library edits hot-reload with no build step.
+`?story=<id>` selects a story; `?only=1` renders it without the surrounding chrome.
+
+**The same modules are the tests.** `stories/stories.browser.test.jsx` uses the identical
+glob and smoke-renders every story, so a story that throws fails CI. Interaction tests that
+need real typing live alongside the components as `*.browser.test.jsx`.
+
+Browser tests need a Chromium binary:
+
+```sh
+npx playwright install chromium
+```
+
+They are deliberately **not** part of `npm run check` -- they run in their own CI job, so the
+main job does not pay for the browser download. Config is in
+[`vitest.browser.mts`](packages/react-live/vitest.browser.mts); the jsdom config excludes
+`*.browser.test.*` so the two suites never overlap.
+
+One gotcha if you write caret tests: assert **behaviourally** -- type a character and check
+where it lands -- rather than reading `Selection` offsets. Prism splits each line into many
+token spans plus a trailing newline node, so raw offsets do not mean what you would expect.
 
 #### Why not Storybook?
 
 Storybook 10 is a large improvement on the v6 that was removed, and `@storybook/react-vite`
 supports Vite 8. Its test integration, `@storybook/addon-vitest`, would turn stories into
-real browser tests -- but it peers on `vitest@^3 || ^4`, and this repo is on Vitest 5. Until
-that catches up, Storybook would cost ~156 packages without being able to run the tests.
-Worth revisiting when the peer range moves.
+real browser tests -- but it peers on `vitest@^3 || ^4`, and this repo is on Vitest 5. It
+would cost ~156 packages and still not run the tests; the harness above costs 15 and does.
+
+What Storybook would add on top: a controls/args panel, autodocs generated from TypeScript
+types, the addon ecosystem (a11y, viewport, interaction debugger), and Chromatic-style
+visual regression. If any of those start to matter, revisit -- especially once the
+`addon-vitest` peer range moves.
 
 ### Linting and formatting
 

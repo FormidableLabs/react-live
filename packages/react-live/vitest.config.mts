@@ -11,6 +11,9 @@ export default defineConfig({
     // escaping so the existing inline snapshots stay valid.
     snapshotFormat: { escapeString: true, printBasicPrototype: true },
     include: ["src/**/*.test.{js,jsx,ts,tsx}"],
+    // Browser-only tests match the include glob too; they run under
+    // vitest.browser.mts instead.
+    exclude: ["**/node_modules/**", "**/*.browser.test.*"],
     setupFiles: ["./vitest.setup.js"],
     // The default reporter hides console output from *passing* test files, so
     // warnings printed by a green run are invisible. Be verbose in CI, where

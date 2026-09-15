@@ -17,7 +17,9 @@
     "check:types": "npm run typecheck --workspaces --if-present",
     "format": "prettier --write . && oxlint --fix",
     "start:docs": "npm run start -w website",
-    "test": "npm test -w react-live"
+    "stories": "npm run stories -w react-live",
+    "test": "npm test -w react-live",
+    "test:browser": "npm run test:browser -w react-live"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
