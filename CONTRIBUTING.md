@@ -200,10 +200,11 @@ Run `npm run format` before committing, or install the Prettier
 `npm run check`, which will fail the build on any lint error or formatting difference.
 
 Some oxlint rules are set to `warn` rather than `error` in
-[`.oxlintrc.json`](.oxlintrc.json) because they flag real, pre-existing issues that are out
-of scope to fix in a tooling change -- `set-state-in-effect` and a missing `exhaustive-deps`
-entry in `LiveProvider`, among others. These are worth fixing; they are warnings only so
-that CI stays green in the meantime.
+[`.oxlintrc.json`](.oxlintrc.json) because they flag real, pre-existing issues in
+`LiveProvider` and `Editor` that are out of scope for a tooling change. They are tracked in
+[#417](https://github.com/FormidableLabs/react-live/issues/417), which also explains why the
+suggested fix for the effect-dependency warnings would break re-transpilation if applied
+literally.
 
 ## The website
 

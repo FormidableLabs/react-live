@@ -30,7 +30,9 @@ export const generateElement = (
    */
 
   const firstPassTransforms: Transform[] = ["jsx"];
-  enableTypeScript && firstPassTransforms.push("typescript");
+  if (enableTypeScript) {
+    firstPassTransforms.push("typescript");
+  }
 
   const transformed = compose<string>(
     addJsxConst,
@@ -69,7 +71,9 @@ export const renderElementAsync = (
   }
 
   const transforms: Transform[] = ["jsx", "imports"];
-  enableTypeScript && transforms.splice(1, 0, "typescript");
+  if (enableTypeScript) {
+    transforms.splice(1, 0, "typescript");
+  }
 
   evalCode(transform({ transforms })(code), { React, ...scope, render });
 };
