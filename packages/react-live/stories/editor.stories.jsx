@@ -50,3 +50,28 @@ export const Disabled = {
   },
   render: (args) => <Editor {...args} />,
 };
+
+/** Tab inserts two spaces. This is the default. */
+export const TabIndentation = {
+  args: {
+    code: "function indented() {\n  return true;\n}",
+    language: "javascript",
+    tabMode: "indentation",
+  },
+  render: (args) => <Editor {...args} />,
+};
+
+/** Tab moves focus out of the editor instead of indenting -- better for a11y. */
+export const TabFocus = {
+  args: {
+    code: "// press Tab to leave the editor",
+    language: "javascript",
+    tabMode: "focus",
+  },
+  render: (args) => (
+    <>
+      <Editor {...args} />
+      <button style={{ marginTop: 8 }}>Tab should reach me</button>
+    </>
+  ),
+};

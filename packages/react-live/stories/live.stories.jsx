@@ -125,6 +125,10 @@ export const SyntaxError = {
 
 export const RuntimeError = {
   args: { code: "() => { throw new Error('boom') }" },
+  // Throwing is the point of this story. The flag tells the smoke test to
+  // expect the console noise React emits for a caught render error, so a
+  // *genuine* error in any other story still stands out.
+  expectsError: true,
   render: (args) => <Playground {...args} />,
 };
 
@@ -174,6 +178,77 @@ const LiveConsumer = withLive(({ live }) => {
 
 export const WithLiveHoc = {
   args: { code: "<strong>Rendered through withLive</strong>" },
+  render: (args) => (
+    <LiveProvider {...args}>
+      <LiveConsumer />
+    </LiveProvider>
+  ),
+};
+
+/**
+ * `LivePreview`, `LiveEditor`, and `LiveError` all forward `className` and
+ * `style` to their root element. The original Storybook proved this with
+ * styled-components; a plain stylesheet does the same job without the dep.
+ */
+export const StyledSubcomponents = {
+  args: { code: "<strong>Styled subcomponents</strong>" },
+  render: (args) => (
+    <>
+      <style>{`
+        .story-editor { border: 2px solid hsl(163 100% 45%); border-radius: 6px; }
+        .story-preview { background: #eafff6; padding: 12px; border-radius: 6px; }
+        .story-error { color: #a00; }
+      `}</style>
+      <LiveProvider {...args}>
+        <LiveEditor className="story-editor" />
+        <LivePreview className="story-preview" />
+        <LiveError className="story-error" />
+      </LiveProvider>
+    </>
+  ),
+};
+
+/**
+ * A real `LiveEditor` whose `onChange` lifts code into the parent, rather than
+ * replacing the editor wholesale as `CustomEditor` does.
+ */
+export const ControlledEditor = {
+  args: {
+    code: "<em>Editing here updates the heading below</em>",
+  },
+  render: ({ code: initial }) => {
+    const [code, setCode] = useState(initial);
+    return (
+      <LiveProvider code={code}>
+        <LiveEditor onChange={setCode} />
+        <LivePreview />
+        <LiveError />
+        <p style={{ font: "12px system-ui", color: "#555" }}>
+          Parent state: {code.length} characters
+        </p>
+      </LiveProvider>
+    );
+  },
+};
+
+/** The editor's syntax highlighting follows the `language` prop. */
+export const CustomLanguage = {
+  args: {
+    language: "jsx",
+    code: "<strong>Highlighted as jsx rather than the default tsx</strong>",
+  },
+  render: (args) => <Playground {...args} />,
+};
+
+export const WithLiveHocTypeScript = {
+  args: {
+    noInline: true,
+    code: `function LikeButton(): React.JSX.Element {
+  const [likes, increaseLikes] = React.useState<number>(0)
+  return <button onClick={() => increaseLikes(likes + 1)}>{likes} likes</button>
+}
+render(<LikeButton />)`,
+  },
   render: (args) => (
     <LiveProvider {...args}>
       <LiveConsumer />

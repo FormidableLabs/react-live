@@ -148,7 +148,8 @@ purpose, so components are judged on their own rendering.
 
 **The same modules are the tests.** `stories/stories.browser.test.jsx` uses the identical
 glob and smoke-renders every story, so a story that throws fails CI. Interaction tests that
-need real typing live alongside the components as `*.browser.test.jsx`.
+need real typing live alongside the components as `*.browser.test.jsx`, and cover typing,
+caret position after Enter, `Home`, and `tabMode` -- none of which jsdom can express.
 
 Browser tests need a Chromium binary:
 
@@ -161,9 +162,23 @@ main job does not pay for the browser download. Config is in
 [`vitest.browser.mts`](packages/react-live/vitest.browser.mts); the jsdom config excludes
 `*.browser.test.*` so the two suites never overlap.
 
-One gotcha if you write caret tests: assert **behaviourally** -- type a character and check
-where it lands -- rather than reading `Selection` offsets. Prism splits each line into many
-token spans plus a trailing newline node, so raw offsets do not mean what you would expect.
+Two gotchas worth knowing:
+
+- **Await the settle.** `LiveProvider` transpiles in an effect, so a story is not really
+  rendered until that resolves. Assert too early and the test passes against the first
+  paint, while any error surfaces _after_ the test has finished -- landing outside any test
+  and appearing only intermittently in the output.
+- **Assert caret position behaviourally** -- type a character and check where it lands --
+  rather than reading `Selection` offsets. Prism splits each line into many token spans plus
+  a trailing newline node, so raw offsets do not mean what you would expect.
+
+A story that throws on purpose sets `expectsError: true`, which lets the smoke test suppress
+the console output React emits for a caught render error. Only `Live/RuntimeError` uses it
+today; everything else keeps its output visible.
+
+Two lines of noise on every run are upstream and not worth suppressing: Vite warns about
+Vitest's own `vitest:mocks:interceptor` plugin, and browser mode prints the address of its
+API server. Both are on the latest versions of vitest and vite.
 
 #### Why not Storybook?
 

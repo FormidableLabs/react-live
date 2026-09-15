@@ -72,3 +72,42 @@ describe("editor interaction", () => {
     expect(onChange.mock.calls.at(-1)[0]).toContain("abc");
   });
 });
+
+/**
+ * `tabMode` is documented in docs/api.md but was never covered by a test or a
+ * Storybook story. It can only be exercised in a real browser.
+ */
+describe("tabMode", () => {
+  const renderEditor = async (props) => {
+    const { container } = render(
+      <>
+        <LiveProvider code="ab">
+          <LiveEditor {...props} />
+        </LiveProvider>
+        <button type="button">after</button>
+      </>,
+    );
+    const pre = container.querySelector("pre");
+    await userEvent.click(pre);
+    return { pre, text: () => pre.textContent };
+  };
+
+  it("indents with two spaces by default", async () => {
+    const { text } = await renderEditor({});
+    await userEvent.keyboard("{Tab}");
+    expect(text()).toContain("  ");
+  });
+
+  it("indents when tabMode is 'indentation'", async () => {
+    const { text } = await renderEditor({ tabMode: "indentation" });
+    await userEvent.keyboard("{Tab}");
+    expect(text()).toContain("  ");
+  });
+
+  it("moves focus out when tabMode is 'focus'", async () => {
+    const { pre, text } = await renderEditor({ tabMode: "focus" });
+    await userEvent.keyboard("{Tab}");
+    expect(document.activeElement).not.toBe(pre);
+    expect(text()).not.toContain("  ");
+  });
+});
