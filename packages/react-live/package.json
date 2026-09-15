@@ -45,8 +45,8 @@
     "prepack": "cp ../../README.md ../../LICENSE . && npm run build",
     "stories": "vite --config vite.stories.mts",
     "stories:build": "vite build --config vite.stories.mts",
+    "stories:test": "vitest run -c vitest.browser.mts",
     "test": "vitest run",
-    "test:browser": "vitest run -c vitest.browser.mts",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

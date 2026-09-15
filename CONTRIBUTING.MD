@@ -48,7 +48,7 @@ All of these run from the repo root:
 | `npm run build:lib`    | Build only the library.                                                |
 | `npm run start:docs`   | Run the docs site locally.                                             |
 | `npm run stories`      | Browse component scenarios in a dev server.                            |
-| `npm run test:browser` | Real-browser tests (needs Chromium, see below).                        |
+| `npm run stories:test` | Real-browser tests (needs Chromium, see below).                        |
 
 **Nothing builds the library implicitly.** There is no `prepare` or `postinstall` hook, so
 `npm install` never triggers a build. The website imports `react-live` and resolves it to
@@ -114,12 +114,12 @@ rendering, syntax highlighting, theming, and configuration.
 
 ### Stories and browser tests
 
-There is no Storybook. Instead there is a ~110 line harness that does the two things we
+There is no Storybook. Instead there is a ~250 line harness that does the two things we
 actually used it for, from one set of story definitions.
 
 ```sh
 npm run stories        # dev server: browse scenarios by hand
-npm run test:browser   # the same stories + interaction tests, in real Chromium
+npm run stories:test   # the same stories + interaction tests, in real Chromium
 ```
 
 Stories live in [`packages/react-live/stories`](packages/react-live/stories) as
@@ -137,7 +137,14 @@ export const Inline = {
 Add a file matching `*.stories.jsx` and it appears in the sidebar automatically --
 `stories/main.jsx` discovers them with `import.meta.glob`. The dev server aliases
 `react-live` to source, so library edits hot-reload with no build step.
-`?story=<id>` selects a story; `?only=1` renders it without the surrounding chrome.
+
+`?story=<id>` selects a story. `?only=1` renders it completely bare -- no header, no
+sidebar, not even the global stylesheet -- which is the mode the tests load, so nothing the
+harness does can influence a result.
+
+The light theming (`stories/theme.js`) borrows the docs site's palette so the harness looks
+like react-live rather than a blank Vite page. The story canvas itself is left neutral on
+purpose, so components are judged on their own rendering.
 
 **The same modules are the tests.** `stories/stories.browser.test.jsx` uses the identical
 glob and smoke-renders every story, so a story that throws fails CI. Interaction tests that
@@ -163,7 +170,8 @@ token spans plus a trailing newline node, so raw offsets do not mean what you wo
 Storybook 10 is a large improvement on the v6 that was removed, and `@storybook/react-vite`
 supports Vite 8. Its test integration, `@storybook/addon-vitest`, would turn stories into
 real browser tests -- but it peers on `vitest@^3 || ^4`, and this repo is on Vitest 5. It
-would cost ~156 packages and still not run the tests; the harness above costs 15 and does.
+would cost ~156 packages and still not run the tests; the harness above costs 15 packages
+and does.
 
 What Storybook would add on top: a controls/args panel, autodocs generated from TypeScript
 types, the addon ecosystem (a11y, viewport, interaction debugger), and Chromatic-style

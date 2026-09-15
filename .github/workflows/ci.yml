@@ -59,4 +59,4 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Run browser tests
-        run: npm run test:browser
+        run: npm run stories:test
