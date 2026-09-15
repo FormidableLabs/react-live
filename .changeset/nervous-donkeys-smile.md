@@ -1,8 +1,9 @@
 ---
-"react-live": minor
+"react-live": major
 ---
 
-Support React 19 type definitions, and add an `exports` map.
+Support React 19 type definitions, add an `exports` map, and raise the supported Node and
+output targets.
 
 `LivePreview`'s overloads referenced the global `JSX` namespace, which `@types/react@19`
 removed. Because those types are emitted into the published declarations, consumers on React
@@ -16,3 +17,10 @@ Filenames are unchanged from 4.1.x (`dist/index.js`, `dist/index.mjs`, `dist/ind
 
 Output is now built for `es2022` rather than `es6`, so the bundle may contain syntax such as
 optional chaining that previous releases transpiled away.
+
+`engines.node` moves from `>= 0.12.0` to `>=20.19.0`, which reflects what the package has
+actually needed for some time.
+
+None of this changes the public API -- same exports, same props, same `react >=18` peer
+range -- but the `exports` map and the raised targets are enough that a major release is the
+honest way to ship them.

@@ -299,6 +299,12 @@ On every push to `master`, the workflow asks Changesets what to do:
   version bumps and changelog entries.
 - **That PR is merged** -> it packs a tarball and publishes it to npm.
 
+The `publish` job runs in the **`Production`** GitHub environment, which requires manual
+approval. Merging the "Version Packages" PR is already a human gate; this is a second one at
+the moment of publish, and it keeps `id-token: write` scoped to an approved run. Configure it
+under _Settings -> Environments -> Production_ with at least one required reviewer. Without
+that environment the job will not start.
+
 Publishing uses **npm trusted publishing (OIDC)**. There is no `NPM_TOKEN` secret; the
 `publish` job authenticates with a short-lived token minted from its `id-token: write`
 permission. This also means provenance is attested automatically.

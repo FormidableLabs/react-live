@@ -92,6 +92,10 @@ jobs:
     name: Publish to npm
     needs: pack
     runs-on: ubuntu-latest
+    # Requires manual approval before anything reaches npm. Merging the
+    # "Version Packages" PR is already a human gate; this is a second one at the
+    # moment of publish, and it scopes `id-token: write` to an approved run.
+    environment: Production
     permissions:
       contents: write # to create git tags and GitHub releases
       id-token: write # for npm trusted publishing (OIDC)
