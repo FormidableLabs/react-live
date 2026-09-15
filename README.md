@@ -34,7 +34,7 @@ The source for our docs site lives in this repo in the [`docs`](docs) folder.
 
 ## Contributing
 
-Please see our [contributing guide](CONTRIBUTING.MD).
+Please see our [contributing guide](CONTRIBUTING.md).
 
 ## Maintenance Status
 

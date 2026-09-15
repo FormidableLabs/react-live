@@ -31,4 +31,4 @@ Output goes to `build/open-source/react-live`, matching the site's `baseUrl`.
 
 The site deploys to **Vercel** on push to `master`. Its build and output settings are checked
 in at [`vercel.json`](./vercel.json). See the deployment section of
-[CONTRIBUTING.MD](../CONTRIBUTING.MD) for the full configuration.
+[CONTRIBUTING.md](../CONTRIBUTING.md) for the full configuration.
