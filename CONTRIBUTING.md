@@ -103,6 +103,10 @@ and provenance is attached automatically. The publish job requires approval in t
 
 The docs site deploys to Vercel from `website`, building with `npm run build:prod`.
 
+To inspect the tarball locally, use `npm pack` — not `npm pack --dry-run`. The build runs
+publint and attw, which pack the package themselves, and the nested pack inherits the
+`--dry-run` flag and finds no tarball. The release path is unaffected.
+
 ## Code of Conduct
 
 See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).

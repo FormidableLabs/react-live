@@ -55,6 +55,11 @@ jobs:
       - run: npm ci
       - name: Version packages
         uses: changesets/action/version@v2
+        with:
+          # Not just `changeset version` (the action's default): that bumps
+          # package.json and leaves package-lock.json pointing at the old
+          # version. The script refreshes the lockfile in the same commit.
+          script: npm run changeset:version
         env:
           # Not for the action itself -- this is for `@changesets/changelog-github`,
           # which runs inside `changeset version` and queries the GraphQL API to
