@@ -1,107 +1,206 @@
-import React, { useContext } from "react";
-import { act } from "react-dom/test-utils";
-import { renderElementAsync } from "../../utils/transpile";
-import { render } from "../../utils/test/renderer";
-import LiveProvider from "./LiveProvider.tsx";
-import LiveContext from "./LiveContext.ts";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
-vi.mock("../../utils/transpile");
+import LiveProvider from "./LiveProvider";
+import LivePreview from "./LivePreview";
+import LiveError from "./LiveError";
 
-/*
- * TODO: every test in this file is currently skipped, because none of them have
- * ever asserted anything. Two problems compound:
- *
- * 1. `waitAsync()` returns React's `act()` thenable, which is not a real Promise.
- *    `thenable.then(cb)` returns undefined, so `return waitAsync().then(...)` was
- *    never awaited by the runner -- the test passed, then the callback ran (and
- *    threw) afterwards. Jest swallowed that entirely; Vitest reports it as an
- *    unhandled error, which is how it was found.
- * 2. Even with that fixed, `render()` uses a *shallow* renderer, which does not
- *    run effects. `transformCode` is therefore never invoked and
- *    `renderElementAsync` is called 0 times. Verified by awaiting a real
- *    `act(async () => ...)`: the assertions then fail outright.
- *
- * Additionally the last two use `wrapper.find(...)` on the markup *string*
- * returned by `renderToStaticMarkup`, which has no such method.
- *
- * Making these real requires rendering with `react-dom/client` and asserting
- * after the awaited state update. Skipped rather than deleted so the intent
- * survives for whoever rewrites them.
+/**
+ * These scenarios are ported from the Storybook stories that used to live
+ * alongside these components. Storybook was never wired into CI, so they were
+ * only ever checked by eye; here they are assertions.
  */
 
-function waitAsync() {
-  return act(() => new Promise((resolve) => setTimeout(resolve, 0)));
-}
-
-it.skip("applies a synchronous transformCode function", () => {
-  function transformCode(code) {
-    return `render(<div>${code}</div>)`;
-  }
-
-  render(<LiveProvider code="hello" noInline transformCode={transformCode} />);
-
-  return waitAsync().then(() => {
-    expect(renderElementAsync).toHaveBeenCalledTimes(1);
-    expect(renderElementAsync.mock.calls[0][0].code).toBe(
-      "render(<div>hello</div>)",
-    );
-  });
-});
-
-it.skip("applies an asynchronous transformCode function", () => {
-  function transformCode(code) {
-    return Promise.resolve(`render(<div>${code}</div>)`);
-  }
-
-  render(<LiveProvider code="hello" noInline transformCode={transformCode} />);
-
-  return waitAsync().then(() => {
-    expect(renderElementAsync).toHaveBeenCalledTimes(1);
-    expect(renderElementAsync.mock.calls[0][0].code).toBe(
-      "render(<div>hello</div>)",
-    );
-  });
-});
-
-function ErrorRenderer() {
-  const { error } = useContext(LiveContext);
-  return <div data-testid="handledError">{error?.message}</div>;
-}
-
-it.skip("catches errors from a synchronous transformCode function", () => {
-  function transformCode() {
-    throw new Error("testError");
-  }
-
-  const wrapper = render(
-    <LiveProvider code="hello" noInline transformCode={transformCode}>
-      <ErrorRenderer />
+const renderLive = (props) =>
+  render(
+    <LiveProvider {...props}>
+      <LivePreview />
+      <LiveError data-testid="live-error" />
     </LiveProvider>,
   );
 
-  return waitAsync().then(() => {
-    expect(renderElementAsync).not.toHaveBeenCalled();
+describe("rendering code", () => {
+  it("renders inline JSX", async () => {
+    renderLive({ code: "<strong>Hello World!</strong>" });
+    expect(await screen.findByText("Hello World!")).toBeDefined();
+  });
 
-    const handledErrorWrapper = wrapper.find('[data-testid="handledError"]');
-    expect(handledErrorWrapper.text()).toBe("testError");
+  it("renders a function component", async () => {
+    renderLive({ code: "() => <h3>So functional. Much wow!</h3>" });
+    expect(
+      await screen.findByRole("heading", { name: "So functional. Much wow!" }),
+    ).toBeDefined();
+  });
+
+  it("renders a class component", async () => {
+    renderLive({
+      code: `class Greeting extends React.Component {
+        render() { return <h3>Class component</h3> }
+      }`,
+    });
+    expect(
+      await screen.findByRole("heading", { name: "Class component" }),
+    ).toBeDefined();
+  });
+
+  it("renders hooks state and responds to interaction", async () => {
+    const user = userEvent.setup();
+    renderLive({
+      code: `function LikeButton() {
+        const [likes, increaseLikes] = React.useState(0)
+        return (
+          <div>
+            <p>{likes} likes</p>
+            <button onClick={() => increaseLikes(likes + 1)}>like</button>
+          </div>
+        )
+      }`,
+    });
+
+    expect(await screen.findByText("0 likes")).toBeDefined();
+    await user.click(screen.getByRole("button", { name: "like" }));
+    expect(await screen.findByText("1 likes")).toBeDefined();
+  });
+
+  it("requires `render` to be called when noInline is set", async () => {
+    renderLive({
+      noInline: true,
+      code: `const Hi = () => <h3>No inline</h3>
+        render(<Hi />)`,
+    });
+    expect(
+      await screen.findByRole("heading", { name: "No inline" }),
+    ).toBeDefined();
+  });
+
+  it("reports an error when noInline code never calls render", async () => {
+    renderLive({ noInline: true, code: "<h3>nope</h3>" });
+    expect(
+      await screen.findByText(/No-Inline evaluations must call `render`/),
+    ).toBeDefined();
+  });
+
+  it("exposes values passed via scope", async () => {
+    renderLive({
+      code: "<span>{greeting}</span>",
+      scope: { greeting: "hello from scope" },
+    });
+    expect(await screen.findByText("hello from scope")).toBeDefined();
+  });
+
+  it("re-transpiles when the code prop changes", async () => {
+    const { rerender } = render(
+      <LiveProvider code="<h3>first</h3>">
+        <LivePreview />
+      </LiveProvider>,
+    );
+    expect(await screen.findByRole("heading", { name: "first" })).toBeDefined();
+
+    rerender(
+      <LiveProvider code="<h3>second</h3>">
+        <LivePreview />
+      </LiveProvider>,
+    );
+    expect(
+      await screen.findByRole("heading", { name: "second" }),
+    ).toBeDefined();
   });
 });
 
-it.skip("catches errors from an asynchronous transformCode function", () => {
-  function transformCode() {
-    return Promise.reject(new Error("testError"));
-  }
+describe("TypeScript", () => {
+  const tsCode = `const greet = (name: string): string => \`Hi \${name}\`
+    render(<h3>{greet("TS")}</h3>)`;
 
-  const wrapper = render(
-    <LiveProvider code="hello" noInline transformCode={transformCode}>
-      <ErrorRenderer />
-    </LiveProvider>,
-  );
+  it("strips TypeScript syntax by default", async () => {
+    renderLive({ code: tsCode, noInline: true });
+    expect(await screen.findByRole("heading", { name: "Hi TS" })).toBeDefined();
+  });
 
-  return waitAsync().then(() => {
-    expect(renderElementAsync).not.toHaveBeenCalled();
+  it("errors on TypeScript syntax when enableTypeScript is false", async () => {
+    renderLive({ code: tsCode, noInline: true, enableTypeScript: false });
+    expect(await screen.findByTestId("live-error")).toBeDefined();
+  });
+});
 
-    const handledErrorWrapper = wrapper.find('[data-testid="handledError"]');
-    expect(handledErrorWrapper.text()).toBe("testError");
+describe("errors", () => {
+  it("surfaces a syntax error", async () => {
+    renderLive({ code: "<div>" });
+    expect(await screen.findByTestId("live-error")).toBeDefined();
+  });
+
+  it("recovers once the code becomes valid again", async () => {
+    const { rerender } = render(
+      <LiveProvider code="<div>">
+        <LivePreview />
+        <LiveError data-testid="live-error" />
+      </LiveProvider>,
+    );
+    expect(await screen.findByTestId("live-error")).toBeDefined();
+
+    rerender(
+      <LiveProvider code="<h3>fixed</h3>">
+        <LivePreview />
+        <LiveError data-testid="live-error" />
+      </LiveProvider>,
+    );
+    expect(await screen.findByRole("heading", { name: "fixed" })).toBeDefined();
+  });
+
+  it("renders nothing when there is no error", async () => {
+    render(
+      <LiveProvider code="<h3>fine</h3>">
+        <LivePreview />
+        <LiveError data-testid="live-error" />
+      </LiveProvider>,
+    );
+    // Wait for the successful render before asserting the absence of an error,
+    // otherwise this passes simply because nothing has happened yet.
+    await screen.findByRole("heading", { name: "fine" });
+    expect(screen.queryByTestId("live-error")).toBeNull();
+  });
+});
+
+/**
+ * The previous versions of these four tests asserted nothing: they chained off
+ * React's `act()` thenable, which is not a real Promise, so the runner never
+ * awaited them and the callbacks ran after the test had already passed.
+ */
+describe("transformCode", () => {
+  it("applies a synchronous transformCode function", async () => {
+    renderLive({
+      code: "hello",
+      noInline: true,
+      transformCode: (code) => `render(<div>${code}</div>)`,
+    });
+    expect(await screen.findByText("hello")).toBeDefined();
+  });
+
+  it("applies an asynchronous transformCode function", async () => {
+    renderLive({
+      code: "hello",
+      noInline: true,
+      transformCode: (code) => Promise.resolve(`render(<div>${code}</div>)`),
+    });
+    expect(await screen.findByText("hello")).toBeDefined();
+  });
+
+  it("catches errors from a synchronous transformCode function", async () => {
+    renderLive({
+      code: "hello",
+      noInline: true,
+      transformCode: () => {
+        throw new Error("testError");
+      },
+    });
+    expect(await screen.findByText(/testError/)).toBeDefined();
+  });
+
+  it("catches errors from an asynchronous transformCode function", async () => {
+    renderLive({
+      code: "hello",
+      noInline: true,
+      transformCode: () => Promise.reject(new Error("testError")),
+    });
+    expect(await screen.findByText(/testError/)).toBeDefined();
   });
 });

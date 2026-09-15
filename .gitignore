@@ -1,6 +1,7 @@
 node_modules
 dist
 build
+coverage
 .docusaurus
 .out
 .next

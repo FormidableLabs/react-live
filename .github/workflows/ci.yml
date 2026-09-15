@@ -34,3 +34,7 @@ jobs:
         run: npm run build
       - name: Check
         run: npm run check
+      # Reported, not enforced -- no threshold gate while the suite is still
+      # being built out. Watch the number rather than blocking PRs on it.
+      - name: Coverage
+        run: npm run test:coverage -w react-live

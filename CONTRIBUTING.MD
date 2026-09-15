@@ -83,11 +83,49 @@ Tests are colocated with the source under
 extension -- Vite will not parse JSX inside a `.js` file.
 
 Run them with `npm test`, or `npm run test:watch -w react-live` while iterating.
+`npm run test:coverage -w react-live` prints a coverage summary; CI reports it on every run
+but does not enforce a threshold.
 
-> **Heads up:** every test in `LiveProvider.test.jsx` is currently `it.skip`ed. They have
-> never asserted anything -- see the comment at the top of that file for the full
-> explanation and what a real fix requires. If you touch `LiveProvider`, please consider
-> rewriting them.
+Two things about the runner worth knowing:
+
+- **Vitest's default reporter hides console output from _passing_ test files.** A green run
+  can still be printing warnings. CI therefore uses `--reporter=verbose` (switched on by the
+  `CI` env var in [`vitest.config.mts`](packages/react-live/vitest.config.mts)); run
+  `CI=true npm test` locally to see what CI sees.
+- **React `act()` warnings fail the run.** See
+  [`vitest.setup.js`](packages/react-live/vitest.setup.js). That warning means a test
+  asserted while a state update was still in flight, so it may be passing for the wrong
+  reason. If you hit it, await the state settling -- an `await screen.findBy*` query, or
+  `await act(async () => {})` -- before asserting.
+
+#### What is and is not covered
+
+Component behaviour is tested with [Testing Library](https://testing-library.com/) against
+jsdom. Many of these scenarios are ported from the Storybook stories that used to live
+alongside the components -- Storybook was never wired into CI, so they had only ever been
+checked by eye.
+
+**jsdom has no contentEditable editing model**, which sets a hard boundary on the `Editor`
+component. Rendering, syntax highlighting, theming, and configuration are covered; actual
+typing is not, because simulated key events do not produce input on a contentEditable
+element in jsdom. That leaves these untested:
+
+- typing into the editor (the `useEditable` `onChange` path)
+- caret position after Enter -- note there is a past fix, "Fix cursor position on return key
+  press", with no regression test
+- `tabMode` of `"focus"` versus `"indentation"`
+
+Covering those needs a real browser. [Vitest browser mode](https://vitest.dev/guide/browser/)
+with Playwright does work for this -- a proof-of-concept confirmed that real typing fires
+`onChange` -- but caret assertions take real care to write, so it has not been set up yet.
+
+#### Why not Storybook?
+
+Storybook 10 is a large improvement on the v6 that was removed, and `@storybook/react-vite`
+supports Vite 8. Its test integration, `@storybook/addon-vitest`, would turn stories into
+real browser tests -- but it peers on `vitest@^3 || ^4`, and this repo is on Vitest 5. Until
+that catches up, Storybook would cost ~156 packages without being able to run the tests.
+Worth revisiting when the peer range moves.
 
 ### Linting and formatting
 
