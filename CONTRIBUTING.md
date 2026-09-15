@@ -1,129 +1,69 @@
-Thanks for contributing!
+# Contributing to react-live
 
-## Repository layout
+Thanks for contributing! This guide covers the local dev workflow and how releases work.
 
-This is an [npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) monorepo
-with exactly two members:
+## Setup
 
-| Path                                         | What it is                                                                                                |
-| -------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| [`packages/react-live`](packages/react-live) | The published `react-live` package. The only thing released to npm.                                       |
-| [`website`](website)                         | The [Docusaurus](https://docusaurus.io/) docs site, deployed to Vercel.                                   |
-| [`docs`](docs)                               | Markdown docs. Lives at the repo root, but is rendered by the website via Docusaurus's `path: "../docs"`. |
-
-There is no separate demo app. **The live demo is part of the website** --
-[`website/src/components/live-edit.tsx`](website/src/components/live-edit.tsx) exports
-`DemoLiveEditor`, which is rendered at the `#demo` anchor on the landing page
-([`website/src/pages/index.tsx`](website/src/pages/index.tsx)) and imported directly by
-[`docs/introduction.mdx`](docs/introduction.mdx). A `packages/demo` Vite app used to exist
-and was removed: it duplicated that component, was never deployed, and resolved `react-live`
-to built output rather than source, so it was not even a live-source dev loop.
-
-To iterate on the library visually, run `npm run start:docs` and edit the library in another
-terminal with `npm run build:watch -w react-live`.
-
-## Development
-
-### Installing dependencies
+npm workspaces, Node >= 20.19 (there is an `.nvmrc`, so `nvm use` picks the right one).
 
 ```sh
 npm install
+npm run build:lib   # build the library once -- the docs site resolves react-live to dist
 ```
 
-Node >= 20.19 is required; the repo ships an `.nvmrc`, so `nvm use` will pick the right one.
+Skip the build and `npm run check:types` and `npm run start:docs` will fail with
+`Cannot find module 'react-live'`. Nothing builds implicitly; there is no `prepare` hook.
 
-### Common commands
+| Path                                         | What it is                                            |
+| -------------------------------------------- | ----------------------------------------------------- |
+| [`packages/react-live`](packages/react-live) | The published package. The only thing released.       |
+| [`website`](website)                         | The Docusaurus docs site, deployed to Vercel.         |
+| [`docs`](docs)                               | Markdown, rendered by the website from the repo root. |
 
-All of these run from the repo root:
+## Commands
 
-| Command                | What it does                                                           |
-| ---------------------- | ---------------------------------------------------------------------- |
-| `npm run check`        | Everything CI runs: lint, format check, typecheck, tests.              |
-| `npm run check:lint`   | [oxlint](https://oxc.rs/docs/guide/usage/linter.html) across the repo. |
-| `npm run check:format` | [Prettier](https://prettier.io/) check.                                |
-| `npm run check:types`  | `tsc --noEmit` in every workspace.                                     |
-| `npm test`             | [Vitest](https://vitest.dev/) for the library.                         |
-| `npm run format`       | Auto-fix formatting and lint.                                          |
-| `npm run build`        | Build the library, then the website.                                   |
-| `npm run build:lib`    | Build only the library.                                                |
-| `npm run start:docs`   | Run the docs site locally.                                             |
-| `npm run stories`      | Browse component scenarios in a dev server.                            |
-| `npm run stories:test` | Real-browser tests (needs Chromium, see below).                        |
-
-**Nothing builds the library implicitly.** There is no `prepare` or `postinstall` hook, so
-`npm install` never triggers a build. The website imports `react-live` and resolves it to
-that package's built `dist`, so you need to build the library at least once after cloning:
+All from the repo root.
 
 ```sh
-npm install
-npm run build:lib   # or `npm run build` for the library + website
-```
+npm run check          # lint + format + types + tests -- run this before opening a PR
+npm run format         # auto-fix: prettier + oxlint --fix
 
-Skip it and `npm run check:types` and `npm run start:docs` fail with
-`Cannot find module 'react-live'`. Re-run `npm run build:lib` after changing library source
--- or leave `npm run build:watch -w react-live` running -- for the website to pick it up.
-
-### Toolchain
-
-| Concern    | Tool                                                                        |
-| ---------- | --------------------------------------------------------------------------- |
-| Bundling   | [tsdown](https://tsdown.dev/) (rolldown + oxc) -- emits CJS, ESM, and types |
-| Types      | [TypeScript 7](https://www.typescriptlang.org/) (the native compiler)       |
-| Tests      | [Vitest](https://vitest.dev/)                                               |
-| Linting    | [oxlint](https://oxc.rs/docs/guide/usage/linter.html)                       |
-| Formatting | [Prettier](https://prettier.io/)                                            |
-
-A note on TypeScript 7: it ships **no JavaScript compiler API** (`require("typescript").createProgram`
-is `undefined`; only an `unstable/*` RPC surface exists). `tsc` and tsdown's declaration emit both
-work with it, but any future tool that needs the classic API would have to bring its own
-`typescript@6`.
-
-### Testing
-
-Tests are colocated with the source under
-[`packages/react-live/src`](packages/react-live/src). Files containing JSX use a `.jsx`
-extension -- Vite will not parse JSX inside a `.js` file.
-
-Run them with `npm test`, or `npm run test:watch -w react-live` while iterating.
-`npm run test:coverage -w react-live` prints a coverage summary; CI reports it on every run
-but does not enforce a threshold.
-
-Two things about the runner worth knowing:
-
-- **Vitest's default reporter hides console output from _passing_ test files.** A green run
-  can still be printing warnings. CI therefore uses `--reporter=verbose` (switched on by the
-  `CI` env var in [`vitest.config.mts`](packages/react-live/vitest.config.mts)); run
-  `CI=true npm test` locally to see what CI sees.
-- **React `act()` warnings fail the run.** See
-  [`vitest.setup.js`](packages/react-live/vitest.setup.js). That warning means a test
-  asserted while a state update was still in flight, so it may be passing for the wrong
-  reason. If you hit it, await the state settling -- an `await screen.findBy*` query, or
-  `await act(async () => {})` -- before asserting.
-
-#### What is and is not covered
-
-Component behaviour is tested with [Testing Library](https://testing-library.com/) against
-jsdom. Many of these scenarios are ported from the Storybook stories that used to live
-alongside the components -- Storybook was never wired into CI, so they had only ever been
-checked by eye.
-
-**jsdom has no contentEditable editing model**, so anything involving typing or caret
-position cannot run there. Those tests live in a separate real-browser suite -- see
-[Stories and browser tests](#stories-and-browser-tests). In jsdom the `Editor` covers
-rendering, syntax highlighting, theming, and configuration.
-
-### Stories and browser tests
-
-There is no Storybook. Instead there is a ~250 line harness that does the two things we
-actually used it for, from one set of story definitions.
-
-```sh
-npm run stories        # dev server: browse scenarios by hand
+npm test               # unit tests (vitest, jsdom)
+npm run stories        # dev server: browse component scenarios by hand
 npm run stories:test   # the same stories + interaction tests, in real Chromium
+
+npm run build          # library, then docs site
+npm run start:docs     # run the docs site locally
 ```
+
+Inside `packages/react-live` there are also `test:watch`, `test:coverage`, and `build:watch`.
+
+## Tests
+
+Unit tests are colocated with the source under
+[`packages/react-live/src`](packages/react-live/src). Files containing JSX use a `.jsx`
+extension — Vite will not parse JSX in a `.js` file.
+
+`npm run stories:test` runs the real-browser suite and needs a Chromium binary once:
+
+```sh
+npx playwright install chromium
+```
+
+It covers what jsdom structurally cannot — typing, caret position, `tabMode` — because jsdom
+has no contentEditable editing model. It is not part of `npm run check`.
+
+Two things to know when writing tests:
+
+- **Await the settle.** `LiveProvider` transpiles in an effect, so assert after an
+  `await screen.findBy*` query, not on the first paint. React `act()` warnings fail the run.
+- **Assert caret position behaviourally** — type a character and check where it lands. Prism
+  splits lines into many token spans, so raw `Selection` offsets are not what you expect.
+
+## Stories
 
 Stories live in [`packages/react-live/stories`](packages/react-live/stories) as
-`*.stories.jsx`. A story is just an object:
+`*.stories.jsx`. A story is an object:
 
 ```jsx
 export const title = "Live";
@@ -134,264 +74,35 @@ export const Inline = {
 };
 ```
 
-Add a file matching `*.stories.jsx` and it appears in the sidebar automatically --
-`stories/main.jsx` discovers them with `import.meta.glob`. The dev server aliases
-`react-live` to source, so library edits hot-reload with no build step.
+Add a file matching `*.stories.jsx` and it appears in the sidebar automatically. The dev
+server aliases `react-live` to source, so library edits hot-reload with no build step.
+`npm run stories:test` smoke-renders every story through the same glob, so a broken story
+fails CI.
 
-`?story=<id>` selects a story. `?only=1` renders it completely bare -- no header, no
-sidebar, not even the global stylesheet -- which is the mode the tests load, so nothing the
-harness does can influence a result.
-
-The light theming (`stories/theme.js`) borrows the docs site's palette so the harness looks
-like react-live rather than a blank Vite page. The story canvas itself is left neutral on
-purpose, so components are judged on their own rendering.
-
-**The same modules are the tests.** `stories/stories.browser.test.jsx` uses the identical
-glob and smoke-renders every story, so a story that throws fails CI. Interaction tests that
-need real typing live alongside the components as `*.browser.test.jsx`, and cover typing,
-caret position after Enter, `Home`, and `tabMode` -- none of which jsdom can express.
-
-Browser tests need a Chromium binary:
-
-```sh
-npx playwright install chromium
-```
-
-They are deliberately **not** part of `npm run check` -- they run in their own CI job, so the
-main job does not pay for the browser download. Config is in
-[`vitest.browser.mts`](packages/react-live/vitest.browser.mts); the jsdom config excludes
-`*.browser.test.*` so the two suites never overlap.
-
-Two gotchas worth knowing:
-
-- **Await the settle.** `LiveProvider` transpiles in an effect, so a story is not really
-  rendered until that resolves. Assert too early and the test passes against the first
-  paint, while any error surfaces _after_ the test has finished -- landing outside any test
-  and appearing only intermittently in the output.
-- **Assert caret position behaviourally** -- type a character and check where it lands --
-  rather than reading `Selection` offsets. Prism splits each line into many token spans plus
-  a trailing newline node, so raw offsets do not mean what you would expect.
-
-A story that throws on purpose sets `expectsError: true`, which lets the smoke test suppress
-the console output React emits for a caught render error. Only `Live/RuntimeError` uses it
-today; everything else keeps its output visible.
-
-Two lines of noise on every run are upstream and not worth suppressing: Vite warns about
-Vitest's own `vitest:mocks:interceptor` plugin, and browser mode prints the address of its
-API server. Both are on the latest versions of vitest and vite.
-
-#### Why not Storybook?
-
-Storybook 10 is a large improvement on the v6 that was removed, and `@storybook/react-vite`
-supports Vite 8. Its test integration, `@storybook/addon-vitest`, would turn stories into
-real browser tests -- but it peers on `vitest@^3 || ^4`, and this repo is on Vitest 5. It
-would cost ~156 packages and still not run the tests; the harness above costs 15 packages
-and does.
-
-What Storybook would add on top: a controls/args panel, autodocs generated from TypeScript
-types, the addon ecosystem (a11y, viewport, interaction debugger), and Chromatic-style
-visual regression. If any of those start to matter, revisit -- especially once the
-`addon-vitest` peer range moves.
-
-### Linting and formatting
-
-Run `npm run format` before committing, or install the Prettier
-[editor plugin](https://prettier.io/docs/en/editors.html) (preferred). CI runs
-`npm run check`, which will fail the build on any lint error or formatting difference.
-
-Some oxlint rules are set to `warn` rather than `error` in
-[`.oxlintrc.json`](.oxlintrc.json) because they flag real, pre-existing issues in
-`LiveProvider` and `Editor` that are out of scope for a tooling change. They are tracked in
-[#417](https://github.com/FormidableLabs/react-live/issues/417), which also explains why the
-suggested fix for the effect-dependency warnings would break re-transpilation if applied
-literally.
-
-## The website
-
-### Local development
-
-```sh
-npm run start:docs
-```
-
-The site reads its markdown from the repo-root [`docs`](docs) folder and imports the
-`react-live` workspace package, so the library must already be built -- see
-[Common commands](#common-commands).
-
-The website has two build scripts:
-
-| Script                          | What it does                                                       |
-| ------------------------------- | ------------------------------------------------------------------ |
-| `npm run build -w website`      | Builds only the site. Assumes the library is already built.        |
-| `npm run build:prod -w website` | Builds the library first, then the site. This is what Vercel runs. |
-
-### How it deploys
-
-The site is deployed to **Vercel** at
-<https://commerce.nearform.com/open-source/react-live>. The Vercel project is configured as:
-
-| Setting          | Value                                              |
-| ---------------- | -------------------------------------------------- |
-| Root Directory   | `website`                                          |
-| Build Command    | `npm run build:prod`                               |
-| Output Directory | `build`                                            |
-| Install Command  | (default -- Vercel runs `npm ci` at the repo root) |
-
-The build and output settings are checked in at [`website/vercel.json`](website/vercel.json)
-so they live in version control rather than only in the dashboard. **If you change them
-there, update the dashboard too** -- a Build Command set in the Vercel UI overrides
-`vercel.json`.
-
-> **Note:** this repo previously used pnpm, and the Vercel Build Command was
-> `pnpm run build`. It must be `npm run build:prod` -- plain `npm run build` would deploy
-> the site against whatever `dist` happened to be lying around, or fail outright on a
-> clean builder.
-
-Two things about the build are easy to trip over:
-
-1. **Root Directory is `website`, but the build reaches outside it** -- for `../docs` and for
-   the `react-live` workspace package. Vercel's "Include files outside of the root directory"
-   setting must stay enabled.
-2. **The library is built by `build:prod`**, not by an install hook (which is how this used
-   to work under pnpm). If the site deploys against stale library code, check that the Build
-   Command is `npm run build:prod` and not `npm run build`.
-
-The output directory is `build`, but Docusaurus writes into
-`build/open-source/react-live` to match the site's `baseUrl`.
+A story that throws on purpose sets `expectsError: true`.
 
 ## Changesets
 
-We use [changesets](https://github.com/changesets/changesets) to create package versions and
-publish them.
-
-If your work changes the published package, add a changeset:
+If your change affects published behaviour, add a changeset and commit it with your PR:
 
 ```sh
 npm run changeset
 ```
 
-which will open an interactive CLI menu. Use this menu to select the semantic version change
-needed and add an appropriate message.
+Pick a bump type (`patch` for fixes, `minor` for backwards-compatible features, `major` for
+breaking changes) and write the summary for a changelog reader. PRs with no user-facing
+change — docs, CI, tests, refactors — don't need one.
 
-After this, you'll see a new uncommitted file in `.changeset` that looks something like:
+## Releasing
 
-```
-$ git status
-# ....
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	.changeset/flimsy-pandas-marry.md
-```
+Automated. Merging PRs with changesets to `master` opens (or updates) a **"Version Packages"**
+PR; merging that publishes to npm over GitHub OIDC
+([trusted publishing](https://docs.npmjs.com/trusted-publishers/)), so no npm token is stored
+and provenance is attached automatically. The publish job requires approval in the
+`Production` environment.
 
-Review this file, make any necessary adjustments, and commit it. During the next release, the
-changes and changeset notes will be automatically incorporated.
+The docs site deploys to Vercel from `website`, building with `npm run build:prod`.
 
-## Releasing (project administrators)
+## Code of Conduct
 
-<details>
-<summary><i>Only for project administrators</i></summary>
-
-Releases are fully automated by [`.github/workflows/release.yml`](.github/workflows/release.yml).
-Nothing is published from a laptop.
-
-On every push to `master`, the workflow asks Changesets what to do:
-
-- **Pending changesets exist** -> it opens or updates a "Version Packages" PR that applies the
-  version bumps and changelog entries.
-- **That PR is merged** -> it packs a tarball and publishes it to npm.
-
-The `publish` job runs in the **`Production`** GitHub environment, which requires manual
-approval. Merging the "Version Packages" PR is already a human gate; this is a second one at
-the moment of publish, and it keeps `id-token: write` scoped to an approved run. Configure it
-under _Settings -> Environments -> Production_ with at least one required reviewer. Without
-that environment the job will not start.
-
-Publishing uses **npm trusted publishing (OIDC)**. There is no `NPM_TOKEN` secret; the
-`publish` job authenticates with a short-lived token minted from its `id-token: write`
-permission. This also means provenance is attested automatically.
-
-If publishing fails with an authentication error, check that trusted publishing is still
-configured for the `react-live` package on npmjs.com, pointing at this repository and the
-`release.yml` workflow.
-
-One subtlety worth knowing: the library's package script is `prepack`, **not**
-`prepublishOnly`. The release flow builds the tarball with `npm pack` in one job and
-publishes it in another, and `npm pack` does not trigger `prepublishOnly`. If it were named
-that, the published tarball would silently ship without its README, LICENSE, and `dist`.
-
-</details>
-
-## Contributor Covenant Code of Conduct
-
-### Our Pledge
-
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, gender identity and expression, level of experience,
-nationality, personal appearance, race, religion, or sexual identity and
-orientation.
-
-### Our Standards
-
-Examples of behavior that contributes to creating a positive environment
-include:
-
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Gracefully accepting constructive criticism
-- Focusing on what is best for the community
-- Showing empathy towards other community members
-
-Examples of unacceptable behavior by participants include:
-
-- The use of sexualized language or imagery and unwelcome sexual attention or
-  advances
-- Trolling, insulting/derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information, such as a physical or electronic
-  address, without explicit permission
-- Other conduct which could reasonably be considered inappropriate in a
-  professional setting
-
-### Our Responsibilities
-
-Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.
-
-### Scope
-
-This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.
-
-### Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at emma.brillhart@formidable.com. All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project's leadership.
-
-### Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
-available at [http://contributor-covenant.org/version/1/4][version]
-
-[homepage]: http://contributor-covenant.org
-[version]: http://contributor-covenant.org/version/1/4/
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).

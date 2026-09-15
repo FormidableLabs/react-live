@@ -35,7 +35,3 @@ The source for our docs site lives in this repo in the [`docs`](docs) folder.
 ## Contributing
 
 Please see our [contributing guide](CONTRIBUTING.md).
-
-## Maintenance Status
-
-**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
