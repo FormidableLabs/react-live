@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { themes } from "prism-react-renderer";
+import { Prism, themes } from "prism-react-renderer";
 
 import Editor from "./index";
 
@@ -76,5 +76,30 @@ describe("Editor", () => {
   it("renders multi-line code as separate lines", () => {
     const { container } = render(<Editor code={"a\nb\nc"} language="js" />);
     expect(container.querySelectorAll("pre > span").length).toBe(3);
+  });
+
+  // Regression test: `prism` was declared in Props but never forwarded to
+  // <Highlight>, so a custom Prism instance was silently ignored. See #284.
+  it("highlights using a custom prism instance", () => {
+    const customPrism = {
+      ...Prism,
+      languages: {
+        ...Prism.languages,
+        widget: { keyword: /\bWIDGET\b/ },
+      },
+    };
+
+    const withCustom = render(
+      <Editor code="WIDGET here" language="widget" prism={customPrism} />,
+    );
+    expect(
+      withCustom.container.querySelector("pre .token.keyword"),
+    ).not.toBeNull();
+
+    // The bundled Prism has never heard of "widget", so nothing is tokenised.
+    const withDefault = render(<Editor code="WIDGET here" language="widget" />);
+    expect(
+      withDefault.container.querySelector("pre .token.keyword"),
+    ).toBeNull();
   });
 });

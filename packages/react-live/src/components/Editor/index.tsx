@@ -46,6 +46,7 @@ const CodeEditor = (props: Props) => {
         code={code}
         theme={props.theme || themes.nightOwl}
         language={props.language}
+        prism={props.prism}
       >
         {({
           className: _className,
