@@ -42,7 +42,7 @@
   "scripts": {
     "build": "tsdown",
     "build:watch": "tsdown --watch",
-    "prepack": "cp ../../README.md ../../LICENSE . && npm run build",
+    "prepack": "node -e \"for (const f of ['README.md','LICENSE']) require('fs').copyFileSync('../../'+f, f)\" && npm run build",
     "stories": "vite --config vite.stories.mts",
     "stories:build": "vite build --config vite.stories.mts",
     "stories:test": "vitest run -c vitest.browser.mts",
@@ -82,8 +82,5 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
-  },
-  "engines": {
-    "node": ">=20.19.0"
   }
 }

@@ -69,8 +69,10 @@ jobs:
       matrix:
         # The lockfile pins React 19, so `check` and `browser` above already
         # cover it. This job exists for the *other* end of the `>=18.0.0` peer
-        # range -- nothing else proves that claim still holds.
-        react: ["18"]
+        # range -- nothing else proves that claim still holds. Pinned exactly,
+        # not `^18`: a caret installs the newest 18.x, so anything added later
+        # in the 18 line would silently satisfy a claim about 18.0.0.
+        react: ["18.0.0"]
     permissions:
       contents: read # to check out repo (actions/checkout)
     steps:
@@ -85,14 +87,14 @@ jobs:
       - name: Pin React ${{ matrix.react }}
         run: |
           npm pkg set \
-            devDependencies.react="^${{ matrix.react }}" \
-            devDependencies.react-dom="^${{ matrix.react }}" \
-            "devDependencies.@types/react=^${{ matrix.react }}" \
-            "devDependencies.@types/react-dom=^${{ matrix.react }}" \
+            devDependencies.react="${{ matrix.react }}" \
+            devDependencies.react-dom="${{ matrix.react }}" \
+            "devDependencies.@types/react=${{ matrix.react }}" \
+            "devDependencies.@types/react-dom=${{ matrix.react }}" \
             -w react-live
           npm pkg set \
-            dependencies.react="^${{ matrix.react }}" \
-            dependencies.react-dom="^${{ matrix.react }}" \
+            dependencies.react="${{ matrix.react }}" \
+            dependencies.react-dom="${{ matrix.react }}" \
             -w website
           npm install --no-package-lock
       - name: Build

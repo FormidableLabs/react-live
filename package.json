@@ -27,8 +27,5 @@
     "@changesets/cli": "^3.0.3",
     "oxlint": "^1.83.0",
     "prettier": "^3.9.6"
-  },
-  "engines": {
-    "node": ">=20.19.0"
   }
 }

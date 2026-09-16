@@ -4,7 +4,7 @@ Thanks for contributing! This guide covers the local dev workflow and how releas
 
 ## Setup
 
-npm workspaces, Node >= 20.19 (there is an `.nvmrc`, so `nvm use` picks the right one).
+npm workspaces, Node LTS -- `nvm use` picks it up from `.nvmrc`.
 
 ```sh
 npm install

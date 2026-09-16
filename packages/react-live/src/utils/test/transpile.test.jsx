@@ -1,5 +1,6 @@
 import React from "react";
 import { generateElement, renderElementAsync } from "../transpile";
+import transform from "../transpile/transform";
 import { shallow } from "./renderer";
 
 describe("transpile", () => {
@@ -108,5 +109,18 @@ describe("transpile", () => {
 
       expect(wrapper.html()).toBe("<div>Hello World!</div>");
     });
+  });
+});
+
+describe("transform", () => {
+  // `transform` passes sucrase `production: true` so it stops emitting React's
+  // `__self`/`__source` debug props. There is no source file here -- this is
+  // code typed into an editor -- and React 19 reads `__self` as the signature
+  // of an outdated JSX transform and warns. Nothing asserts the warning is
+  // gone, so assert on the output that causes it.
+  it("omits the JSX debug props", () => {
+    const code = transform()("<div>Hello World!</div>");
+
+    expect(code).not.toMatch(/__self|__source|_jsxFileName/);
   });
 });

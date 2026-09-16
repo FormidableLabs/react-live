@@ -18,7 +18,7 @@ describe("LivePreview", () => {
       </LiveProvider>,
     );
     expect(await screen.findByText("inner")).toBeDefined();
-    expect(container.querySelector("div")).toBeDefined();
+    expect(container.querySelector("div")).not.toBeNull();
   });
 
   it("honours the Component prop", async () => {
