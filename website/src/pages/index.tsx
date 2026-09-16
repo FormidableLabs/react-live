@@ -33,7 +33,7 @@ export default function Index() {
         <LandingHero
           heading="React Live"
           body="A flexible playground for live editing React components"
-          copyText="pnpm add react-live"
+          copyText="npm install react-live"
           navItems={[
             { link: "/open-source/react-live/docs", title: "Documentation" },
             { link: "#demo", title: "Demo" },

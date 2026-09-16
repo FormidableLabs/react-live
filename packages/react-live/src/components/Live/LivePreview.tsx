@@ -7,12 +7,14 @@ type Props<T extends React.ElementType = React.ElementType> = {
   Component?: T;
 } & React.ComponentPropsWithoutRef<T>;
 
-function LivePreview<T extends keyof JSX.IntrinsicElements>(
-  props: Props<T>
-): JSX.Element;
-function LivePreview<T extends React.ElementType>(props: Props<T>): JSX.Element;
+function LivePreview<T extends keyof React.JSX.IntrinsicElements>(
+  props: Props<T>,
+): React.JSX.Element;
+function LivePreview<T extends React.ElementType>(
+  props: Props<T>,
+): React.JSX.Element;
 
-function LivePreview({ Component = "div", ...rest }: Props): JSX.Element {
+function LivePreview({ Component = "div", ...rest }: Props): React.JSX.Element {
   const { element: Element, onError, newCode } = useContext(LiveContext);
 
   return (

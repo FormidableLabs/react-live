@@ -1,7 +1,24 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  // Not used in compilation; this exists for editor support and `npm run typecheck`.
+  //
+  // Deliberately NOT extending @docusaurus/tsconfig: it sets `baseUrl`, which
+  // TypeScript 7 removed. These options mirror it, with the `@site/*` path
+  // rewritten to be relative to this file instead of to a baseUrl.
   "compilerOptions": {
-    "baseUrl": "."
-  }
+    "allowJs": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@site/*": ["./*"]
+    },
+    "types": ["@docusaurus/module-type-aliases", "@docusaurus/theme-classic"],
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src", "docusaurus.config.js", "sidebars.js"],
+  "exclude": ["build", ".docusaurus", "node_modules"]
 }

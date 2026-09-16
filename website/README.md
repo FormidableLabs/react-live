@@ -1,41 +1,60 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+The [react-live](https://commerce.nearform.com/open-source/react-live) documentation site,
+built with [Docusaurus](https://docusaurus.io/).
 
-### Installation
+Markdown content lives in the repo-root [`docs`](../docs) folder, not here -- Docusaurus
+reads it via `path: "../docs"`.
 
+### Local development
+
+Run from the repo root:
+
+```sh
+npm install
+npm run build:lib   # the site imports the library's built output
+npm run start:docs
 ```
-$ yarn
-```
-
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 ### Build
 
-```
-$ yarn build
+```sh
+npm run build:prod -w website
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+`build:prod` builds the library first, then the site. Plain `npm run build -w website` builds
+only the site, and assumes `dist` is already current.
+
+Output goes to `build/open-source/react-live`, matching the site's `baseUrl`.
 
 ### Deployment
 
-Using SSH:
+The site deploys to **Vercel** on push to `master`.
 
-```
-$ USE_SSH=true yarn deploy
-```
+Build configuration lives in [`vercel.json`](./vercel.json) and is the source of truth --
+per Vercel's docs, `buildCommand` and `outputDirectory` there override the equivalent fields
+in the dashboard. Leave those dashboard overrides unset so the two cannot drift.
 
-Not using SSH:
+Two settings have no `vercel.json` equivalent and must stay in the dashboard:
 
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
+- **Root Directory** — `website`
+- **Include files outside of the root directory** — must stay enabled; the build reads
+  `../docs` and the `react-live` workspace package
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+The Node version has no `vercel.json` equivalent either (there is a `bunVersion` field, but
+no Node counterpart), so it lives in this package's `engines.node`, which Vercel reads as an
+override of the dashboard's **Node.js Version**. It is the one `engines` field in the repo:
+elsewhere the field only made a support claim that nothing checked, but here it pins a
+specific build image and Vercel does the checking. Keep the dashboard value on a supported
+release too — it is what Vercel falls back to, and a stale value there fails the build the
+moment this field goes missing.
+
+`framework` is deliberately `null` ("Other") rather than `docusaurus-2`. That preset's
+output-directory heuristic descends into `build/` when it contains exactly one directory --
+which ours does, `build/open-source` -- and would serve the site one path segment short of
+its `baseUrl`. The explicit `outputDirectory` should win regardless, but there is nothing to
+gain from relying on that.
+
+The install command is deliberately not pinned here. Vercel detects npm from the root
+`package-lock.json` and installs at the workspace root; an explicit `installCommand` would
+run inside `website/`, where there is no lockfile.

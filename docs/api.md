@@ -9,16 +9,16 @@ sidebar_position: 4
 This component provides the `context` for all the other ones. It also transpiles the user’s code!
 It supports these props, while passing any others through to the `children`:
 
-| Name          | PropType           | Description                                                                                                                                                                                                                                                                                   |
-| ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| code          | `PropTypes.string` | The code that should be rendered, apart from the user’s edits                                                                                                                                                                                                                                 |
-| scope         | `PropTypes.object` | Accepts custom globals that the `code` can use                                                                                                                                                                                                                                                |
-| noInline      | `PropTypes.bool`   | Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}` |
-| transformCode | `PropTypes.func`   | Accepts and returns the code to be transpiled, affording an opportunity to first transform it                                                                                                                                                                                                 |
-| language      | `PropTypes.string` | What language you're writing for correct syntax highlighting. (Default: `jsx`)                                                                                                                                                                                                                |
-| enableTypeScript      | `PropTypes.bool` | Enables TypeScript support in transpilation. (Default: `true`)                                                                                                                                                                                                                |
-| disabled      | `PropTypes.bool`   | Disable editing on the `<LiveEditor />` (Default: `false`)                                                                                                                                                                                                                                    |
-| theme         | `PropTypes.object` | A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)                                                                                                                                                                        |
+| Name             | PropType           | Description                                                                                                                                                                                                                                                                                   |
+| ---------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| code             | `PropTypes.string` | The code that should be rendered, apart from the user’s edits                                                                                                                                                                                                                                 |
+| scope            | `PropTypes.object` | Accepts custom globals that the `code` can use                                                                                                                                                                                                                                                |
+| noInline         | `PropTypes.bool`   | Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}` |
+| transformCode    | `PropTypes.func`   | Accepts and returns the code to be transpiled, affording an opportunity to first transform it                                                                                                                                                                                                 |
+| language         | `PropTypes.string` | What language you're writing for correct syntax highlighting. (Default: `jsx`)                                                                                                                                                                                                                |
+| enableTypeScript | `PropTypes.bool`   | Enables TypeScript support in transpilation. (Default: `true`)                                                                                                                                                                                                                                |
+| disabled         | `PropTypes.bool`   | Disable editing on the `<LiveEditor />` (Default: `false`)                                                                                                                                                                                                                                    |
+| theme            | `PropTypes.object` | A `prism-react-renderer` theme object. See more [here](https://github.com/FormidableLabs/prism-react-renderer#theming)                                                                                                                                                                        |
 
 All subsequent components must be rendered inside a provider, since they communicate
 using one.
@@ -29,12 +29,13 @@ with valid JSX elements.
 
 ### `<LiveEditor />`
 
-This component renders the editor that displays the code. It is a wrapper around [`react-simple-code-editor`](https://github.com/satya164/react-simple-code-editor) and the code highlighted using [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer).
+This component renders the editor that displays the code. It uses [`use-editable`](https://github.com/kitten/use-editable) for editing and [`prism-react-renderer`](https://github.com/FormidableLabs/prism-react-renderer) for syntax highlighting.
 
-| Name    | PropType                                    | Description                                                       |
-| ------- | ------------------------------------------- | ----------------------------------------------------------------- |
-| style   | `PropTypes.object`                          | Allows overriding default styles on the `LiveEditor` component.   |
-| tabMode | `PropTypes.oneOf(["indentation", "focus"])` | Sets how you want the tab key to work. (Default: `"indentation"`) |
+| Name    | PropType                                    | Description                                                                                                                            |
+| ------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| style   | `PropTypes.object`                          | Allows overriding default styles on the `LiveEditor` component.                                                                        |
+| tabMode | `PropTypes.oneOf(["indentation", "focus"])` | Sets how you want the tab key to work. (Default: `"indentation"`)                                                                      |
+| prism   | `PropTypes.object`                          | A custom Prism instance, passed through to `prism-react-renderer`. Useful for languages or plugins the bundled Prism does not include. |
 
 ### `<LiveError />`
 

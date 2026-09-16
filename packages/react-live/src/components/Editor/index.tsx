@@ -1,3 +1,7 @@
+/* eslint-disable react/no-array-index-key -- For tokenised code, position is
+   the identity: line 3 is line 3. Content-derived keys would collide on
+   duplicate lines and would remount nodes inside a contentEditable on every
+   edit, which is exactly where DOM churn is least welcome. */
 import { Highlight, Prism, themes } from "prism-react-renderer";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useEditable } from "use-editable";
@@ -37,7 +41,7 @@ const CodeEditor = (props: Props) => {
     {
       disabled: props.disabled,
       indentation: tabMode === "indentation" ? 2 : undefined,
-    }
+    },
   );
 
   return (
@@ -46,6 +50,7 @@ const CodeEditor = (props: Props) => {
         code={code}
         theme={props.theme || themes.nightOwl}
         language={props.language}
+        prism={props.prism}
       >
         {({
           className: _className,

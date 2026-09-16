@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, typecheck, and test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # to check out repo (actions/checkout)
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
+      # Build first: `check:types` typechecks the website against the library's
+      # *emitted* declarations, so `dist` has to exist. This also means the
+      # Docusaurus production build -- what Vercel deploys -- is exercised here.
+      - name: Build
+        run: npm run build
+      - name: Check
+        run: npm run check
+      # Reported, not enforced -- no threshold gate while the suite is still
+      # being built out. Watch the number rather than blocking PRs on it.
+      - name: Coverage
+        run: npm run test:coverage -w react-live
+
+  browser:
+    name: Browser tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # to check out repo (actions/checkout)
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
+      # Separate job: these need a real Chromium, which jsdom cannot stand in
+      # for (no contentEditable editing model). Kept out of `npm run check` so
+      # the main job does not pay the browser download.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run browser tests
+        run: npm run stories:test
+
+  react-compat:
+    name: React ${{ matrix.react }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The lockfile pins React 19, so `check` and `browser` above already
+        # cover it. This job exists for the *other* end of the `>=18.0.0` peer
+        # range -- nothing else proves that claim still holds. React itself is
+        # pinned exactly, not `^18`: a caret installs the newest 18.x, so
+        # anything added later in the 18 line would silently satisfy a claim
+        # about 18.0.0.
+        #
+        # The types float on `^18` because they are not what the peer range is
+        # about -- `@types/react` is not a peer dependency, and its versions
+        # track the typings, not the runtime. `@types/react@18.0.0` predates
+        # the `React.JSX` namespace, so pinning it exactly would fail on our
+        # use of the *current* idiom rather than on anything React 18 can or
+        # cannot do.
+        include:
+          - react: "18.0.0"
+            types: "^18"
+    permissions:
+      contents: read # to check out repo (actions/checkout)
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
+      - name: Pin React ${{ matrix.react }}
+        run: |
+          npm pkg set \
+            devDependencies.react="${{ matrix.react }}" \
+            devDependencies.react-dom="${{ matrix.react }}" \
+            "devDependencies.@types/react=${{ matrix.types }}" \
+            "devDependencies.@types/react-dom=${{ matrix.types }}" \
+            -w react-live
+          npm pkg set \
+            dependencies.react="${{ matrix.react }}" \
+            dependencies.react-dom="${{ matrix.react }}" \
+            -w website
+          npm install --no-package-lock
+      - name: Build
+        run: npm run build
+      - name: Check
+        run: npm run check
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run browser tests
+        run: npm run stories:test

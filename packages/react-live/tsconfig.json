@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "target": "ES6",
-    "outDir": "dist",
-    "lib": ["DOM", "ES2019"],
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "jsx": "react-jsx",
 
-    "module": "esnext",
-    "moduleResolution": "node",
-    "allowUmdGlobalAccess": true,
-
-    "allowSyntheticDefaultImports": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
 
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "declaration": true,
+    "noEmit": true
   },
+  "include": ["src"],
   "exclude": ["dist"]
 }
