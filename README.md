@@ -8,8 +8,8 @@
 <br><br>
 <a href="https://npmjs.com/package/react-live"><img src="https://img.shields.io/npm/dm/react-live.svg"></a>
 <a href="https://npmjs.com/package/react-live"><img src="https://img.shields.io/npm/v/react-live.svg"></a>
-<img src="https://img.badgesize.io/https://unpkg.com/react-live/dist/react-live.min.js?label=size">
-<img src="https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20esm-green.svg">
+<img src="https://img.badgesize.io/https://unpkg.com/react-live/dist/index.mjs?label=size">
+<img src="https://img.shields.io/badge/module%20formats-cjs%2C%20esm-green.svg">
 <a href="https://github.com/FormidableLabs/react-live#maintenance-status">
   <img alt="Maintenance Status" src="https://img.shields.io/badge/maintenance-active-green.svg" />
 </a>

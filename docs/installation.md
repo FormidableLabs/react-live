@@ -27,6 +27,7 @@ Prior to `v3.0.0`, earlier versions of the library used different internals. We 
 
 | Version | Supported React version | Editor                     | Transpiler |
 | ------- | ----------------------- | -------------------------- | ---------- |
+| v4.x.x  | v18.x.x, v19.x.x        | `use-editable`             | `Sucrase`  |
 | v3.x.x  | v17.x.x                 | `use-editable`             | `Sucrase`  |
 | v2.x.x  | v16.x.x                 | `react-simple-code-editor` | `Bublé`    |
 
