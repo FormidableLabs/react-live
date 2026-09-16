@@ -41,6 +41,14 @@ Two settings have no `vercel.json` equivalent and must stay in the dashboard:
 - **Include files outside of the root directory** — must stay enabled; the build reads
   `../docs` and the `react-live` workspace package
 
+The Node version has no `vercel.json` equivalent either (there is a `bunVersion` field, but
+no Node counterpart), so it lives in this package's `engines.node`, which Vercel reads as an
+override of the dashboard's **Node.js Version**. It is the one `engines` field in the repo:
+elsewhere the field only made a support claim that nothing checked, but here it pins a
+specific build image and Vercel does the checking. Keep the dashboard value on a supported
+release too — it is what Vercel falls back to, and a stale value there fails the build the
+moment this field goes missing.
+
 `framework` is deliberately `null` ("Other") rather than `docusaurus-2`. That preset's
 output-directory heuristic descends into `build/` when it contains exactly one directory --
 which ours does, `build/open-source` -- and would serve the site one path segment short of
