@@ -69,10 +69,20 @@ jobs:
       matrix:
         # The lockfile pins React 19, so `check` and `browser` above already
         # cover it. This job exists for the *other* end of the `>=18.0.0` peer
-        # range -- nothing else proves that claim still holds. Pinned exactly,
-        # not `^18`: a caret installs the newest 18.x, so anything added later
-        # in the 18 line would silently satisfy a claim about 18.0.0.
-        react: ["18.0.0"]
+        # range -- nothing else proves that claim still holds. React itself is
+        # pinned exactly, not `^18`: a caret installs the newest 18.x, so
+        # anything added later in the 18 line would silently satisfy a claim
+        # about 18.0.0.
+        #
+        # The types float on `^18` because they are not what the peer range is
+        # about -- `@types/react` is not a peer dependency, and its versions
+        # track the typings, not the runtime. `@types/react@18.0.0` predates
+        # the `React.JSX` namespace, so pinning it exactly would fail on our
+        # use of the *current* idiom rather than on anything React 18 can or
+        # cannot do.
+        include:
+          - react: "18.0.0"
+            types: "^18"
     permissions:
       contents: read # to check out repo (actions/checkout)
     steps:
@@ -89,8 +99,8 @@ jobs:
           npm pkg set \
             devDependencies.react="${{ matrix.react }}" \
             devDependencies.react-dom="${{ matrix.react }}" \
-            "devDependencies.@types/react=${{ matrix.react }}" \
-            "devDependencies.@types/react-dom=${{ matrix.react }}" \
+            "devDependencies.@types/react=${{ matrix.types }}" \
+            "devDependencies.@types/react-dom=${{ matrix.types }}" \
             -w react-live
           npm pkg set \
             dependencies.react="${{ matrix.react }}" \
