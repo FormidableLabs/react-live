@@ -11,7 +11,11 @@ const config = {
   url: "https://commerce.nearform.com",
   baseUrl: "/open-source/react-live",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
+  },
   favicon: "img/nearform-icon.svg",
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -34,6 +38,9 @@ const config = {
           editUrl:
             "https://github.com/FormidableLabs/react-live/tree/master/website",
         },
+        // The classic preset enables a blog by default; there is no blog
+        // content, so it only emitted an empty /blog page.
+        blog: false,
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },

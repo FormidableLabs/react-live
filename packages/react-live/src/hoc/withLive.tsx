@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default function withLive<T>(
-  WrappedComponent: ComponentType<T & Props>
+  WrappedComponent: ComponentType<T & Props>,
 ) {
   const WithLive = (props: T) => (
     <LiveContext.Consumer>

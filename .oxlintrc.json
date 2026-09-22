@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "import"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": { "browser": true, "node": true, "es2024": true },
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/build/**",
+    "**/.docusaurus/**",
+    "**/node_modules/**"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "no-unused-expressions": "warn",
+    "react/set-state-in-effect": "warn",
+    "react/exhaustive-effect-dependencies": "warn",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}

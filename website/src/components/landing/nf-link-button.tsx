@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps {
-  children: ChildNode | React.ReactNode;
+  children: React.ReactNode;
   link: string;
   screenReaderLabel?: string;
 }
