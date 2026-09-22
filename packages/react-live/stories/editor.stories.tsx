@@ -1,68 +1,63 @@
 import { themes } from "prism-react-renderer";
 import { Editor } from "react-live";
 
+import { story } from "./story";
+
 export const title = "Editor";
 
-export const Default = {
+export const Default = story(Editor, {
   args: { code: "const greeting = 'Hello World!';", language: "javascript" },
-  render: (args) => <Editor {...args} />,
-};
+});
 
-export const MultiLine = {
+export const MultiLine = story(Editor, {
   args: {
     code: "function add(a, b) {\n  return a + b;\n}\n\nadd(1, 2);",
     language: "javascript",
   },
-  render: (args) => <Editor {...args} />,
-};
+});
 
-export const TypeScript = {
+export const TypeScript = story(Editor, {
   args: {
     code: "const add = (a: number, b: number): number => a + b;",
     language: "typescript",
   },
-  render: (args) => <Editor {...args} />,
-};
+});
 
-export const CustomFontFamily = {
+export const CustomFontFamily = story(Editor, {
   args: {
     code: "const greeting = 'Hello World!';",
     language: "javascript",
     style: { fontFamily: "'Courier New', monospace", fontSize: 18 },
   },
-  render: (args) => <Editor {...args} />,
-};
+});
 
-export const LightTheme = {
+export const LightTheme = story(Editor, {
   args: {
     code: "const greeting = 'Hello World!';",
     language: "javascript",
     theme: themes.github,
   },
-  render: (args) => <Editor {...args} />,
-};
+});
 
-export const Disabled = {
+export const Disabled = story(Editor, {
   args: {
     code: "// read only",
     language: "javascript",
     disabled: true,
   },
-  render: (args) => <Editor {...args} />,
-};
+});
 
 /** Tab inserts two spaces. This is the default. */
-export const TabIndentation = {
+export const TabIndentation = story(Editor, {
   args: {
     code: "function indented() {\n  return true;\n}",
     language: "javascript",
     tabMode: "indentation",
   },
-  render: (args) => <Editor {...args} />,
-};
+});
 
 /** Tab moves focus out of the editor instead of indenting -- better for a11y. */
-export const TabFocus = {
+export const TabFocus = story(Editor, {
   args: {
     code: "// press Tab to leave the editor",
     language: "javascript",
@@ -74,4 +69,4 @@ export const TabFocus = {
       <button style={{ marginTop: 8 }}>Tab should reach me</button>
     </>
   ),
-};
+});

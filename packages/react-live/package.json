@@ -49,7 +49,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.stories.json"
   },
   "dependencies": {
     "prism-react-renderer": "^2.4.1",

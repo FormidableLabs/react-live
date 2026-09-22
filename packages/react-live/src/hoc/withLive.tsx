@@ -1,8 +1,12 @@
 import React, { ComponentType } from "react";
 import LiveContext from "../components/Live/LiveContext";
+import type { LiveContextValue } from "../components/Live/LiveContext";
 
+// The context already describes itself precisely; `Record<string, unknown>`
+// handed every wrapped component an `unknown` for `live.element` and
+// `live.error`, neither of which is usable without a cast.
 type Props = {
-  live: Record<string, unknown>;
+  live: LiveContextValue;
 };
 
 export default function withLive<T>(

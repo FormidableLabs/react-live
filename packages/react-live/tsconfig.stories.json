@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": { "react-live": ["./src/index.ts"] }
+  },
+  "include": ["stories"]
+}

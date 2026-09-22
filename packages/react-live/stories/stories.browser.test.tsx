@@ -1,25 +1,15 @@
 import { act, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { loadStories } from "./load";
+
 /**
  * Smoke test: every story must render without throwing.
  *
- * This is the same glob the dev harness uses, so adding a story to
- * `main.jsx`'s sidebar also adds it here -- one definition, two consumers.
+ * This is the same loader the dev harness uses, so adding a story to
+ * `main.tsx`'s sidebar also adds it here -- one definition, two consumers.
  */
-const modules = import.meta.glob("./*.stories.jsx", { eager: true });
-
-const stories = Object.entries(modules).flatMap(([path, mod]) =>
-  Object.entries(mod)
-    .filter(
-      ([name, value]) =>
-        name !== "title" &&
-        value &&
-        typeof value === "object" &&
-        typeof value.render === "function",
-    )
-    .map(([name, story]) => ({ id: `${mod.title ?? path}/${name}`, story })),
-);
+const stories = loadStories();
 
 /**
  * A story marked `expectsError` throws on purpose. React reports a caught
@@ -27,7 +17,7 @@ const stories = Object.entries(modules).flatMap(([path, mod]) =>
  * warning -- and none of that is a failure here. Suppression is scoped to
  * those stories so unexpected output from any other story stays visible.
  */
-const swallowErrorEvent = (event) => event.preventDefault();
+const swallowErrorEvent = (event: ErrorEvent) => event.preventDefault();
 let suppressing = false;
 
 const suppressExpectedErrors = () => {
@@ -45,18 +35,18 @@ afterEach(() => {
 });
 
 describe("stories", () => {
-  it("discovers stories through the shared glob", () => {
+  it("discovers stories through the shared loader", () => {
     expect(stories.length).toBeGreaterThan(0);
   });
 
-  it.each(stories.map((entry) => [entry.id, entry.story]))(
+  it.each(stories.map((entry) => [entry.id, entry] as const))(
     "%s renders",
     async (_id, story) => {
       if (story.expectsError) {
         suppressExpectedErrors();
       }
 
-      const Story = () => story.render(story.args ?? {});
+      const Story = () => story.render();
       const { container } = render(<Story />);
 
       // LiveProvider transpiles in an effect, so a story is not really
