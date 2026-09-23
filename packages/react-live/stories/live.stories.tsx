@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ComponentProps } from "react";
 import { themes } from "prism-react-renderer";
 import {
   LiveProvider,
@@ -8,10 +9,12 @@ import {
   withLive,
 } from "react-live";
 
+import { story } from "./story";
+
 export const title = "Live";
 
 /** The standard editor + preview + error layout. */
-const Playground = (props) => (
+const Playground = (props: ComponentProps<typeof LiveProvider>) => (
   <LiveProvider {...props}>
     <LiveEditor />
     <LivePreview />
@@ -19,17 +22,15 @@ const Playground = (props) => (
   </LiveProvider>
 );
 
-export const Inline = {
+export const Inline = story(Playground, {
   args: { code: "<strong>\n  Hello World!\n    Next Indent Level\n</strong>" },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const FunctionComponent = {
+export const FunctionComponent = story(Playground, {
   args: { code: "() => (\n  <h3>\n    So functional. Much wow!\n  </h3>\n)" },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const NoInline = {
+export const NoInline = story(Playground, {
   args: {
     noInline: true,
     code: `const Counter = () => {
@@ -43,10 +44,9 @@ export const NoInline = {
 }
 render(<Counter />)`,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const ClassComponent = {
+export const ClassComponent = story(Playground, {
   args: {
     code: `class Counter extends React.Component {
   constructor() {
@@ -62,10 +62,9 @@ export const ClassComponent = {
   }
 }`,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const TypeScriptComponent = {
+export const TypeScriptComponent = story(Playground, {
   args: {
     noInline: true,
     code: `interface Props { name: string }
@@ -74,20 +73,18 @@ const Greeting = ({ name }: Props) => <h3>Hello {name}</h3>
 
 render(<Greeting name="TypeScript" />)`,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const TypeScriptDisabled = {
+export const TypeScriptDisabled = story(Playground, {
   args: {
     enableTypeScript: false,
     noInline: true,
     code: `const greet = (name: string) => name
 render(<h3>{greet("this should error")}</h3>)`,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const Hooks = {
+export const Hooks = story(Playground, {
   args: {
     code: `function LikeButton() {
   const [likes, increaseLikes] = React.useState(0)
@@ -99,58 +96,51 @@ export const Hooks = {
   )
 }`,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const WithScope = {
+export const WithScope = story(Playground, {
   args: {
     code: "<h3>{greeting} from scope</h3>",
     scope: { greeting: "Hello" },
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const WithTheme = {
+export const WithTheme = story(Playground, {
   args: {
     code: "<strong>Hello World!</strong>",
     theme: themes.github,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const SyntaxError = {
+export const SyntaxError = story(Playground, {
   args: { code: "<div>" },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const RuntimeError = {
+export const RuntimeError = story(Playground, {
   args: { code: "() => { throw new Error('boom') }" },
   // Throwing is the point of this story. The flag tells the smoke test to
   // expect the console noise React emits for a caught render error, so a
   // *genuine* error in any other story still stands out.
   expectsError: true,
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const Disabled = {
+export const Disabled = story(Playground, {
   args: { code: "<strong>You cannot edit me</strong>", disabled: true },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const TransformCode = {
+export const TransformCode = story(Playground, {
   args: {
     code: "Hello World!",
     noInline: true,
     transformCode: (code) => `render(<h3>${code}</h3>)`,
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
 /** A custom editing surface driven by the same provider. */
-export const CustomEditor = {
+export const CustomEditor = story(LiveProvider, {
   args: { code: "<h3>Edit me in the textarea</h3>" },
   render: ({ code: initial }) => {
-    const [code, setCode] = useState(initial);
+    const [code, setCode] = useState(initial ?? "");
     return (
       <LiveProvider code={code}>
         <textarea
@@ -163,7 +153,7 @@ export const CustomEditor = {
       </LiveProvider>
     );
   },
-};
+});
 
 const LiveConsumer = withLive(({ live }) => {
   const Result = live.element;
@@ -176,21 +166,21 @@ const LiveConsumer = withLive(({ live }) => {
   );
 });
 
-export const WithLiveHoc = {
+export const WithLiveHoc = story(LiveProvider, {
   args: { code: "<strong>Rendered through withLive</strong>" },
   render: (args) => (
     <LiveProvider {...args}>
       <LiveConsumer />
     </LiveProvider>
   ),
-};
+});
 
 /**
  * `LivePreview`, `LiveEditor`, and `LiveError` all forward `className` and
  * `style` to their root element. The original Storybook proved this with
  * styled-components; a plain stylesheet does the same job without the dep.
  */
-export const StyledSubcomponents = {
+export const StyledSubcomponents = story(LiveProvider, {
   args: { code: "<strong>Styled subcomponents</strong>" },
   render: (args) => (
     <>
@@ -206,18 +196,18 @@ export const StyledSubcomponents = {
       </LiveProvider>
     </>
   ),
-};
+});
 
 /**
  * A real `LiveEditor` whose `onChange` lifts code into the parent, rather than
  * replacing the editor wholesale as `CustomEditor` does.
  */
-export const ControlledEditor = {
+export const ControlledEditor = story(LiveProvider, {
   args: {
     code: "<em>Editing here updates the heading below</em>",
   },
   render: ({ code: initial }) => {
-    const [code, setCode] = useState(initial);
+    const [code, setCode] = useState(initial ?? "");
     return (
       <LiveProvider code={code}>
         <LiveEditor onChange={setCode} />
@@ -229,18 +219,17 @@ export const ControlledEditor = {
       </LiveProvider>
     );
   },
-};
+});
 
 /** The editor's syntax highlighting follows the `language` prop. */
-export const CustomLanguage = {
+export const CustomLanguage = story(Playground, {
   args: {
     language: "jsx",
     code: "<strong>Highlighted as jsx rather than the default tsx</strong>",
   },
-  render: (args) => <Playground {...args} />,
-};
+});
 
-export const WithLiveHocTypeScript = {
+export const WithLiveHocTypeScript = story(LiveProvider, {
   args: {
     noInline: true,
     code: `function LikeButton(): React.JSX.Element {
@@ -254,4 +243,4 @@ render(<LikeButton />)`,
       <LiveConsumer />
     </LiveProvider>
   ),
-};
+});

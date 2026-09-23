@@ -63,23 +63,48 @@ Two things to know when writing tests:
 ## Stories
 
 Stories live in [`packages/react-live/stories`](packages/react-live/stories) as
-`*.stories.jsx`. A story is an object:
+`*.stories.tsx`. A story names a component and the props to render it with:
 
-```jsx
+```tsx
 export const title = "Live";
 
-export const Inline = {
+export const Inline = story(LiveProvider, {
   args: { code: "<strong>Hello World!</strong>" },
-  render: (args) => <Playground {...args} />,
-};
+});
 ```
 
-Add a file matching `*.stories.jsx` and it appears in the sidebar automatically. The dev
+`args` is typed as that component's props, so a renamed, missing, or mistyped prop fails
+`npm run typecheck` instead of surfacing during a manual browse. Pass `render` only when a
+scenario needs more than a single element — local state, sibling markup, a different
+composition:
+
+```tsx
+export const TabFocus = story(Editor, {
+  args: {
+    code: "// press Tab to leave",
+    language: "javascript",
+    tabMode: "focus",
+  },
+  render: (args) => (
+    <>
+      <Editor {...args} />
+      <button>Tab should reach me</button>
+    </>
+  ),
+});
+```
+
+Add a file matching `*.stories.tsx` and it appears in the sidebar automatically. The dev
 server aliases `react-live` to source, so library edits hot-reload with no build step.
-`npm run stories:test` smoke-renders every story through the same glob, so a broken story
+`npm run stories:test` smoke-renders every story through the same loader, so a broken story
 fails CI.
 
 A story that throws on purpose sets `expectsError: true`.
+
+Two modules back the harness, kept apart deliberately: `story.ts` defines a story and
+`load.ts` discovers them. Merging them makes the eager glob import the story files while
+`story()` is still initialising, which fails at import time — where no type-check would
+have caught it.
 
 ## Changesets
 

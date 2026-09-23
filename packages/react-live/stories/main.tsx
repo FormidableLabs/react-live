@@ -1,42 +1,26 @@
 import { createRoot } from "react-dom/client";
 
 import { colors, globalCss } from "./theme";
+import { loadStories } from "./load";
 
 /**
  * A small stand-in for Storybook: browse component scenarios in a dev server,
  * and let the browser tests import the very same modules.
  *
- * A story is `{ args, render }`. Add a `*.stories.jsx` file and it shows up.
+ * A story is `story(Component, { args })`. Add a `*.stories.tsx` file and it
+ * shows up.
  *
  *   ?story=<id>   select a story
  *   ?only=1       render it bare, with no chrome (what the tests load)
  */
-const modules = import.meta.glob("./*.stories.jsx", { eager: true });
-
-export const stories = Object.entries(modules).flatMap(([path, mod]) =>
-  Object.entries(mod)
-    .filter(
-      ([name, value]) =>
-        name !== "title" &&
-        value &&
-        typeof value === "object" &&
-        typeof value.render === "function",
-    )
-    .map(([name, story]) => ({
-      id: `${mod.title ?? path}/${name}`,
-      group: mod.title ?? path,
-      name,
-      story,
-    })),
-);
+const stories = loadStories();
 
 const params = new URLSearchParams(window.location.search);
 const selectedId = params.get("story") ?? stories[0]?.id;
 const selected = stories.find((entry) => entry.id === selectedId);
 
 // Render through a component so stories are free to use hooks.
-const Story = () =>
-  selected ? selected.story.render(selected.story.args ?? {}) : null;
+const Story = () => selected?.render() ?? null;
 
 function Header() {
   return (
@@ -162,4 +146,7 @@ function App() {
   );
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+const container = document.getElementById("root");
+if (!container) throw new Error("stories/index.html is missing #root");
+
+createRoot(container).render(<App />);

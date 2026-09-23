@@ -1,7 +1,7 @@
 import { themes } from "prism-react-renderer";
 import { ComponentType, createContext } from "react";
 
-type ContextValue = {
+export type LiveContextValue = {
   error?: string;
   element?: ComponentType | null;
   code: string;
@@ -13,6 +13,6 @@ type ContextValue = {
   onChange(value: string): void;
 };
 
-const LiveContext = createContext<ContextValue>({} as ContextValue);
+const LiveContext = createContext<LiveContextValue>({} as LiveContextValue);
 
 export default LiveContext;
