@@ -1,6 +1,6 @@
 {
   "name": "react-live",
-  "version": "4.1.8",
+  "version": "5.0.0",
   "description": "A production-focused playground for live editing React code",
   "license": "MIT",
   "author": "@FormidableLabs",
