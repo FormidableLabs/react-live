@@ -1,5 +1,11 @@
 # react-live
 
+## 5.0.1
+
+### Patch Changes
+
+- [#416](https://github.com/FormidableLabs/react-live/pull/416) [`b8bf7a0`](https://github.com/FormidableLabs/react-live/commit/b8bf7a08306623b2aeed67526b1c5edac13aaa04) - Fix the standalone `Editor` losing focus after the first keystroke. `use-editable` rebuilt its editing surface on the first edit's re-render, which reset `contentEditable` and dropped focus; `Editor` now settles that surface before it can be edited.
+
 ## 5.0.0
 
 ### Major Changes
