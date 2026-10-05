@@ -12,7 +12,7 @@ import Editor from "./index";
  * CONTRIBUTING.
  */
 
-const settle = () => act(() => setTimeout(0));
+const settle = () => setTimeout(0);
 
 const textNodes = (element) => {
   const nodes = [];
