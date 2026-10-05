@@ -1,7 +1,6 @@
 import { setTimeout } from "node:timers/promises";
-import { act } from "react";
 import { createRoot } from "react-dom/client";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { Prism, themes } from "prism-react-renderer";
 
 import Editor from "./index";
