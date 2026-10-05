@@ -3,7 +3,7 @@
    duplicate lines and would remount nodes inside a contentEditable on every
    edit, which is exactly where DOM churn is least welcome. */
 import { Highlight, Prism, themes } from "prism-react-renderer";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useReducer, useRef, useState } from "react";
 import { useEditable } from "use-editable";
 
 export type Props = {
@@ -27,6 +27,18 @@ const CodeEditor = (props: Props) => {
   useEffect(() => {
     setCode(props.code);
   }, [props.code]);
+
+  // use-editable keys its editing setup on the element ref, which is still null
+  // during the first render. Standalone Editor does not re-render between
+  // mounting and the first edit, so that setup only reaches the real element
+  // when the edit re-renders: it tears down and rebuilds the contenteditable
+  // surface, resetting `contentEditable` (which blurs the element in Chrome)
+  // and calling focus() while the element is still non-editable. LiveProvider
+  // re-renders when its initial transpile resolves, which is why LiveEditor is
+  // unaffected. Re-render once after mount so the setup settles beforehand.
+  // See #415.
+  const [, forceRender] = useReducer((n: number) => n + 1, 0);
+  useEffect(forceRender, []);
 
   useEditable(
     editorRef,
