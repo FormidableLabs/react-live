@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import LiveProvider from "./LiveProvider";
@@ -167,12 +167,15 @@ describe("errors", () => {
  */
 describe("transformCode", () => {
   it("applies a synchronous transformCode function", async () => {
+    const transformCode = vi.fn((code) => `render(<div>${code}</div>)`);
+
     renderLive({
       code: "hello",
       noInline: true,
-      transformCode: (code) => `render(<div>${code}</div>)`,
+      transformCode,
     });
     expect(await screen.findByText("hello")).toBeDefined();
+    expect(transformCode).toHaveBeenCalledOnce();
   });
 
   it("applies an asynchronous transformCode function", async () => {
@@ -182,6 +185,36 @@ describe("transformCode", () => {
       transformCode: (code) => Promise.resolve(`render(<div>${code}</div>)`),
     });
     expect(await screen.findByText("hello")).toBeDefined();
+  });
+
+  it("ignores stale asynchronous transform results", async () => {
+    const resolvers = new Map();
+    const transformCode = (code) =>
+      new Promise((resolve) => {
+        resolvers.set(code, resolve);
+      });
+    const { rerender } = render(
+      <LiveProvider code="first" transformCode={transformCode}>
+        <LivePreview />
+      </LiveProvider>,
+    );
+
+    rerender(
+      <LiveProvider code="second" transformCode={transformCode}>
+        <LivePreview />
+      </LiveProvider>,
+    );
+
+    await act(async () => {
+      resolvers.get("second")("<strong>second</strong>");
+    });
+    expect(screen.getByText("second")).toBeDefined();
+
+    await act(async () => {
+      resolvers.get("first")("<strong>first</strong>");
+    });
+    expect(screen.queryByText("first")).toBeNull();
+    expect(screen.getByText("second")).toBeDefined();
   });
 
   it("catches errors from a synchronous transformCode function", async () => {

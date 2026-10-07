@@ -48,13 +48,14 @@ export const renderElementAsync = (
   { code = "", scope = {}, enableTypeScript = true }: GenerateOptions,
   resultCallback: (sender: ComponentType) => void,
   errorCallback: (error: Error) => void,
+  renderErrorCallback: (error: Error) => void = errorCallback,
   // eslint-disable-next-line consistent-return
 ) => {
   const render = (element: ComponentType) => {
     if (typeof element === "undefined") {
       errorCallback(new SyntaxError("`render` must be called with valid JSX."));
     } else {
-      resultCallback(errorBoundary(element, errorCallback));
+      resultCallback(errorBoundary(element, renderErrorCallback));
     }
   };
 

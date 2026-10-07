@@ -15,6 +15,7 @@ It supports these props, while passing any others through to the `children`:
 | scope            | `PropTypes.object` | Accepts custom globals that the `code` can use                                                                                                                                                                                                                                                |
 | noInline         | `PropTypes.bool`   | Doesn’t evaluate and mount the inline code (Default: `false`). Note: when using `noInline` whatever code you write must be a single expression (function, class component or some `jsx`) that can be returned immediately. If you'd like to render multiple components, use `noInline={true}` |
 | transformCode    | `PropTypes.func`   | Accepts and returns the code to be transpiled, affording an opportunity to first transform it                                                                                                                                                                                                 |
+| ssr              | `PropTypes.bool`   | Opt in to rendering synchronous previews on the server. Use only with code and scope that are safe to execute during server rendering. (Default: `false`)                                                                                                                                     |
 | language         | `PropTypes.string` | What language you're writing for correct syntax highlighting. (Default: `jsx`)                                                                                                                                                                                                                |
 | enableTypeScript | `PropTypes.bool`   | Enables TypeScript support in transpilation. (Default: `true`)                                                                                                                                                                                                                                |
 | disabled         | `PropTypes.bool`   | Disable editing on the `<LiveEditor />` (Default: `false`)                                                                                                                                                                                                                                    |
@@ -26,6 +27,10 @@ using one.
 The `noInline` option kicks the Provider into a different mode, where you can write imperative-style
 code and nothing gets evaluated and mounted automatically. Your example will need to call `render`
 with valid JSX elements.
+
+Set `ssr` to render the initial preview on the server when the example can be evaluated synchronously. That includes the default inline mode, `noInline` examples that call `render(...)` during evaluation, and synchronous `transformCode` functions. If `transformCode` returns a Promise, the preview stays empty on the server and is filled in after hydration.
+
+Server rendering is opt-in because example code executes during the server render. Only enable it for trusted code that does not depend on browser APIs, produce non-deterministic output, or perform side effects. Errors thrown while the resulting preview component renders follow React's server-rendering behavior and can abort the surrounding server render.
 
 ### `<LiveEditor />`
 
