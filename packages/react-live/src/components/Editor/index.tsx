@@ -5,6 +5,7 @@
 import { Highlight, Prism, themes } from "prism-react-renderer";
 import { CSSProperties, useEffect, useReducer, useRef, useState } from "react";
 import { useEditable } from "use-editable";
+import useTabGate from "../../hooks/useTabGate";
 
 export type Props = {
   className?: string;
@@ -20,9 +21,12 @@ export type Props = {
 
 const CodeEditor = (props: Props) => {
   const { tabMode = "indentation" } = props;
+  const containerRef = useRef(null);
   const editorRef = useRef(null);
   const [code, setCode] = useState(props.code || "");
   const { theme } = props;
+
+  useTabGate(containerRef, editorRef, tabMode === "indentation");
 
   useEffect(() => {
     setCode(props.code);
@@ -57,7 +61,7 @@ const CodeEditor = (props: Props) => {
   );
 
   return (
-    <div className={props.className} style={props.style}>
+    <div className={props.className} style={props.style} ref={containerRef}>
       <Highlight
         code={code}
         theme={props.theme || themes.nightOwl}
