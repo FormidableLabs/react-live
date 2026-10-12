@@ -1,9 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { useContext, useEffect } from "react";
+import { act, render, screen } from "@testing-library/react";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import LiveProvider from "./LiveProvider";
 import LivePreview from "./LivePreview";
 import LiveError from "./LiveError";
+import LiveContext from "./LiveContext";
 
 const Boom = () => {
   throw new Error("render exploded");
@@ -69,9 +71,55 @@ describe("ErrorBoundary", () => {
   });
 
   /**
+   * #413. `() => []` is a valid effect callback that returns an array, so React
+   * only trips over it when it runs the returned value as the cleanup -- which
+   * happens when the preview element is replaced by an edit. The boundary used
+   * to be keyed on the code, so it was removed in the same commit as the element
+   * it was meant to catch, and the throw ran all the way up to the app's root
+   * boundary. Here the outer ErrorBoundary stands in for that root boundary: if
+   * the throw reaches it the whole page is gone, not just the preview.
+   *
+   * `LiveEditor`'s onChange is what a paste calls; jsdom has no contentEditable
+   * editing model, so the edit is driven through the same callback it wires up.
+   */
+  it("keeps an effect cleanup error inside the preview when the code changes", async () => {
+    const onPageError = vi.fn();
+    let changeCode;
+    const CaptureOnChange = () => {
+      const { onChange } = useContext(LiveContext);
+      useEffect(() => {
+        changeCode = onChange;
+      }, [onChange]);
+      return null;
+    };
+
+    render(
+      <ErrorBoundary onError={onPageError}>
+        <LiveProvider code="<h3>first</h3>">
+          <CaptureOnChange />
+          <LivePreview />
+          <LiveError data-testid="live-error" />
+        </LiveProvider>
+      </ErrorBoundary>,
+    );
+    expect(await screen.findByRole("heading", { name: "first" })).toBeDefined();
+
+    await act(async () => changeCode("() => { React.useEffect(() => []) }"));
+    await act(async () => changeCode("<h3>second</h3>"));
+
+    expect(onPageError).not.toHaveBeenCalled();
+    expect((await screen.findByTestId("live-error")).textContent).toMatch(
+      /destroy is not a function/,
+    );
+
+    await act(async () => changeCode("<h3>third</h3>"));
+    expect(await screen.findByRole("heading", { name: "third" })).toBeDefined();
+  });
+
+  /**
    * `getDerivedStateFromError` makes `hasError` sticky for the lifetime of the
-   * boundary instance. That is only safe because a new boundary class is built
-   * on every transpile, so a fixed snippet gets a fresh one.
+   * boundary instance, so `LivePreview` clears it from the new code through
+   * `resetKey` rather than remounting the boundary (see #413).
    */
   it("recovers once erroring code is fixed", async () => {
     const ui = (code) => (
