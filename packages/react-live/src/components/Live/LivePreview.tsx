@@ -18,7 +18,7 @@ function LivePreview({ Component = "div", ...rest }: Props): React.JSX.Element {
   const { element: Element, onError, newCode } = useContext(LiveContext);
 
   return (
-    <ErrorBoundary key={newCode} onError={onError}>
+    <ErrorBoundary resetKey={newCode} onError={onError}>
       <Component {...rest}>{Element ? <Element /> : null}</Component>
     </ErrorBoundary>
   );
