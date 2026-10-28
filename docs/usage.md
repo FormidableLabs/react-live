@@ -90,3 +90,51 @@ This means that while you may be used to destructuring `useState` when importing
   );
 };
 ```
+
+### Server rendering
+
+For documentation pages, this makes preview content available in the initial HTML,
+before the browser downloads or runs JavaScript. Server rendering stays disabled
+by default. The same example produces:
+
+```html
+<!-- Default -->
+<div></div>
+<!-- With ssr -->
+<div><strong>Hello from SSR</strong></div>
+```
+
+To reproduce this with the built package from the repository root:
+
+```sh
+npm run build:lib
+node packages/react-live/examples/ssr.mjs
+```
+
+`LiveProvider` can render the initial preview during SSR when `ssr` is enabled and the preview can be resolved synchronously.
+
+This works for:
+
+- Inline examples such as `<strong>Hello world</strong>`
+- `noInline` examples that call `render(...)` during evaluation
+- Synchronous `transformCode` functions
+
+If `transformCode` returns a Promise, React Live leaves the preview empty on the server and fills it in after hydration.
+
+Server rendering executes the example during the server render. Only enable it for trusted, deterministic code that does not use browser APIs or perform side effects. A rendering error inside the resulting preview follows React's server-rendering behavior and can abort the surrounding server render.
+
+```jsx
+const code = `<strong>Hello from SSR</strong>`;
+
+<LiveProvider code={code} ssr>
+  <LivePreview />
+</LiveProvider>;
+```
+
+```jsx
+const code = `render(<strong>Hello from SSR</strong>)`;
+
+<LiveProvider code={code} noInline ssr>
+  <LivePreview />
+</LiveProvider>;
+```

@@ -96,17 +96,20 @@ jobs:
       - run: npm ci
       - name: Pin React ${{ matrix.react }}
         run: |
+          # Pin shared peers at the root too so tooling uses the same React types.
           npm pkg set \
             devDependencies.react="${{ matrix.react }}" \
             devDependencies.react-dom="${{ matrix.react }}" \
             "devDependencies.@types/react=${{ matrix.types }}" \
             "devDependencies.@types/react-dom=${{ matrix.types }}" \
-            -w react-live
+            -w react-live --include-workspace-root
           npm pkg set \
             dependencies.react="${{ matrix.react }}" \
             dependencies.react-dom="${{ matrix.react }}" \
             -w website
-          npm install --no-package-lock
+          # Keep unrelated build tools at their locked versions.
+          npm install --package-lock-only
+          npm ci
       - name: Build
         run: npm run build
       - name: Check

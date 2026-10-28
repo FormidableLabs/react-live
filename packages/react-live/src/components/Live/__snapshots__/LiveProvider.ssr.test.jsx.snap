@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LiveProvider SSR > defers the preview when transformCode resolves asynchronously 1`] = `"<div></div>"`;
+
+exports[`LiveProvider SSR > does not repeat a synchronous transform after hydration 1`] = `"<div><strong>Hello SSR!</strong></div>"`;
+
+exports[`LiveProvider SSR > keeps server rendering disabled by default 1`] = `"<div></div>"`;
+
+exports[`LiveProvider SSR > renders an async transform after hydration (StrictMode: false) 1`] = `"<div></div>"`;
+
+exports[`LiveProvider SSR > renders an async transform after hydration (StrictMode: false) 2`] = `"<div><strong>Hello SSR!</strong></div>"`;
+
+exports[`LiveProvider SSR > renders an async transform after hydration (StrictMode: true) 1`] = `"<div></div>"`;
+
+exports[`LiveProvider SSR > renders an async transform after hydration (StrictMode: true) 2`] = `"<div><strong>Hello SSR!</strong></div>"`;
+
+exports[`LiveProvider SSR > renders inline previews during the initial server render 1`] = `"<div><strong>Hello SSR!</strong></div>"`;
+
+exports[`LiveProvider SSR > renders noInline evaluation errors during the initial server render 1`] = `"<div></div><pre>SyntaxError: No-Inline evaluations must call \`render\`.</pre>"`;
+
+exports[`LiveProvider SSR > renders noInline previews during the initial server render 1`] = `"<div><strong>Hello SSR!</strong></div>"`;
+
+exports[`LiveProvider SSR > renders transform errors during the initial server render 1`] = `"<div></div><pre>Error: Failed to transform</pre>"`;
+
+exports[`LiveProvider SSR > renders transformed code when transformCode is synchronous 1`] = `"<div><strong>Hello SSR!</strong></div>"`;
+
+exports[`LiveProvider SSR > reports invalid async transform output <div> and recovers 1`] = `"<div></div><pre>SyntaxError: Unexpected token (1:14)</pre>"`;
+
+exports[`LiveProvider SSR > reports invalid async transform output <div> and recovers 2`] = `"<div><strong>fixed</strong></div>"`;
+
+exports[`LiveProvider SSR > reports invalid async transform output undefined and recovers 1`] = `"<div></div><pre>Error: Code failed to transform</pre>"`;
+
+exports[`LiveProvider SSR > reports invalid async transform output undefined and recovers 2`] = `"<div><strong>fixed</strong></div>"`;
+
+exports[`LiveProvider SSR > reports rejected transforms after hydration 1`] = `"<div></div><pre>Error: transform failed</pre>"`;
+
+exports[`LiveProvider SSR > reuses the synchronous preview during StrictMode effect replay 1`] = `"<div><strong>hello</strong></div>"`;
+
+exports[`LiveProvider SSR > transpiles later code updates after hydrating an SSR preview 1`] = `"<div><strong>second</strong></div>"`;
